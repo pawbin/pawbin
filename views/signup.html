@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <title>signup</title>
+    
+    <link rel="stylesheet" href="signup.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    
+    <script src="shared/signupValidate.js"></script>
+  </head>
+  <body>
+    <div id="full-container">
+      <div class="form-container">
+        <div id="messages">
+          <div id="reference-message">
+            <div class="message-container">
+              <div class="message">
+              </div>
+              <div class="message-close">
+                <span class="fa fa-times"></span>
+              </div>
+            </div>
+          </div>
+          {% for message in messages %}
+            <div class="message-container">
+              <div class="{{'message message-' ~ (message.type or 'basic')}}">{{ message.content|safe }}</div>
+
+              <div class="message-close">
+                <span class="fa fa-times"></span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <form name="signup" id="signup" action="/signup" onsubmit="" method="post">
+          <div class="form-group">
+              <label>email</label>
+              <input type="text" class="" name="email">
+          </div>
+          <div class="form-group">
+              <label>username</label>
+              <input type="text" class="" name="username">
+          </div>
+          <div class="form-group">
+              <label>nickname</label>
+              <input type="text" class="" name="nickname">
+          </div>
+          <div class="form-group">
+              <label>password</label>
+              <input type="password" class="" name="password">
+          </div>
+          <div class="form-group">
+              <label>confirm password</label>
+              <input type="password" class="" name="confirmPassword">
+          </div>
+
+          <button type="submit" class="">sign up</button>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    $('#signup').on('submit',function (e) {
+      e.preventDefault();
+      if(!validate()){
+         return false;
+      }
+      document.getElementById('signup').submit();
+      /*$.ajax({
+        type: 'post',
+        url: 'signup2',
+        data: $('#signup').serialize(),
+        success: function () {
+         //alert("Email has been sent!");
+        }
+      });*/
+    });
+    
+    function validate(){
+
+      var validated = signupValidate(objectifyForm($("#signup").serializeArray()));
+      
+      if(validated === true){
+        return true;
+      } else {
+        message(validated);
+        return false;
+      }
+    }
+    
+    var refMessage = $("#reference-message").html();
+    function message(obj){
+      var message = $(refMessage).appendTo("#messages");
+      $(".message", message).addClass("message-" + obj.type).text(obj.content);
+      message.appendTo("#messages").css({"height": 0});
+      height = $(".message", message).outerHeight();
+      message.animate({"height": height});
+    }
+    
+    $('body').on('click', '.message-close', function() {
+      $(this).closest(".message-container").animate({height: 0})
+    });
+    
+    $(document).ready(function(){
+
+      $(".message-container").each(function(){
+        $(this).animate({"height": $(".message", this).outerHeight()});
+      })
+
+    });
+    
+    function objectifyForm(formArray) {//serialize data function
+
+      var returnArray = {};
+      for (var i = 0; i < formArray.length; i++){
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+      }
+      return returnArray;
+    }
+  </script>
+</html>

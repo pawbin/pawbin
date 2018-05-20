@@ -1,0 +1,31 @@
+<!-- index is an extension of the base.html page, where everything actually happens -->
+{% extends 'base.html' %}
+
+<!-- inject into header of parent -->
+{% block pagehead %}
+  <title>pawb.in</title>
+  <meta name="description" content="A website for virtual creature collection!">
+  <link rel="stylesheet" href="quicknav.css">
+{% endblock %}
+
+<!-- stuff to fit into the header navigation -->
+{% block headernav %}
+  {% include 'comp/headernav.html' %}
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centercol %}
+  <p>
+    hi! {{message}}
+    {{session.user.local.nickname}}
+  </p>
+{% endblock %}
+
+<!-- stuff to put into the right column -->
+{% block rightcol %}
+  {% include 'comp/quicknav.html' %}
+{% endblock %}
+
+<!-- stuff to put into the footer -->
+{% block footer %}
+{% endblock %}

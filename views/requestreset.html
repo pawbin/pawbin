@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <title>signup</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="full-container">
+      {{messages}}
+    </div>
+    <form name="signup" id="resetPassword" action="/requestreset" onsubmit="" method="post">
+      <div class="form-group">
+        <label>email</label>
+        <input type="text" class="" name="email">
+      </div>
+      <button type="submit" class="">request password reset</button>
+    </form>
+  </body>
+</html>
