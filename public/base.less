@@ -1,0 +1,95 @@
+@import "res.less";
+
+
+/* ACTUAL CSS ==================================================================================== */
+
+* {
+  /* torcado said i had to use border-box */
+  box-sizing: border-box;
+  /* default font is Raleway */
+  font-family: 'Raleway', ariel, sans-serif;
+  /* default font color is just white... works with the background */
+  color: @white;
+}
+
+body {
+  /* here's the back-most background, and the header image */
+  background: @grayLight url(@bannerImage) repeat-x 50% 0;
+}
+
+h1, p, section {
+  /* this is for eliminating unnecessary margins that on are some things by default */
+  margin: 0;
+}
+
+a {
+  /* all links should be the highlight color */
+  color: @cyan;
+}
+
+
+
+
+
+
+
+/* HEADER ===================================================== */
+
+#header-banner {
+  /* a variable decides the height of the banner, which is otherwise all the way from left to right */
+  height: @headerBannerHeight;
+  width: 100%;
+  overflow: hidden;
+  
+  /* this positions the website header text absolutely */
+  /* it also sets the size of the header */
+  h1 {
+    font-size: 35pt;
+    position: absolute;
+    top: @headerTitleHeight;
+    left: 30px;
+  }
+  
+  /* this positions the website time absolutely */
+  p {
+    font-size: 15pt;
+    position: absolute;
+    top: @headerDateHeight;
+    right: 30px;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* MAIN ===================================================== */
+
+.column {
+  margin: 20px;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap-reverse;
+  margin: 20px;
+}
+
+.container > * {
+  background-color: @grayMid;
+  padding: 20px;
+}
+
+#center-col {
+  width: 300px;
+  flex-grow: 999;
+}
+
+#right-col {
+  width: 260px;
+  flex-grow: 1;
+}

@@ -1,0 +1,83 @@
+<!-- This is a static file -->
+<!-- This is the base file for the website. Anything that is present on every (or the vast majority of) pages -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <!-- the usual page header information -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="base.css">
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    
+    <!-- injecting code from pages into base's head -->
+    {% block pagehead %}
+    {% endblock %}
+  
+  </head>
+  <body>
+    <!-- first we set up the header -->
+    <header>
+      <div id="header-banner">
+        <!-- this is the BANNER with the cool website banner image, title and time -->
+        <h1>{{ title }}</h1>
+        <p>{{ date }} || {{ time }}</p>
+      </div>
+      
+      
+      <div id="header-nav">
+        <!-- this is the HEADERNAV at top of page for links -->
+        {% block headernav %}
+        {% endblock %}
+      </div>
+    </header>
+    
+    
+    <!-- now the main meat of the page. the good stuff -->
+    <main>
+      <div class="container">
+        
+        <!-- this is the LEFT COLUMN of the entire site -->
+        <div class="column" id="left-col">
+          <!-- this should pretty much always be empty -->
+        </div>
+        
+        <!-- this is the CENTER COLUMN of the entire site -->
+        <div class="column" id="center-col">
+          {% block centercol %}
+            <!-- CENTER COLUMN CONTENT -->
+          {% endblock %}
+        </div>
+
+        <!-- this is the RIGHT COLUMN of the entire site -->
+        <div class="column" id="right-col">
+          {% block rightcol %}
+            <!-- RIGHT COLUMN CONTENT -->
+          {% endblock %}
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <!-- anything that sits at the very bottom after all the content goes here -->
+      {% block footer %}
+      {% endblock %}
+    </footer>
+    
+    <!-- some very last minute script stuff goes here -->
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="/client.js"></script>
+    
+  </body>
+</html>

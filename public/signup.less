@@ -1,0 +1,212 @@
+/* default */
+@white:  hsla(  0,   0%,  95%, 100%);
+
+@gray1:  hsla(262,  10%,  21%, 100%);
+@gray2:  hsla(252,  11%,  18%, 100%);
+@gray3:  hsla(256,  15%,  15%, 100%);
+
+@red:    hsla(  1,  86%,  57%, 100%);
+@orange: hsla( 35, 100%,  54%, 100%);
+@yellow: hsla( 48, 100%,  51%, 100%);
+@green:  hsla(122,  39%,  49%, 100%);
+@cyan:   hsla(187, 100%,  42%, 100%);
+@blue:   hsla(212,  90%,  54%, 100%);
+@purple: hsla(291,  52%,  48%, 100%);
+
+/* buttons/interactable */
+@basic:   @blue;
+@success: @green;
+@info:    @cyan;
+@alert:   @yellow;
+@warn:    @orange;
+@danger:  @red;
+
+@display: @purple;
+
+/* bodies */
+@background: @gray1;
+@container:  @gray2;
+@field:      @gray3;
+
+* {
+  font-family: 'Raleway', ariel, sans-serif;
+}
+
+[id^="reference"] {
+  display: none;
+}
+
+input {
+    font-family: 'Raleway',ariel,sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: @background;
+  height: 100%;
+}
+
+a {
+  text-decoration: underline;
+  color: white;
+}
+
+#full-container{
+  height: 100%;
+  position: relative;
+  margin: 40px;
+  background-color: @container;
+}
+
+.form-container{
+  width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 200px;
+  color: @white;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: @white;
+    vertical-align: middle;
+    background-color: @field;
+    background-image: none;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.button{
+  color: @white;
+  background-color: @basic;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  margin-right: 6px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.button-basic{
+  .button;
+  background-color: @basic;
+}
+
+.button-success{
+  .button;
+  background-color: @success;
+}
+
+.button-info{
+  .button;
+  background-color: @info;
+}
+
+.button-alert{
+  .button;
+  background-color: @alert;
+}
+
+.button-warn{
+  .button;
+  background-color: @warn;
+}
+
+.button-danger, .button-error{
+  .button;
+  background-color: @danger;
+}
+
+#messages{
+  margin-bottom: 40px;
+}
+
+.message-container{
+  position: relative;
+  width: 100%;
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+.message{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 14px;
+  color: @white;
+  background-color: fade(@basic, 40%);
+  border: 1px solid @basic;
+  box-sizing: border-box;
+}
+
+.message-basic{
+  .message;
+  background-color: fade(@basic, 40%);
+  border: 1px solid @basic;
+}
+
+.message-success{
+  .message;
+  background-color: fade(@success, 40%);
+  border: 1px solid @success;
+}
+
+.message-info{
+  .message;
+  background-color: fade(@info, 40%);
+  border: 1px solid @info;
+}
+
+.message-alert{
+  .message;
+  background-color: fade(@alert, 40%);
+  border: 1px solid @alert;
+}
+
+.message-warn{
+  .message;
+  background-color: fade(@warn, 40%);
+  border: 1px solid @warn;
+}
+
+.message-danger, .message-error{
+  .message;
+  background-color: fade(@danger, 40%);
+  border: 1px solid @danger;
+}
+
+.message-close {
+    margin: 2px 4px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+}
