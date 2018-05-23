@@ -3,6 +3,9 @@
  * initialize server, set up middleware
  */
 
+//JUST FOR GLITCH
+var assets = require("./assets");
+
 //includes
 const express  = require('express');
 const app      = express();
@@ -22,6 +25,9 @@ const MongoStore   = require('connect-mongo')(session);
 require('./config/passport')(passport);
 
 const configDB = require('./config/db.js');
+
+//JUST FOR GLITCH
+app.use("/assets", assets);
 
 //express configuration
 app.use(cookieParser('secret'));

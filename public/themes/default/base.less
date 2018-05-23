@@ -1,0 +1,137 @@
+@import "res.less";
+
+
+/* LARGE SCOPE ==================================================================================== */
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Raleway', ariel, sans-serif;
+  font-size: 11pt;
+  color: @white;
+}
+
+html, body {
+  // necessary for stacking rows in body
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  // this is "min-width" to fix a mobile screen error, used to be "width"
+  min-width: 100%;
+}
+
+body {
+  // header image
+  background: @grayLight url(@bannerImage) repeat-x 50% 0;
+  // starts stacking rows in body
+  display: flex;
+  flex-direction: column;
+  // the position is set to absolute to fix a mobile screen error, used to not be here
+  position: absolute;
+  
+  // make edges Crisp
+  image-rendering: optimizeSpeed;             /*                     */
+  image-rendering: -moz-crisp-edges;          /* Firefox             */
+  image-rendering: -o-crisp-edges;            /* Opera               */
+  image-rendering: pixelated;                 /* CSS3 Proposed       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
+  
+}
+
+h1, p, section {
+  /* this is for eliminating unnecessary margins that on are some things by default */
+  margin: 0;
+}
+
+*::selection{
+  background-color: @headerColor;
+  color: @white;
+}
+
+ *::-moz-selection {
+  background-color: @headerColor;
+  color: @white;
+}
+
+a {
+  /* all links should be the highlight color */
+  color: @cyan;
+}
+
+a:hover {
+  color: @white;
+}
+
+
+/* DRAWER ===================================================== */
+
+#drawer-cloak {
+  background-color: rgba(0, 0, 0, 60%);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+#drawer {
+  height: 100%;
+  //max-width: 500px;
+  width: 0;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: @grayDark;
+  overflow-x: hidden;
+  transition: 0.5s;
+  transition-timing-function: cubic-bezier(0.17, 1.07, 0.76, 1.07);
+  
+  > div {
+    padding: 25px;
+  }
+}
+  
+.drawer-button {
+  font-size: 2.5em;
+  cursor: pointer;
+  height: 36px;
+  width: 36px;
+}
+
+
+/* MAIN ===================================================== */
+main {
+  // expands the main section out, forces header and footer to top and bottom
+  flex-grow: 1;
+
+  .flex-container {
+    display: flex;
+  }
+
+  #left-col {
+    margin: 20px 0;
+    flex: 1 1;
+  }
+
+  #center-col {
+    margin: 20px;
+    background-color: @grayMid;
+    padding: 20px;
+    max-width: 700px;
+    flex: 1 1 700px;
+  }
+
+  #right-col {
+    margin: 20px 20px 20px 0;
+    flex: 1 0;
+  }
+}

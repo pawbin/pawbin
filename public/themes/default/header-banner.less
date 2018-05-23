@@ -1,0 +1,47 @@
+@import "res.less";
+
+#header-banner {
+  // banner always has a specific height
+  height: 150px;
+  
+  // put header-banner elements separate and in the bottom left corners
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  
+  // then pad
+  padding: 45px 30px;
+  
+  #header-title {
+    h1 {
+      // make the title big
+      font-size: 35pt;
+    }
+    
+    #drawer-open-button {
+      position: fixed;
+      left: 25px;
+      top: 25px;
+    }
+  }
+  
+  #header-time {
+    // this makes the date & time left of the nycthemericon
+    display: flex;
+    
+    div {
+      margin-left: 30px;
+      
+      // put the smaller divs on top of each other
+      display: flex;
+      flex-direction: column;
+      // and in the bottom right corner
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+    
+    p {
+      font-size: 12pt;
+    }
+  }
+}

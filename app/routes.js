@@ -10,6 +10,8 @@
 const fs = require('fs');
 const path = require('path');
 const circularJSON = require('circular-json');
+const request = require('request');
+const moment = require('moment');
 
 const serverHelper = require('../app/serverHelper');
 const mailer       = require('../app/mailer');
@@ -23,14 +25,15 @@ var formValidate = require('../public/shared/signupValidate');
 // offsetDate is the number of hours offset from GMT
 // offsetDate should be PST (GMT-8) normally.
 var offsetDate = -8;
-var globalDate = new Date().getTime() + (offsetDate*1000*60*60);
+var globalDate = Date.now() + (offsetDate*1000*60*60);
+var date = moment.utc(globalDate);
 
 var variables = {
   index: {
     message: '❤',
     title: "pawb.in",
-    date: new Date(globalDate).toLocaleDateString(),
-    time: new Date(globalDate).toLocaleTimeString()
+    date: date.format("MMMM D YYYY"),
+    time: date.format("hh:MM A")
   },
   help: {},
   login: {}
@@ -47,7 +50,17 @@ function routes(app, passport){
     render404(req, res);
   });
   
-  app.get(/\/(((?!\.).)*(?:.html)?)$/, function(req, res){
+  // nychthemericon -- day/night icon based on UTC time
+  app.get(/^\/nychthemericon(.png|.svg|.jpe?g|.gif)?$/, function(req, res){
+    console.log("n");
+    if(((Date.now() / (60 * 60 * 1000)) % 48) < 24){
+      request('https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fsun.svg').pipe(res);
+    } else {
+      request('https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fmoon.svg').pipe(res);
+    }
+  });
+  
+  app.get(/^\/(((?!\.).)*(?:.html)?)$/, function(req, res){
     //TODO: allow case insensitivity
     var dir = req.params[0].replace(/\/$/, ""),
         filename = req.path.replace(/\/$/, "").split('/').pop();

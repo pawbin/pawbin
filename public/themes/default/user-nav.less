@@ -1,0 +1,43 @@
+@import "res.less";
+
+#user-nav {
+  width: 260px;
+  background-color: @grayMid;
+  padding: 20px;
+  
+  // affects only the quick navigation buttons
+  #quick-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+
+    li {
+      flex: 1 1 auto;
+      width: 100px;
+      text-align: center;
+      margin: 5px;
+      background-color: @grayDark;
+      color: @cyan;
+    }
+
+    a {
+      padding: 5px 0;
+      display: block;
+      text-decoration: none;
+    }
+
+    a, a * {
+      font-size: 10pt;
+      color: @cyan;
+    }
+
+    a:hover, a:hover * {
+      background-color: @grayLight;
+      color: @white;
+    }
+  }
+}
+
+

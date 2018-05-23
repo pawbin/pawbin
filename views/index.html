@@ -2,30 +2,44 @@
 {% extends 'base.html' %}
 
 <!-- inject into header of parent -->
-{% block pagehead %}
+{% block pageHead %}
   <title>pawb.in</title>
   <meta name="description" content="A website for virtual creature collection!">
-  <link rel="stylesheet" href="quicknav.css">
+  <link rel="stylesheet" href="themes/default/header-banner.css">
+  <link rel="stylesheet" href="themes/default/header-nav.css">
+  <link rel="stylesheet" href="themes/default/user-nav.css">
+  <link rel="stylesheet" href="themes/default/footer-nav.css">
+{% endblock %}
+
+{% block headerBanner %}
+  {% include 'comp/header-banner.html' %}
 {% endblock %}
 
 <!-- stuff to fit into the header navigation -->
-{% block headernav %}
-  {% include 'comp/headernav.html' %}
+{% block headerNav %}
+  {% include 'comp/header-nav.html' %}
 {% endblock %}
 
 <!-- stuff to put into the center column -->
-{% block centercol %}
+{% block centerCol %}
   <p>
     hi! {{message}}
     {{session.user.local.nickname}}
+    <br><br>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum quis ex id venenatis. Nulla molestie odio sed sapien dapibus cursus. Suspendisse eu vehicula mi. Suspendisse feugiat scelerisque nulla, eget vestibulum erat congue eget. Donec ac metus sed nisl semper blandit quis quis arcu. Fusce commodo ultrices nunc sit amet malesuada. Mauris laoreet luctus lectus quis tempus. In id lectus sit amet diam blandit malesuada. Curabitur tortor odio, placerat nec sem nec, lacinia blandit sem. Sed eu volutpat nunc. Phasellus ac ultricies mauris. Nunc auctor purus at erat porttitor facilisis. Praesent quis ultrices turpis, venenatis semper mi. Suspendisse non condimentum purus.
+    <br><br>
+    Phasellus venenatis cursus ultricies. Sed eu ex id enim varius lobortis nec non sem. Ut in tristique odio. Mauris ut dapibus ipsum. Donec tincidunt ultrices augue, vel euismod sem faucibus quis. Morbi vestibulum turpis vel erat convallis, eget bibendum nulla scelerisque. Ut a justo at purus blandit ultrices. Phasellus non sapien ante. Phasellus condimentum volutpat pellentesque. Fusce porttitor, nibh a laoreet posuere, nulla purus lobortis ex, in iaculis orci odio id eros. Donec quis mauris enim. Vestibulum vulputate iaculis lectus, a vehicula justo ultrices a. Aliquam ullamcorper risus ipsum, vel vulputate augue rutrum non.
+    <br><br>
+    Duis imperdiet a magna ac semper. Integer et lacus aliquet, blandit ipsum quis, sagittis justo. Pellentesque vel efficitur leo. Duis sed metus sed sapien aliquet tincidunt a ut est. Duis aliquet dolor lorem, ut dignissim nisi auctor at. Maecenas mollis pharetra sem, sed dignissim arcu posuere eget. Fusce lacinia vel justo in viverra. Suspendisse luctus nunc vitae nunc mollis, non iaculis tortor placerat. Mauris sed massa a dui consectetur laoreet vel ut sapien. Nulla facilisi. Mauris est lorem, iaculis a odio pretium, commodo viverra elit.
   </p>
 {% endblock %}
 
 <!-- stuff to put into the right column -->
-{% block rightcol %}
-  {% include 'comp/quicknav.html' %}
+{% block rightCol %}
+  {% include 'comp/user-nav.html' %}
 {% endblock %}
 
 <!-- stuff to put into the footer -->
 {% block footer %}
-{% endblock %}
+  {% include 'comp/footer-nav.html' %}
+{% endblock %}  
