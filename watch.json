@@ -1,0 +1,11 @@
+{
+  "restart": {
+    "exclude": [
+      ".*\\.less"
+    ],
+    "include": [
+      ".*"
+    ]
+  },
+  "throttle": 100
+}

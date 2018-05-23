@@ -10,41 +10,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta name="theme-color" content="#444A8B" />
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link id="favicon" rel="icon" href="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="themes/default/base.css">
     
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     
+    <!-- web-app is https, so scripts need to be too -->
+    <script src="/client.js"></script>
+    <script src="/hamburgerMenu.js"></script>
+    
     <!-- injecting code from pages into base's head -->
-    {% block pagehead %}
+    {% block pageHead %}
     {% endblock %}
   
   </head>
-  <body>
+  <body class="flex-container">
+    
+    <div id="drawer-cloak"></div>
+    <div id="drawer">
+      <div>
+        <div class="drawer-button" id="drawer-close-button">
+          <img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fhamburger.svg">
+        </div>
+        <p>
+          rubic
+        </p>
+      </div>
+    </div>
+    
     <!-- first we set up the header -->
     <header>
-      <div id="header-banner">
-        <!-- this is the BANNER with the cool website banner image, title and time -->
-        <h1>{{ title }}</h1>
-        <p>{{ date }} || {{ time }}</p>
-      </div>
-      
-      
-      <div id="header-nav">
-        <!-- this is the HEADERNAV at top of page for links -->
-        {% block headernav %}
+        <!-- this is the BANNER at top of page for links -->
+        {% block headerBanner %}
         {% endblock %}
-      </div>
+      
+        <!-- this is the HEADERNAV at top of page for links -->
+        {% block headerNav %}
+        {% endblock %}
     </header>
     
     
     <!-- now the main meat of the page. the good stuff -->
     <main>
-      <div class="container">
-        
+      <div class="flex-container">
         <!-- this is the LEFT COLUMN of the entire site -->
         <div class="column" id="left-col">
           <!-- this should pretty much always be empty -->
@@ -52,14 +67,14 @@
         
         <!-- this is the CENTER COLUMN of the entire site -->
         <div class="column" id="center-col">
-          {% block centercol %}
+          {% block centerCol %}
             <!-- CENTER COLUMN CONTENT -->
           {% endblock %}
         </div>
 
         <!-- this is the RIGHT COLUMN of the entire site -->
         <div class="column" id="right-col">
-          {% block rightcol %}
+          {% block rightCol %}
             <!-- RIGHT COLUMN CONTENT -->
           {% endblock %}
         </div>
@@ -71,13 +86,6 @@
       {% block footer %}
       {% endblock %}
     </footer>
-    
-    <!-- some very last minute script stuff goes here -->
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
-    <script src="/client.js"></script>
     
   </body>
 </html>

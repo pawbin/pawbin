@@ -21,6 +21,7 @@ var userSchema = mongoose.Schema({
   }
 })
 
+
 /*var userSchema = mongoose.Schema({
 
     local              : {
