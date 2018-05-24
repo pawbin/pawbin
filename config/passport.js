@@ -11,7 +11,7 @@ const randtoken       = require('rand-token');
 const mailer          = require('../app/mailer');
 
 //custom validation
-var signupValidate = require('../public/shared/signupValidate');
+let signupValidate = require('../public/shared/signupValidate');
 
 module.exports = function(passport) {
 
@@ -38,7 +38,7 @@ module.exports = function(passport) {
   },
   function(req, username, password, done) {
 
-    var email = req.body.email,
+    let email = req.body.email,
         nickname = req.body.nickname,
         confirm = req.body.confirm
     
@@ -55,7 +55,7 @@ module.exports = function(passport) {
     process.nextTick(function() {
       
       
-      var validated = signupValidate(req.body);
+      let validated = signupValidate(req.body);
       
       if(validated === true){
         
@@ -94,9 +94,9 @@ module.exports = function(passport) {
             } else {
               
               //teecchnically can be identical to an existing token in tempusers but what are the chances
-              var token = randtoken.generate(10);
+              let token = randtoken.generate(10);
               
-              var newTempUser = new TempUser();
+              let newTempUser = new TempUser();
 
               newTempUser.local.email    = email;
               newTempUser.local.username = username;
@@ -108,7 +108,7 @@ module.exports = function(passport) {
                   console.log(err);
                   return done(null, false, req.flash('signupMessage', {content: 'Something went wrong', type: 'error'}));
                 }
-                mailer.sendVerify(email, token, function(err, info) {
+                mailer.sendVerifyEmail(email, token, function(err, info) {
                   if (err){
                     console.log(err);
                     newTempUser.remove(function (err, tempUser) {

@@ -16,7 +16,8 @@ $(document).ready( function() {
     });
   }
   
-  let closeDrawer = function() {
+  let closeDrawer = function(event) {
+
     drawer.css({ 
       "width": "0",
     });
@@ -24,7 +25,7 @@ $(document).ready( function() {
     drawerCloak.css({ 
       "opacity": "0",
       "pointer-events": "none"
-    });
+    });    
   }
 
   openButton.on("pointerup", openDrawer);

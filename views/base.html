@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="themes/default/base.css">
+    <link rel="stylesheet" href="themes/default/drawer.css">
     
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
@@ -31,19 +32,9 @@
     {% endblock %}
   
   </head>
-  <body class="flex-container">
-    
-    <div id="drawer-cloak"></div>
-    <div id="drawer">
-      <div>
-        <div class="drawer-button" id="drawer-close-button">
-          <img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fhamburger.svg">
-        </div>
-        <p>
-          rubic
-        </p>
-      </div>
-    </div>
+  <body class="flexbox">
+      {% block drawer %}
+      {% endblock %}
     
     <!-- first we set up the header -->
     <header>
@@ -59,7 +50,7 @@
     
     <!-- now the main meat of the page. the good stuff -->
     <main>
-      <div class="flex-container">
+      <div class="flexbox-row-top">
         <!-- this is the LEFT COLUMN of the entire site -->
         <div class="column" id="left-col">
           <!-- this should pretty much always be empty -->

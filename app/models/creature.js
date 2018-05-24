@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // define the schema for our user model
-var creatureSchema = mongoose.Schema({
+let creatureSchema = mongoose.Schema({
   index        : Number,
   name         : String,
   image        : String,

@@ -8,7 +8,12 @@
   <link rel="stylesheet" href="themes/default/header-banner.css">
   <link rel="stylesheet" href="themes/default/header-nav.css">
   <link rel="stylesheet" href="themes/default/user-nav.css">
+  <link rel="stylesheet" href="themes/default/quick-nav.css">
   <link rel="stylesheet" href="themes/default/footer-nav.css">
+{% endblock %}
+
+{% block drawer %}
+  {% include 'comp/drawer.html' %}
 {% endblock %}
 
 {% block headerBanner %}
@@ -36,7 +41,10 @@
 
 <!-- stuff to put into the right column -->
 {% block rightCol %}
-  {% include 'comp/user-nav.html' %}
+  <div id="right-nav">
+    {% include 'comp/user-nav.html' %}
+    {% include 'comp/quick-nav.html' %}  
+  </div>
 {% endblock %}
 
 <!-- stuff to put into the footer -->

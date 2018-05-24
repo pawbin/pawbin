@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt');
 
 // define the schema for our user model
-var userSchema = mongoose.Schema({
+let userSchema = mongoose.Schema({
   local        : {
     email      : String,
     username   : String,

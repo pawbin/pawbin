@@ -59,63 +59,28 @@ h1, p, section {
 a {
   /* all links should be the highlight color */
   color: @cyan;
+  text-decoration: none;
 }
 
 a:hover {
   color: @white;
+  text-decoration: none;
 }
 
 
-/* DRAWER ===================================================== */
 
-#drawer-cloak {
-  background-color: rgba(0, 0, 0, 60%);
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  overflow-x: hidden;
-  transition: 0.5s;
+
+#right-nav {
+  width: 260px;
+  background-color: @grayMid;
 }
 
-#drawer {
-  height: 100%;
-  //max-width: 500px;
-  width: 0;
-  position: fixed;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  background-color: @grayDark;
-  overflow-x: hidden;
-  transition: 0.5s;
-  transition-timing-function: cubic-bezier(0.17, 1.07, 0.76, 1.07);
-  
-  > div {
-    padding: 25px;
-  }
-}
-  
-.drawer-button {
-  font-size: 2.5em;
-  cursor: pointer;
-  height: 36px;
-  width: 36px;
-}
 
 
 /* MAIN ===================================================== */
 main {
   // expands the main section out, forces header and footer to top and bottom
   flex-grow: 1;
-
-  .flex-container {
-    display: flex;
-  }
 
   #left-col {
     margin: 20px 0;
@@ -135,3 +100,25 @@ main {
     flex: 1 0;
   }
 }
+
+
+
+.flexbox { display: flex; }
+
+.flexbox-column:extend(.flexbox) { flex-direction: column; }
+
+.flexbox-column-left:extend(.flexbox-column)   { align-items: flex-start; }
+.flexbox-column-center:extend(.flexbox-column) { align-items: center; }
+.flexbox-column-right:extend(.flexbox-column)  { align-items: flex-end; }
+.flexbox-column-top:extend(.flexbox-column)    { justify-content: flex-start; }
+.flexbox-column-middle:extend(.flexbox-column) { justify-content: center; }
+.flexbox-column-bottom:extend(.flexbox-column) { justify-content: flex-end; }
+
+.flexbox-row:extend(.flexbox) { flex-direction: row; }
+
+.flexbox-row-left:extend(.flexbox-row)   { justify-content: flex-start; }
+.flexbox-row-center:extend(.flexbox-row) { justify-content: center; }
+.flexbox-row-right:extend(.flexbox-row)  { justify-content: flex-end; }
+.flexbox-row-top:extend(.flexbox-row)    { align-items: flex-start; }
+.flexbox-row-middle:extend(.flexbox-row) { align-items: center; }
+.flexbox-row-bottom:extend(.flexbox-row) { align-items: flex-end; }
