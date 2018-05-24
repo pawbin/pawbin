@@ -7,7 +7,7 @@ const User       = require('../app/models/user');
 const TempUser   = require('../app/models/tempuser');
 const mailer     = require('../app/mailer');
 
-var helper = {};
+let helper = {};
 
 /**
  * Gets a user from the database
@@ -43,7 +43,7 @@ helper.getUser = function(data){
         });
       }
     } else {
-      if(data.username || data.local.username){
+      if(data.username || (data.local && data.local.username)){
         User.findOne({'local.username': data.username || data.local.username}, function(err, user) {
           if(err){
             reject(err);
@@ -54,7 +54,7 @@ helper.getUser = function(data){
             reject("none found");
           }
         });
-      } else if(data.email || data.local.email){
+      } else if(data.email || (data.local && data.local.email)){
         User.findOne({'local.email': data.email || data.local.email}, function(err, user) {
           if(err){
             reject(err);
@@ -79,9 +79,9 @@ helper.getUser = function(data){
  * @param {String} newEmail - the new email to replace the old email
  * @returns {Promise}
  */
-helper.sendUpdateEmail = function(user, newEmail){
+helper.sendUpdateEmailVerification = function(user, newEmail){
   return new Promise(function(resolve, reject){
-    var token = randtoken.generate(10);
+    let token = randtoken.generate(10);
     
     user.updateEmail.verifyURL = token;
     user.updateEmail.newEmail  = newEmail;
@@ -93,7 +93,7 @@ helper.sendUpdateEmail = function(user, newEmail){
       }
       if(saved){
         console.log(saved);
-        mailer.sendUpdate(newEmail, token, function(err, info) {
+        mailer.sendUpdateEmail(newEmail, token, function(err, info) {
           if (err){
             console.log(err);
             user.updateEmail = {}; //there was an error, clear information
@@ -126,12 +126,12 @@ helper.verifyEmail = function(token){
       }
 
       if(tempUser){
-        var userData = {},
+        let userData = {},
             user;
 
-        var tempUserObject = tempUser.toObject();
+        let tempUserObject = tempUser.toObject();
 
-        for (var property in tempUser) userData[property] = tempUserObject[property];
+        for (let property in tempUser) userData[property] = tempUserObject[property];
 
         // delete userData['verifyURL'];
         // delete userData['_id'];
@@ -199,11 +199,11 @@ helper.updateEmail = function(token){
 }
 
 /**
- * Send password reset email after requesting it
+ * Send password reset verification email after requesting it
  * @param {Object} user
  * @returns {Promise}
  */
-helper.sendPasswordResetEmail = function(user){
+helper.sendResetPasswordVerification = function(user){
   return new Promise(function(resolve, reject){
     let token = randtoken.generate(10);
     
@@ -216,7 +216,7 @@ helper.sendPasswordResetEmail = function(user){
       }
       if(saved){
         console.log(saved);
-        mailer.sendPasswordReset(user.local.email, token, function(err, info) {
+        mailer.sendResetPassword(user.local.email, token, function(err, info) {
           if (err){
             console.log(err);
             user.resetPassword = {}; //there was an error, clear information

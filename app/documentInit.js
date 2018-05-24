@@ -9,7 +9,7 @@ const mongoose     = require('mongoose'),
 //Frizzbee
 Creature.findOne({'index': 1}, function(err, creature) {
   if(!creature){
-    var creature = new Creature({
+    let creature = new Creature({
       index: 1,
       name: "Frizzbee",
       image: "https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2FFlWAX7r.png",
@@ -30,7 +30,7 @@ Creature.findOne({'index': 1}, function(err, creature) {
 //Pupsicle
 Creature.findOne({'index': 2}, function(err, creature) {
   if(!creature){
-    var creature = new Creature({
+    let creature = new Creature({
       index: 2,
       name: "Pupsicle",
       image: "https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2FNL7BfuH.png",

@@ -1,0 +1,61 @@
+@import "res.less";
+
+#drawer-cloak {
+  // the cloak is always a 60% opaque black overlay
+  background-color: rgba(0, 0, 0, 60%);
+  // fills the entire screen
+  height: 100%;
+  width: 100%;
+  // fixed into the corner, on top of everything (except for the drawer of course)
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  // by default, is not opaque at all
+  opacity: 0;
+  // by default, can't be clicked
+  pointer-events: none;
+  // when changed, takes a half a second to do so
+  transition: 0.5s;
+}
+
+#drawer {
+  background: #34303b url("https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fspoopyheader.png") repeat-x 0 -41px;
+  height: 100%;
+  //max-width: 500px;
+  width: 0;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: @grayLight;
+  overflow-x: hidden;
+  transition: 0.5s;
+  transition-timing-function: cubic-bezier(0.17, 1.07, 0.76, 1.07);
+  
+  #drawer-header {
+    #drawer-user {
+      width: 100%;
+      padding: 25px;
+      height: 110px;
+    }
+  }
+  
+  #drawer-content {
+    padding: 25px;
+  }
+}
+  
+.drawer-button {
+  font-size: 2.5em;
+  cursor: pointer;
+  height: 36px;
+  width: 36px;
+}
+
+#drawer-open-button {
+  position: fixed;
+  left: 25px;
+  top: 25px;
+}
