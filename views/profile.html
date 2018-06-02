@@ -1,18 +1,19 @@
-<!doctype html>
-<html>
-  <head>
-    <title>signup</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  </head>
-  <body>
+<!-- index is an extension of the base.html page, where everything actually happens -->
+{% extends 'base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: Profile</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
     <div id="full-container">
-      {{user}}
+      {{userdump}}
       {{messages}}
     </div>
-    <form name="signup" id="epdateEmail" action="/updateemail" onsubmit="" method="post">
+    <form name="updateemail" id="epdateEmail" action="/updateemail" onsubmit="" method="post">
       <div class="form-group">
         <label>new email</label>
         <input type="text" class="" name="newEmail">
@@ -24,10 +25,10 @@
       <button type="submit" class="">update email</button>
     </form>
     <br>
-    <form name="signup" id="updatePassword" action="/updatepassword" onsubmit="" method="post">
+    <form name="updatepassword" id="updatePassword" action="/updatepassword" onsubmit="" method="post">
       <div class="form-group">
         <label>current password</label>
-        <input type="text" class="" name="password">
+        <input type="password" class="" name="password">
       </div>
       <div class="form-group">
         <label>new password</label>
@@ -39,5 +40,4 @@
       </div>
       <button type="submit" class="">update password</button>
     </form>
-  </body>
-</html>
+{% endblock %}

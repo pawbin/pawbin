@@ -1,10 +1,12 @@
 <!-- make me inline please thanks -->
 
-<span id="quick-login">
-  <form>
-    <input type="text" name="email|username" placeholder="email/username">
+<div class="flexbox-row-left" id="quick-login">
+  <form name="login" action="/login" method="post">
+    <input type="text" name="username" placeholder="username">
     <input type="password" name="password" placeholder="password">
     <button type="submit">Login</button>
   </form>
-  <a href="/views/register.html">Register</a>
-</span>
+  <div id="signup-button">
+    <a href="/signup">Signup</a>
+  </div>
+</div>

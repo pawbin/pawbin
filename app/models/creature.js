@@ -14,7 +14,7 @@ let creatureSchema = mongoose.Schema({
     name       : String,
     userId     : { type: mongoose.Schema.ObjectId, ref: 'User' }
   }
-})
+});
 
 // methods ======================
 

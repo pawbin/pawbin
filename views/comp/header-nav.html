@@ -1,9 +1,13 @@
 <!-- make me inline please thanks -->
-<div id="header-nav">
+<div class="flexbox-row-left" id="header-nav">
   <ul>
-    <li><a href="/"            >Home</a></li>
+    <li><a href="/"       >Home</a></li>
     <li><a href="/news"   >News</a></li>
     <li><a href="/forums" >Forums</a></li>
     <li><a href="/wiki"   >Wiki</a></li>
   </ul>
+  <div class="flexbox-row-left">
+    {% include 'comp/quick-login.html' %}
+    {% include 'comp/quick-logout.html' %}
+  </div>
 </div>

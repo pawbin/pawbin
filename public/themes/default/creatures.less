@@ -1,0 +1,28 @@
+@import "res.less";
+
+main #center-col {
+  padding: 10px;
+}
+
+#creatures {
+  flex-wrap: wrap;
+  
+  .creature-block {
+    min-width: 200px;
+    width: 200px;
+    height: 250px;
+    margin: 10px;
+    padding: 10px;
+    background-color: @grayDark;
+    justify-content: space-between;
+  }
+  
+  .creature-block-image  {
+    height: 180px;
+    width: 180px;
+    
+    img {
+      width: 180px;
+    }
+  }
+}

@@ -7,6 +7,10 @@
 var assets = require("./assets");
 
 //includes
+const config   = require('./config.js');
+
+const documentInit = require('./app/documentInit.js');
+
 const express  = require('express');
 const app      = express();
 const port     = 3000;
@@ -24,8 +28,6 @@ const MongoStore   = require('connect-mongo')(session);
 
 require('./config/passport')(passport);
 
-const configDB = require('./config/db.js');
-
 //JUST FOR GLITCH
 app.use("/assets", assets);
 
@@ -37,26 +39,10 @@ app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-const cookieExpire = 14 * 24 * 60 * 60 * 1000 //14 days
+const cookieExpire = config.anonSessionAge //1 hour
 
 //connect to database (before session config)
-mongoose.connect(configDB.url); 
-//passport sessions. stored in mongodb for 14 days
-app.use(session({
-  secret: process.env.SECRET,
-  cookie: { maxAge: cookieExpire,
-            originalMaxAge: cookieExpire,
-            expires: new Date(Date.now() + cookieExpire)
-          },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: cookieExpire / 1000
-  }),
-  resave: true,
-  saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+mongoose.connect(config.DBurl); 
 
 app.set('views', path.join(__dirname, 'views')); //rendered with nunjucks
 
@@ -72,6 +58,23 @@ app.set('view engine', 'html');
 app.use(less('public'));
 
 app.use(express.static(path.join(__dirname, 'public'))); //allows for serving static files. everything in the 'public/' directory will be served as-is 
+
+//passport sessions. stored in mongodb for 14 days
+app.use(session({
+  secret: process.env.SECRET,
+  cookie: { maxAge: cookieExpire * 10,
+            originalMaxAge: cookieExpire * 10,
+            expires: new Date(Date.now() + cookieExpire)
+          },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: cookieExpire / 1000
+  }),
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.listen(port, (err) => {
     if(err){

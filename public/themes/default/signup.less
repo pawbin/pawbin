@@ -1,27 +1,4 @@
-/* default */
-@white:  hsla(  0,   0%,  95%, 100%);
-
-@gray1:  hsla(262,  10%,  21%, 100%);
-@gray2:  hsla(252,  11%,  18%, 100%);
-@gray3:  hsla(256,  15%,  15%, 100%);
-
-@red:    hsla(  1,  86%,  57%, 100%);
-@orange: hsla( 35, 100%,  54%, 100%);
-@yellow: hsla( 48, 100%,  51%, 100%);
-@green:  hsla(122,  39%,  49%, 100%);
-@cyan:   hsla(187, 100%,  42%, 100%);
-@blue:   hsla(212,  90%,  54%, 100%);
-@purple: hsla(291,  52%,  48%, 100%);
-
-/* buttons/interactable */
-@basic:   @blue;
-@success: @green;
-@info:    @cyan;
-@alert:   @yellow;
-@warn:    @orange;
-@danger:  @red;
-
-@display: @purple;
+@import "res.less";
 
 /* bodies */
 @background: @gray1;
@@ -30,10 +7,6 @@
 
 * {
   font-family: 'Raleway', ariel, sans-serif;
-}
-
-[id^="reference"] {
-  display: none;
 }
 
 input {
@@ -145,68 +118,4 @@ a {
 .button-danger, .button-error{
   .button;
   background-color: @danger;
-}
-
-#messages{
-  margin-bottom: 40px;
-}
-
-.message-container{
-  position: relative;
-  width: 100%;
-  margin-bottom: 2px;
-  overflow: hidden;
-}
-.message{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 14px;
-  color: @white;
-  background-color: fade(@basic, 40%);
-  border: 1px solid @basic;
-  box-sizing: border-box;
-}
-
-.message-basic{
-  .message;
-  background-color: fade(@basic, 40%);
-  border: 1px solid @basic;
-}
-
-.message-success{
-  .message;
-  background-color: fade(@success, 40%);
-  border: 1px solid @success;
-}
-
-.message-info{
-  .message;
-  background-color: fade(@info, 40%);
-  border: 1px solid @info;
-}
-
-.message-alert{
-  .message;
-  background-color: fade(@alert, 40%);
-  border: 1px solid @alert;
-}
-
-.message-warn{
-  .message;
-  background-color: fade(@warn, 40%);
-  border: 1px solid @warn;
-}
-
-.message-danger, .message-error{
-  .message;
-  background-color: fade(@danger, 40%);
-  border: 1px solid @danger;
-}
-
-.message-close {
-    margin: 2px 4px;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
 }

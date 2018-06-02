@@ -4,25 +4,6 @@
 <!-- inject into header of parent -->
 {% block pageHead %}
   <title>pawb.in</title>
-  <meta name="description" content="A website for virtual creature collection!">
-  <link rel="stylesheet" href="themes/default/header-banner.css">
-  <link rel="stylesheet" href="themes/default/header-nav.css">
-  <link rel="stylesheet" href="themes/default/user-nav.css">
-  <link rel="stylesheet" href="themes/default/quick-nav.css">
-  <link rel="stylesheet" href="themes/default/footer-nav.css">
-{% endblock %}
-
-{% block drawer %}
-  {% include 'comp/drawer.html' %}
-{% endblock %}
-
-{% block headerBanner %}
-  {% include 'comp/header-banner.html' %}
-{% endblock %}
-
-<!-- stuff to fit into the header navigation -->
-{% block headerNav %}
-  {% include 'comp/header-nav.html' %}
 {% endblock %}
 
 <!-- stuff to put into the center column -->
@@ -38,16 +19,3 @@
     Duis imperdiet a magna ac semper. Integer et lacus aliquet, blandit ipsum quis, sagittis justo. Pellentesque vel efficitur leo. Duis sed metus sed sapien aliquet tincidunt a ut est. Duis aliquet dolor lorem, ut dignissim nisi auctor at. Maecenas mollis pharetra sem, sed dignissim arcu posuere eget. Fusce lacinia vel justo in viverra. Suspendisse luctus nunc vitae nunc mollis, non iaculis tortor placerat. Mauris sed massa a dui consectetur laoreet vel ut sapien. Nulla facilisi. Mauris est lorem, iaculis a odio pretium, commodo viverra elit.
   </p>
 {% endblock %}
-
-<!-- stuff to put into the right column -->
-{% block rightCol %}
-  <div id="right-nav">
-    {% include 'comp/user-nav.html' %}
-    {% include 'comp/quick-nav.html' %}  
-  </div>
-{% endblock %}
-
-<!-- stuff to put into the footer -->
-{% block footer %}
-  {% include 'comp/footer-nav.html' %}
-{% endblock %}  

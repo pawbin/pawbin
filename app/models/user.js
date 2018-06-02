@@ -18,7 +18,11 @@ let userSchema = mongoose.Schema({
   resetPassword: {
     verifyURL  : String,
     createdAt  : Date
-  }
+  },
+  
+  creatures    : [{
+    creatureId : { type: mongoose.Schema.ObjectId, ref: 'Creature' }
+  }],
 })
 
 
