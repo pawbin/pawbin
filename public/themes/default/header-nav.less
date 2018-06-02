@@ -2,11 +2,12 @@
 
 #header-nav {
   background-color: @grayMid;
-  padding: 10px 0;
+  padding: 0 10px;
   font-size: 10pt;
+  justify-content: space-between;
   
   ul {
-    padding: 0 20px;
+    padding: 10px;
     display: flex;
     margin: 0;
     
@@ -18,5 +19,39 @@
         text-decoration: none;
       }
     }
+  }
+}
+
+#quick-login {
+  input, button {
+    margin: 5px;
+  }
+  
+  a {
+    display: block;
+    padding: 5px 10px;
+    background-color: @grayDark;
+  }
+  
+  a:hover {
+    background-color: @grayLight;
+  }
+  
+  #signup-button {
+    margin: 5px;
+  }
+}
+
+#quick-logout {
+  margin: 5px;
+  
+  a {
+    display: block;
+    padding: 5px 10px;
+    background-color: @grayDark;
+  }
+  
+  a:hover {
+    background-color: @grayLight;
   }
 }

@@ -5,16 +5,16 @@
       all = true
     }
     
-    if((all || required.email) && form.email === ""){
+    if((all || required.email) && !form.email){
       return({content: "Please include an email", type: "warn"})
     }
-    if((all || required.username) && form.username === ""){
+    if((all || required.username) && !form.username){
       return({content: "Please include a username", type: "warn"})
     }
-    if((all || required.password) && form.password === ""){
+    if((all || required.password) && !form.password){
       return({content: "Please include a password", type: "warn"})
     }
-    if((all || required.confirmPassword) && form.confirmPassword === ""){
+    if((all || required.confirmPassword) && !form.confirmPassword){
       return({content: "Please confirm password", type: "warn"})
     }
     

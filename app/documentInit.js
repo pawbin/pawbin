@@ -23,7 +23,7 @@ Creature.findOne({'index': 1}, function(err, creature) {
       }
     });
     
-    //creature.save(console.error);
+    creature.save(console.error);
   }
 });
 
@@ -44,6 +44,6 @@ Creature.findOne({'index': 2}, function(err, creature) {
       }
     });
     
-    //creature.save(console.error);
+    creature.save(console.error);
   }
 });

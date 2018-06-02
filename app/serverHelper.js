@@ -74,6 +74,70 @@ helper.getUser = function(data){
 
 
 /**
+ * Gets a user from the database
+ * @param {string|Object} username, email, or user object.
+ *   @param {string} user.username
+ *   @param {string} user.email
+ * @returns {Promise} User
+ */
+helper.getTempUser = function(data){
+  return new Promise(function(resolve, reject){
+    if(typeof data === 'string'){
+      if(/\S+@\S+\.\S+/.test(data)){ //email
+        TempUser.findOne({'local.email': data}, function(err, user) {
+          if(err){
+            reject(err);
+          }
+          if(user){
+            resolve(user);
+          } else {
+            reject("none found");
+          }
+        });
+      } else { //username (probably)
+        TempUser.findOne({'local.username': data}, function(err, user) {
+          if(err){
+            reject(err);
+          }
+          if(user){
+            resolve(user);
+          } else {
+            reject("none found");
+          }
+        });
+      }
+    } else {
+      if(data.username || (data.local && data.local.username)){
+        TempUser.findOne({'local.username': data.username || data.local.username}, function(err, user) {
+          if(err){
+            reject(err);
+          }
+          if(user){
+            resolve(user);
+          } else {
+            reject("none found");
+          }
+        });
+      } else if(data.email || (data.local && data.local.email)){
+        TempUser.findOne({'local.email': data.email || data.local.email}, function(err, user) {
+          if(err){
+            reject(err);
+          }
+          if(user){
+            resolve(user);
+          } else {
+            reject("none found");
+          }
+        });
+      } else {
+        reject("no suitable data");
+      }
+    }
+  });
+}
+
+
+/**
  * Send verification email for an email address update
  * @param {Object} user - user to send email to
  * @param {String} newEmail - the new email to replace the old email

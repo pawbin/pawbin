@@ -1,0 +1,30 @@
+<!-- represents a notifcation on the screen -->
+<div class="notifs">
+  <!-- left side for spacing -->
+  <div class="notifs-left">
+  </div>
+  <!-- center for notifcation content -->
+  <div class="notifs-center">
+    <div class="reference-notif">
+      <div class="notif-container">
+        <div class="notif">
+        </div>
+        <div class="notif-close">
+          <span class="fa fa-times"></span>
+        </div>
+      </div>
+    </div>
+    {% for notif in notifs %}
+      <div class="notif-container">
+        <div class="{{'notif notif-' ~ (notif.type or 'basic')}}">{{ notif.content|safe }}</div>
+
+        <div class="notif-close">
+          <span class="fas fa-times"></span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- right side for spacing -->
+  <div class="notifs-right">
+  </div>
+</div>

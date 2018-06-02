@@ -1,6 +1,7 @@
 const serverHelper = require('../app/serverHelper');
 const mailer       = require('../app/mailer');
 const formValidate = require('../public/shared/signupValidate');
+const path = require('path');
 
 let helper = {};
 
@@ -16,17 +17,18 @@ helper.updateEmail = function(req, res){
   
   let validated = formValidate({email: newEmail}, {email: true});
   if(validated !== true){
-    req.flash('profileMessage', (validated));
+    req.flash('notif', {form: path.parse(req.path).name, ...validated});
+    res.redirect(req.get('referer'));
     return;
   }
   
   serverHelper.getUser(req.user).then(user => {
     if(user.validPassword(password)){
       serverHelper.sendUpdateEmailVerification(user, newEmail).then(console.log).catch(console.error);
-      req.flash('profileMessage', {content: 'Confirmation email sent to ' + newEmail, type: 'success'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Confirmation email sent to ' + newEmail, type: 'success'});
       res.redirect(req.get('referer'));
     } else {
-      req.flash('profileMessage', {content: 'Incorrect Password', type: 'error'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Incorrect Password', type: 'error'});
       res.redirect(req.get('referer'));
     }
   }).catch(console.error);
@@ -43,9 +45,12 @@ helper.updatePassword = function(req, res){
   let newPassword = req.body.newPassword;
   let confirmNewPassword = req.body.confirmNewPassword;
   
+  console.log(req)
+  
   let validated = formValidate({password: newPassword, confirmPassword: confirmNewPassword}, {password: true, confirmPassword: true});
   if(validated !== true){
-    req.flash('profileMessage', (validated));
+    req.flash('notif', {form: path.parse(req.path).name, ...validated});
+    res.redirect(req.get('referer'));
     return;
   }
   //this is the only postHelper function that needs to (is able to) modify the user directly. all the other ones currently need a token verification, so will be run through serverHelper first
@@ -65,10 +70,10 @@ helper.updatePassword = function(req, res){
         }
       });
       
-      req.flash('profileMessage', {content: 'Confirmation email sent to ' + user.local.email, type: 'success'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Confirmation email sent to ' + user.local.email, type: 'success'});
       res.redirect(req.get('referer'));
     } else {
-      req.flash('profileMessage', {content: 'Incorrect Password', type: 'error'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Incorrect Password', type: 'error'});
       res.redirect(req.get('referer'));
     }
   }).catch(console.error);
@@ -85,10 +90,10 @@ helper.requestReset = function(req, res){
   serverHelper.getUser({email: email}).then(user => {
     if(user){
       serverHelper.sendResetPasswordVerification(user).then(console.log).catch(console.error);
-      req.flash('requestresetMessage', {content: 'Confirmation email sent to ' + user.local.email, type: 'success'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Confirmation email sent to ' + user.local.email, type: 'success'});
       res.redirect(req.get('referer'));
     } else {
-      req.flash('requestresetMessage', {content: 'No user has that email', type: 'error'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'No user has that email', type: 'error'});
       res.redirect(req.get('referer'));
     }
   }).catch(console.error);
@@ -106,13 +111,13 @@ helper.resetPassword = function(req, res){
   //DONT pass plaintext password around, generate hash before passing to serverHelper
   let validated = formValidate({password: newPassword, confirmPassword: confirmNewPassword}, {password: true, confirmPassword: true});
   if(validated !== true){
-    req.flash('resetpasswordMessage', (validated));
+    req.flash('notif', {form: path.parse(req.path).name, ...validated});
     res.redirect(req.get('referer'));
     return;
   }
   let token = req.get('referer').replace(/\/$/, "").split('/').pop();
   serverHelper.resetPassword(token, newPassword).then(user => {
-    req.flash('resetpasswordMessage', {content: 'Password successfully reset', type: 'success'});
+    req.flash('notif', {form: path.parse(req.path).name, content: 'Password successfully reset', type: 'success'});
     res.redirect('/');
   }).catch(console.error);
 }

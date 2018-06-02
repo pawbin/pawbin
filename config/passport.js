@@ -10,6 +10,8 @@ const randtoken       = require('rand-token');
 
 const mailer          = require('../app/mailer');
 
+const querystring     = require('querystring');
+
 //custom validation
 let signupValidate = require('../public/shared/signupValidate');
 
@@ -37,6 +39,8 @@ module.exports = function(passport) {
     passReqToCallback : true // allows us to pass back the entire request to the callback
   },
   function(req, username, password, done) {
+    
+    console.log("signup user", username);
 
     let email = req.body.email,
         nickname = req.body.nickname,
@@ -60,7 +64,7 @@ module.exports = function(passport) {
       if(validated === true){
         
       } else {
-        return done(null, false, req.flash('signupMessage', (validated)));
+        return done(null, false, req.flash('notif', (validated)));
       }
 
       User.findOne({$or: [{ 'local.username' :  username }, { 'local.email' :  email }]}, function(err, user) {
@@ -72,25 +76,25 @@ module.exports = function(passport) {
         if (user) {
           //is username or email (or both?) taken?
           if(user.local.username == username && user.local.email == email){
-            return done(null, false, req.flash('signupMessage', {content: 'That email and username is already taken.', type: 'error'}));
+            return done(null, false, req.flash('notif', {content: 'That email and username is already taken.', type: 'error'}));
           } else if(user.local.username == username){
-            return done(null, false, req.flash('signupMessage', {content: 'That username is already taken.', type: 'error'}));
+            return done(null, false, req.flash('notif', {content: 'That username is already taken.', type: 'error'}));
           } else if(user.local.email == email){
-            return done(null, false, req.flash('signupMessage', {content: 'That email is already taken.', type: 'error'}));
+            return done(null, false, req.flash('notif', {content: 'That email is already taken.', type: 'error'}));
           } else { //just in case
-            return done(null, false, req.flash('signupMessage', {content: 'That user is already taken.', type: 'error'}));
+            return done(null, false, req.flash('notif', {content: 'That user is already taken.', type: 'error'}));
           }
         } else {
 
           TempUser.findOne({'local.username': username, 'local.email': email }, function(err, user) {
             if(err){
               console.log(err);
-              return done(null, false, req.flash('signupMessage', {content: 'Something went wrong!', type: 'error'}));
+              return done(null, false, req.flash('notif', {content: 'Something went wrong!', type: 'error'}));
             }
 
             //user exists
             if(user){
-              return done(null, false, req.flash('signupMessage', {content: 'This account needs to be verified. would you like to <a href="#" class="resendVerification">resend verification email</a>?', type: "info"}));
+              return done(null, false, req.flash('notif', {content: 'This account needs to be verified. would you like to <a href="' + "/resendverification?" + querystring.stringify({email: email}) + '" class="resendVerification">resend verification email</a>?', type: "info"}));
             } else {
               
               //teecchnically can be identical to an existing token in tempusers but what are the chances
@@ -106,7 +110,7 @@ module.exports = function(passport) {
               newTempUser.save(function(err, savedUser) {
                 if (err) { //database error
                   console.log(err);
-                  return done(null, false, req.flash('signupMessage', {content: 'Something went wrong', type: 'error'}));
+                  return done(null, false, req.flash('notif', {content: 'Something went wrong', type: 'error'}));
                 }
                 mailer.sendVerifyEmail(email, token, function(err, info) {
                   if (err){
@@ -114,12 +118,12 @@ module.exports = function(passport) {
                     newTempUser.remove(function (err, tempUser) {
                       if (err) { //deletion error
                         console.log(err);
-                        return done(null, false, req.flash('signupMessage', {content: 'Something went wrong', type: 'error'}));
+                        return done(null, false, req.flash('notif', {content: 'Something went wrong', type: 'error'}));
                       }
                     });
-                    return done(null, false, req.flash('signupMessage', {content: 'Something went wrong', type: 'error'}));
+                    return done(null, false, req.flash('notif', {content: 'Something went wrong', type: 'error'}));
                   } else {
-                    return done(null, false, req.flash('signupMessage', {content: 'A verification email was sent to ' + email, type: "success"}));
+                    return done(null, savedUser, req.flash('notif', {content: 'A verification email was sent to ' + email, type: "success"}));
                   }
                 });
               });
@@ -140,8 +144,11 @@ module.exports = function(passport) {
 
     User.findOne({ 'local.username' :  username }, function(err, user) {
       // if there are any errors, return the error before anything else
-      if (err)
+      console.log("login user", user);
+      if (err){
+        console.error(err);
         return done(err);
+      }
 
       // if no user is found, return the message
       if (!user)

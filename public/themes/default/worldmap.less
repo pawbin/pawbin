@@ -1,0 +1,27 @@
+@import "res.less";
+
+body {
+  // page background is darker
+  background-color: @grayVoid;
+  
+  #center-col, #header-nav, #footer-nav {
+    background-color: transparent;
+  }
+  
+  #right-nav {
+    background-color: fade(@grayMid, 25%);
+  }
+  
+  #worldmap {
+    // position this div in the top left corner just below the header navigation
+    position: absolute;
+    left: 0px;
+    top: 185px;
+    width: 100%;
+    // escape string used to circumvent less doing its own calculation
+    height: ~"calc(100vh - 217px)";
+    height: ~"-moz-calc(100vh - 217px)";
+    height: ~"-webkit-calc(100vh - 217px)";
+    min-height: 440px;
+  }
+}

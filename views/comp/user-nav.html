@@ -7,7 +7,7 @@
   
   <!-- the player's name -->
   <div id="name">
-    name
+    {{ user.local.username if loggedIn else "noname" }}
   </div>
   
   <!-- player's currency: normal and premium -->

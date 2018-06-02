@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-html {
+html, button, input {
   font-family: 'Raleway', ariel, sans-serif;
   font-size: 11pt;
   color: @white;
@@ -67,14 +67,39 @@ a:hover {
   text-decoration: none;
 }
 
-
-
-
 #right-nav {
   width: 260px;
   background-color: @grayMid;
 }
 
+button:hover {
+    font-size: 10pt;
+    cursor: pointer;
+    background-color: @grayLight;
+    color: @white;
+}
+
+button {
+    color: @cyan;
+    font-size: 10pt;
+    font-family: "Raleway";
+    border: none;
+    padding: 5px 10px;
+    background-color: @grayDark;
+}
+
+input {
+    font-size: 10pt;
+    background-color: transparent;
+    border: none;
+    font-family: "Raleway";
+    color: @white;
+    padding: 5px;
+}
+
+input:focus {
+  border-bottom: 2px @white;
+}
 
 
 /* MAIN ===================================================== */
@@ -91,11 +116,13 @@ main {
     margin: 20px;
     background-color: @grayMid;
     padding: 20px;
-    max-width: 700px;
-    flex: 1 1 700px;
+    max-width: 680px;
+    flex: 1 1 680px;
+    word-break: break-all;
   }
 
   #right-col {
+    z-index: 1;
     margin: 20px 20px 20px 0;
     flex: 1 0;
   }
