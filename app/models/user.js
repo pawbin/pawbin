@@ -20,9 +20,15 @@ let userSchema = mongoose.Schema({
     createdAt  : Date
   },
   
-  creatures    : [{
-    creatureId : { type: mongoose.Schema.ObjectId, ref: 'Creature' }
-  }],
+  rights       : String,
+  
+  creaturesRef : [
+    { type: mongoose.Schema.ObjectId, ref: 'Creature' }
+  ], 
+  
+  // testCreatures    : [
+  //   { type: mongoose.Schema.ObjectId, ref: 'Creature' }
+  // ],
 })
 
 
@@ -120,12 +126,23 @@ let userSchema = mongoose.Schema({
 // methods ======================
 // generating a hash
 userSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+  return bcrypt.compareSync(password, this.local.password);
+};
+
+// add creature to user
+userSchema.methods.addCreature = function(creature) {
+  if(!creature)
+    return;
+  this.creatures.push({creatureId: creature._id});
+  this.save(function(err, saved){
+    if(err)
+      console.log(err);
+  });
 };
 
 // create the model for users and expose it to our app

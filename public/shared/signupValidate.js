@@ -30,8 +30,8 @@
     if((all || required.username) && !/^\s*[^\s'"]{2,20}\s*$/.test(form.username)){
       return({content: "That username is invalid. Usernames must be at least 2 characters and cannot contain single or double quotes", type: "warn"})
     }
-    if((all || required.password) && form.password.length < 6){
-      return({content: "Password must be at least 6 characters", type: "warn"})
+    if((all || required.password) && form.password.length < 5){
+      return({content: "Password must be at least 5 characters", type: "warn"})
     }
 
     //validation successful

@@ -1,0 +1,23 @@
+
+<!-- index is an extension of the base.html page, where everything actually happens -->
+{% extends 'private/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: Login</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
+  <form name="login" action="/login" method="post">
+    <div class="form-group">
+        <label>username</label>
+        <input type="text" class="" name="username">
+    </div>
+    <div class="form-group">
+        <label>password</label>
+        <input type="password" class="" name="password">
+    </div>
+    <button type="submit" class="">login</button>
+  </form>
+{% endblock %}

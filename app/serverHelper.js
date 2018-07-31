@@ -11,34 +11,53 @@ let helper = {};
 
 /**
  * Gets a user from the database
- * @param {string|Object} username, email, or user object.
+ * @param {string|Object} username, email, id, or user object.
  *   @param {string} user.username
  *   @param {string} user.email
+ *   @param {string} user.local.username
+ *   @param {string} user.local.email
  * @returns {Promise} User
  */
 helper.getUser = function(data){
   return new Promise(function(resolve, reject){
+    if(!data){
+      return reject("getUser: no data");
+    }
+    if(data instanceof User){
+      return resolve(data);
+    }
     if(typeof data === 'string'){
       if(/\S+@\S+\.\S+/.test(data)){ //email
         User.findOne({'local.email': data}, function(err, user) {
           if(err){
-            reject(err);
+            return reject(err);
           }
           if(user){
-            resolve(user);
+            return resolve(user);
           } else {
-            reject("none found");
+            return reject("getUser: wrong email");
+          }
+        });
+      } else if(mongoose.Types.ObjectId.isValid(data)) { //id
+        User.findById(data, function(err, user) {
+          if(err){
+            return reject(err);
+          }
+          if(user){
+            return resolve(user);
+          } else {
+            return reject("getUser: wrong id");
           }
         });
       } else { //username (probably)
         User.findOne({'local.username': data}, function(err, user) {
           if(err){
-            reject(err);
+            return reject(err);
           }
           if(user){
-            resolve(user);
+            return resolve(user);
           } else {
-            reject("none found");
+            return reject("getUser: wrong username");
           }
         });
       }
@@ -46,27 +65,27 @@ helper.getUser = function(data){
       if(data.username || (data.local && data.local.username)){
         User.findOne({'local.username': data.username || data.local.username}, function(err, user) {
           if(err){
-            reject(err);
+            return reject(err);
           }
           if(user){
-            resolve(user);
+            return resolve(user);
           } else {
-            reject("none found");
+            return reject("getUser: wrong username");
           }
         });
       } else if(data.email || (data.local && data.local.email)){
         User.findOne({'local.email': data.email || data.local.email}, function(err, user) {
           if(err){
-            reject(err);
+            return reject(err);
           }
           if(user){
-            resolve(user);
+            return resolve(user);
           } else {
-            reject("none found");
+            return reject("getUser: wrong email");
           }
         });
       } else {
-        reject("no suitable data");
+        return reject("getUser: no suitable data");
       }
     }
   });

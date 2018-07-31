@@ -1,0 +1,61 @@
+@import "public/css/private/res.less";
+
+#header-nav {
+  background-color: @grayMid;
+  padding-right: 10px;
+  font-size: 11pt;
+  justify-content: space-between;
+  z-index: 1;
+  
+  ul {
+    padding: 15px;
+    display: flex;
+    margin: 0;
+    
+    li {
+      display: block;
+      margin: 0 10px;
+      
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#quick-login {
+  font-size: 10pt;
+  
+  input, button {
+    margin: 10px 5px;
+  }
+  
+  a {
+    display: block;
+    padding: 5px 10px;
+    background-color: @grayDark;
+  }
+  
+  a:hover {
+    background-color: @grayLight;
+  }
+  
+  #signup-button {
+    margin: 10px 5px;
+  }
+}
+
+#quick-logout {
+  font-size: 10pt;
+  margin: 10px 5px;
+  
+  a {
+    display: block;
+    padding: 5px 10px;
+    background-color: @grayDark;
+  }
+  
+  a:hover {
+    background-color: @grayLight;
+  }
+}

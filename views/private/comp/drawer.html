@@ -1,0 +1,34 @@
+<!-- this is the structure of the drawer menu that appears on mobile -->
+
+<!-- button that appears, can be clicked to open the drawer -->
+<div class="drawer-button" id="drawer-open-button">
+  <img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fhamburger.svg">
+</div>
+<!-- black transparent cloak behind the drawer that obscures the rest of the page -->
+<div id="drawer-cloak"></div>
+<!-- the block that contains the actual drawer itself -->
+<div id="drawer">
+  <div class="flexbox-column">
+    
+    <div class="flexbox-column" id="drawer-header">
+      
+      <div class="flexbox-row" id="drawer-user">
+        <div class="drawer-button" id="drawer-close-button">
+          <img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fhamburger.svg">
+        </div>
+        {% include 'private/comp/user-nav.html' %}
+      </div>
+      
+      {% include 'private/comp/header-nav.html' %}
+    </div>
+    
+    <div id="drawer-content">
+      {% include 'private/comp/quick-nav.html' %}
+    </div>
+    
+  </div>
+</div>
+
+<style>
+
+</style>

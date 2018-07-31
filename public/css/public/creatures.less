@@ -1,0 +1,42 @@
+@import "public/css/private/res.less";
+
+main #center-col {
+  padding: 10px;
+}
+
+#creatures {
+  flex-wrap: wrap;
+  
+  .creature-block {
+    position: relative;
+    min-width: 200px;
+    width: 200px;
+    height: 250px;
+    margin: 10px;
+    padding: 10px;
+    background-color: @grayDark;
+    justify-content: space-between;
+    
+    .creature-block-image  {
+      height: 180px;
+      width: 180px;
+
+      img {
+        width: 180px;
+      }
+    }
+    
+    button.creature-block-remove {
+      position: absolute;
+      top: 220px;
+      left: 170px;
+      padding: 2.75px 6px;
+      background-color: @grayVoid;
+      color: @white;
+    
+      &:hover {
+        background-color: @grayMid;      
+      }
+    }
+  }
+}

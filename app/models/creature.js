@@ -1,7 +1,5 @@
-// load the things we need
 const mongoose = require('mongoose');
 
-// define the schema for our user model
 let creatureSchema = mongoose.Schema({
   index        : Number,
   name         : String,
@@ -12,7 +10,7 @@ let creatureSchema = mongoose.Schema({
   rarity       : Number,
   creator      : {
     name       : String,
-    userId     : { type: mongoose.Schema.ObjectId, ref: 'User' }
+    userRef    : { type: mongoose.Schema.ObjectId, ref: 'User' }
   }
 });
 

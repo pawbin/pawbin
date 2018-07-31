@@ -1,0 +1,96 @@
+<!-- This is a static file -->
+<!-- This is the base file for the website. Anything that is present on every (or the vast majority of) pages -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <!-- the usual page header information -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#444A8B"/>
+    <meta name="description" content="A website for virtual creature collection!">
+    <link id="favicon" rel="icon" href="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306" type="image/x-icon">
+    
+    <!-- dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    
+    <!-- site formatting -->
+    <link rel="stylesheet" href="/css/private/base.css">
+    <link rel="stylesheet" href="/css/private/comp/drawer.css">
+    <link rel="stylesheet" href="/css/private/comp/notif.css">
+    <link rel="stylesheet" href="/css/private/comp/header-banner.css">
+    <link rel="stylesheet" href="/css/private/comp/header-nav.css">
+    <link rel="stylesheet" href="/css/private/comp/user-nav.css">
+    <link rel="stylesheet" href="/css/private/comp/quick-nav.css">
+    <link rel="stylesheet" href="/css/private/comp/quick-login.css">
+    <link rel="stylesheet" href="/css/private/comp/footer-nav.css">
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Anonymous+Pro" rel="stylesheet">
+    
+    <!-- web-app is https, so scripts need to be too -->
+    <script src="/js/date.js"></script>
+    <script src="/js/client.js"></script>
+    <script src="/js/hamburgerMenu.js"></script>
+    <script src="/js/notify.js"></script>
+    
+    <!-- injecting code from pages into base's head -->
+    {% block pageHead %}
+    {% endblock %}
+  
+  </head>
+  <body class="flexbox">
+    
+    {% include 'private/comp/notif.html' %}
+    {% include 'private/comp/drawer.html' %}
+    
+    <!-- first we set up the header -->
+    <header>
+      <!-- this is the BANNER at top of page for links -->
+      {% include 'private/comp/header-banner.html' %}
+      
+      <!-- this is the HEADERNAV at top of page for links -->
+      {% include 'private/comp/header-nav.html' %}
+    </header>
+    
+    
+    <!-- now the main meat of the page. the good stuff -->
+    <main>
+      <div class="flexbox-row-top">
+        <!-- this is the LEFT COLUMN of the entire site -->
+        <div class="column" id="left-col">
+          <!-- this should pretty much always be empty -->
+        </div>
+        
+        <!-- this is the CENTER COLUMN of the entire site -->
+        <div class="column" id="center-col">
+          {% block centerCol %}
+            <!-- CENTER COLUMN CONTENT -->
+          {% endblock %}
+        </div>
+
+        <!-- this is the RIGHT COLUMN of the entire site -->
+        <div class="column" id="right-col">
+          {% if loggedIn %}
+            <div id="right-nav">
+              {% include 'private/comp/user-nav.html' %}
+              {% include 'private/comp/quick-nav.html' %}  
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <!-- anything that sits at the very bottom after all the content goes here -->
+      {% include 'private/comp/footer-nav.html' %}
+    </footer>
+    
+  </body>
+</html>

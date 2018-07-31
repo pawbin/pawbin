@@ -1,0 +1,121 @@
+@import "public/css/private/res.less";
+
+/* bodies */
+@background: @gray1;
+@container:  @gray2;
+@field:      @gray3;
+
+* {
+  font-family: 'Raleway', ariel, sans-serif;
+}
+
+input {
+    font-family: 'Raleway',ariel,sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: @background;
+  height: 100%;
+}
+
+a {
+  text-decoration: underline;
+  color: white;
+}
+
+#full-container{
+  height: 100%;
+  position: relative;
+  margin: 40px;
+  background-color: @container;
+}
+
+.form-container{
+  width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 200px;
+  color: @white;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: @white;
+    vertical-align: middle;
+    background-color: @field;
+    background-image: none;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.button{
+  color: @white;
+  background-color: @basic;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  margin-right: 6px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.button-basic{
+  .button;
+  background-color: @basic;
+}
+
+.button-success{
+  .button;
+  background-color: @success;
+}
+
+.button-info{
+  .button;
+  background-color: @info;
+}
+
+.button-alert{
+  .button;
+  background-color: @alert;
+}
+
+.button-warn{
+  .button;
+  background-color: @warn;
+}
+
+.button-danger, .button-error{
+  .button;
+  background-color: @danger;
+}

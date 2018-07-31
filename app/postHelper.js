@@ -83,7 +83,7 @@ helper.updatePassword = function(req, res){
  * handles the requestreset form
  * @param {Object} req
  * @param {Object} res
- */
+ */ 
 helper.requestReset = function(req, res){
   let email = req.body.email;
   //verification isn't necessary because if it finds a user with that email it couldn't have been added without verification

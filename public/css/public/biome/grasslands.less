@@ -1,0 +1,29 @@
+@import "public/css/private/res.less";
+
+body {
+  // page background is the biome image
+  background-color: @grayDark;
+  
+  #center-col, #header-nav, #footer-nav {
+    background-color: transparent;
+  }
+  
+  #right-nav {
+    background-color: fade(@grayMid, 55%);
+  }
+  
+  #grasslands {
+    background: url("https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2FBeach-Background-Ch014b.jpg?1528412823179");
+    background-position: top center;
+    // position this div in the top left corner just below the header navigation
+    position: absolute;
+    left: 0px;
+    top: 195px;
+    width: 100%;
+    // escape string used to circumvent less doing its own calculation
+    height: ~"calc(100vh - 227px)";
+    height: ~"-moz-calc(100vh - 227px)";
+    height: ~"-webkit-calc(100vh - 227px)";
+    min-height: 440px;
+  }
+}

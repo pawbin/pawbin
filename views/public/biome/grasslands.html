@@ -1,0 +1,18 @@
+<!-- extend the main base page -->
+{% extends 'private/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: Grasslands</title>
+  <link rel="stylesheet" href="/css/public/biome/grasslands.css">
+  <script src="/js/grasslands.js"></script>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
+<div id="grasslands">
+  <div class="flexbox-column-center">
+    <canvas id="grasslands-canvas"></canvas>
+  </div>
+</div>
+{% endblock %}

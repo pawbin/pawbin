@@ -1,0 +1,17 @@
+<!-- index is an extension of the base.html page, where everything actually happens -->
+{% extends 'private/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: 4ⓞ4</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
+  {{source}} doesn't exist.
+  <br>
+  <br>
+  info:
+  <br>
+  <div class="code">{{info | dump(2) | trim}}</div>
+{% endblock %}

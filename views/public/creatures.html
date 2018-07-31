@@ -1,0 +1,35 @@
+<!-- index is an extension of the base.html page, where everything actually happens -->
+{% extends 'private/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: Creatures</title>
+  <link rel="stylesheet" href="/css/public/creatures.css">
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
+
+  <div class="code">
+    {{- user | dump(2) -}}
+    {{- _DB.user.creatures | dump(2) -}}
+  </div>
+
+  <div class="flexbox-row-center" id="creatures">
+    
+    {% for creature in _DB.user.creatures %}    
+    <div class="creature-block flexbox-column-center">
+      <div class="creature-block-image flexbox-row-center">
+        <img src="{{ creature.image }}">
+      </div>
+      <div class="creature-block-details flexbox-column-center">
+        <div class="creature-block-name">
+          {{ creature.name }}
+        </div>
+        <button class="creature-block-remove">X</button>
+      </div>
+    </div>
+    {% endfor %}
+    
+  </div>
+{% endblock %}

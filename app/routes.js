@@ -15,12 +15,16 @@ const querystring = require('querystring');
 const moment = require('moment');
 
 const config = require('../config.js');
+//const preRender = require('../app/preRender.js');
 
 const serverHelper = require('../app/serverHelper');
 const postHelper   = require('../app/postHelper');
 const creatureHelper = require('../app/creatureHelper');
+const gameHelper   = require('../app/gameHelper');
 const mailer       = require('../app/mailer');
 const formValidate = require('../public/shared/signupValidate');
+
+const Creature   = require('../app/models/creature');
 
 //TODO: this has to be a reference, since user is stored in the req object. session object must be filled after request , making this variable useless besides for reference
 //let session = {
@@ -34,18 +38,6 @@ let date = moment.utc(globalDate);
 
 console.log(date.format("hh:mm a"))
 
-let letiables = {
-  global: {
-    message: '❤',
-    title: "pawb.in",
-    date: date.format("MMMM D YYYY"),
-    time: date.format("hh:mm a"),
-    nychthemericon: ""
-  },
-  help: {},
-  login: {}
-}
-
 let session = {};
 
 /**
@@ -54,12 +46,15 @@ let session = {};
  */
 function routes(app, passport){
   
-  app.use(function(req, res, next) {
+  app.use(function(req, res, next){
+    let loggedIn = Boolean(req.user),
+        user = {};
+    
     session = {
-      loggedIn: Boolean(req.user),
+      loggedIn,
       user: req.user
     }
-    next()
+    next();
   });
 
   // identify the 404 directory 
@@ -76,6 +71,7 @@ function routes(app, passport){
     }
   });
   
+  // when the user requests any page
   app.get(/^\/(((?!\.).)*(?:.html)?)$/, function(req, res){
     //TODO: allow case insensitivity
     let dir = req.params[0].replace(/\/$/, ""),
@@ -84,6 +80,8 @@ function routes(app, passport){
     //if logged in, extend session storage expiration date
     if(req.user){
       //console.log(req.session.cookie);
+      req.session._garbage = Date();
+      req.session.touch();
       req.session.cookie.maxAge = 10 * config.userSessionAge;
       req.session.cookie.expires = new Date(Date.now() + config.userSessionAge);
     }
@@ -91,24 +89,22 @@ function routes(app, passport){
     
     // this (very important) string of ifs identifies the directory the user is trying to access
     if(dir === ''){
-      req.flash('notif', {content: "you've done it!", type: 'success'});
-      req.flash('notif', {content: "now you've done it...", type: 'error'});
-      req.flash('notif', {content: "don't do it...", type: 'warn'});
-      req.flash('notif', {content: "it has been done", type: 'info'});
-      res.render('index', {notifs: req.flash('notif'), ...session});
+      //req.flash('notif', {content: "you've done it!", type: 'success'});
+      console.log("home");
+      res.preRender(root('index'), {notifs: req.flash('notif'), ...session});
     } 
-    // HRLP ===================================================================
+    // help ===================================================================
     else if(dir === 'help'){
-      res.render('help', {message: ""})
+      res.preRender(root('help'), {message: ""})
     }
     // profile ===================================================================
     else if(dir === 'profile'){
       //console.log("user", req.user);
-      res.render('profile', {notifs: req.flash('notif'), ...session, userdump: JSON.stringify(req.user)});
+      loginCheck(root('profile'), {notifs: req.flash('notif'), ...session, userdump: req.user});
     }
     // signup ===================================================================
     else if(dir === 'signup'){
-      res.render('signup', {notifs: req.flash('notif'), ...session});
+      res.preRender(root('signup'), {notifs: req.flash('notif'), ...session});
     }
     // verify/* ====================================================================
     else if(/^(verify\/.+)$/.test(dir)){
@@ -143,11 +139,11 @@ function routes(app, passport){
     }
     // resetpassword/* ==============================================================
     else if(/^(resetpassword\/.+)$/.test(dir)){
-      res.render('resetpassword', {notifs: req.flash('notif'), ...session});
+      res.preRender(root('resetpassword'), {notifs: req.flash('notif'), ...session});
     }
     // requestreset =================================================================
     else if(dir === 'requestreset'){
-      res.render('requestreset', {notifs: req.flash('notif'), ...session});
+      res.preRender(root('requestreset'), {notifs: req.flash('notif'), ...session});
     }
     // logout ===================================================================
     else if(dir === 'logout') {
@@ -160,48 +156,49 @@ function routes(app, passport){
       });
     }
     
-    else if(dir === 'catch'){
-      if(req.user){
-        serverHelper.getUser(req.user).then(user => {
-          if(user){
-            creatureHelper.getCreature(1).then(creature => {
-              user.creatures.push({creatureId: creature._id});
-              user.save(function(err, saved){
-                if(err){
-                  console.log(err);
-                } else {
-                  console.log(user);
-                }
-              });
-              res.redirect('/');
-            });
+    /*
+    else if(/^(collect\/.+)$/.test(dir)){
+      Creature.findOne({$or: [{ 'name' : { $regex : new RegExp(filename, "i") } }, { '_id' : filename }]}, function(err, creature) {
+        if(creature.name.toLowerCase() === filename.toLowerCase()){
+          if(req.user.admin){
+            
           }
-        })
+        }
+      });
+    }
+    */
+    
+    else if(dir === 'catch'){
+      if(req.user && req.user.rights === "admin"){
+        gameHelper.catchCreature(req.user, "frizzbee").then((user, creatureInstance) => {
+          req.flash('notif', {content: "caught: frizzbee", type: "success"});
+          res.redirect('/');
+        });
       }
     }
     
-    else if(dir === 'release'){
-      if(req.user){
-        serverHelper.getUser(req.user).then(user => {
-          if(user){
-            user.creatures.pop();
-            user.save(function(err, saved){
-              if(err){
-                console.log(err);
-              } else {
-                console.log(user);
-              }
-            });
-            res.redirect('/');
-          }
-        })
+    else if(/^(catch\/.+)$/.test(dir)){
+      if(req.user && req.user.rights === "admin"){
+        gameHelper.catchCreature(req.user, filename).then((user, creatureInstance) => {
+          req.flash('notif', {content: "caught: " + creatureInstance._id, type: "success"});
+          res.redirect('/');
+        });
+      }
+    }
+    
+    else if(/^(release\/.+)$/.test(dir)){
+      if(req.user && req.user.rights === "admin"){
+        gameHelper.releaseCreatureInstance(req.user, filename).then((user, creatureInstance) => {
+          req.flash('notif', {content: "released: " + creatureInstance._id, type: "success"});
+          res.redirect('/');
+        });
       }
     }
     // catch all =====================================================================
     else {
       console.log(req.params[0]);
       let filename = path.parse(req.params[0]).name;
-      res.render(req.params[0], {...letiables[filename], ...session}, function(err, html){
+      res.preRender(root(req.params[0]), {notifs: req.flash('notif'), ...session}, function(err, html){
         if(err){
           console.log(err);
           render404(req, res);
@@ -210,6 +207,19 @@ function routes(app, passport){
         }
       })
     }
+    
+    /**
+      loginCheck redirects the user to the login page if they aren't logged in
+    */
+    function loginCheck(path, options){
+      if(session.loggedIn){
+        res.preRender(path, options);
+      } else {
+        req.flash('notif', {content: 'You must be logged in to access this page', type: "error"});
+        res.redirect('/login');
+      } 
+    }
+    
   });
   
   app.post('/updateemail', postHelper.updateEmail);
@@ -238,14 +248,18 @@ function routes(app, passport){
   });
   
   /**
-   */
+    render404 runs when page requested wasn't found within any of the site's directories.
+  */
   function render404(req, res){
-    res.render('404', {
-      ...letiables["global"], 
+    res.render(root('404'), {
       ...session,
       source: req.params[0] || 'this page',
-      info:  circularJSON.stringify({req: req, res: res})
+      info:  JSON.parse(circularJSON.stringify({req: req, res: res}))
     })
+  }
+
+  function root(path){
+    return "public/" + path;
   }
   
 };

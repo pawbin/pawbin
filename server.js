@@ -3,6 +3,8 @@
  * initialize server, set up middleware
  */
 
+//console.log(process.env.PORT)
+
 //JUST FOR GLITCH
 var assets = require("./assets");
 
@@ -13,7 +15,7 @@ const documentInit = require('./app/documentInit.js');
 
 const express  = require('express');
 const app      = express();
-const port     = 3000;
+const port     = process.env.PORT;
 const path     = require('path');
 const nunjucks = require('nunjucks');
 const less     = require('less-middleware');
@@ -25,6 +27,8 @@ const cookieParser = require('cookie-parser');
 const flash        = require('connect-flash');
 const bodyParser   = require('body-parser');
 const MongoStore   = require('connect-mongo')(session);
+
+const preRender = require('./app/preRender.js');
 
 require('./config/passport')(passport);
 
@@ -84,6 +88,9 @@ app.listen(port, (err) => {
 });
 
 //const io = require('socket.io')(app);
+
+//preRender, check if requesting database info
+app.use(preRender());
 
 //require('./app/routes.js')(app, io);
 require('./app/routes.js')(app, passport);
