@@ -7,7 +7,7 @@ const merge = require('../app/merge');
 let models = {};
 
 fs.readdirSync(path.join(__dirname, "..", 'app', 'models')).forEach((file) => {
-  models[file.replace(/\..+?$/, "")] = require('../app/models/' + file);
+  models[file.replace(/\..+?$/, "").toLowerCase()] = require('../app/models/' + file);
 });
 
 module.exports = function(options) {
@@ -46,7 +46,6 @@ module.exports = function(options) {
     
     res.preRender = function(file, data){
       let content = fs.readFileSync(path.join(__dirname, "..", 'views', file + (file.indexOf(".html") >= 0 ? "" : ".html")), 'utf-8'),
-      //let requests = content.match(/(_DB\..+?) /g); //eg. ["_DB.creature.creator.user.local.username"]
           requests = content.match(/_DB\.[^ ]+/g), //eg. ["_DB.creature.creator.user.local.username"]
           queries = [],
           result = {
@@ -54,8 +53,6 @@ module.exports = function(options) {
           },
           count = 0;
           
-      console.log("a?")
-      console.log("requests: ", requests)
       
       if(!requests){
         result = {};
@@ -64,9 +61,6 @@ module.exports = function(options) {
       
       requests = merge(requests)._DB;
       count = Object.keys(requests).length;
-      
-      console.log(requests);
-      console.log(Object.keys(requests).length);
       
       //TODO: this needs to be reworked
       // say you have a request, "_DB.creature.creator.user.creatures"
@@ -112,7 +106,6 @@ module.exports = function(options) {
         }
         check(requests[key], "", model);
         
-        console.log("FINAL", populates);
         populate(query, populates);
         query.exec((err, res) => {
           count--;
@@ -130,12 +123,6 @@ module.exports = function(options) {
       
       
       function finish(){
-        console.log("========");
-        console.log(queries);
-        console.log(result);
-        // console.log("{{ _DB.user.creatures | dump }}", result._DB.user.creatures);
-        // console.log("{{ _DB.creature.creator.user.username | dump }}", result._DB.creature.creator.user.local.username);
-        // console.log("{{ _DB.creature.creator.user.creatures | dump }}", result._DB.creature.creator.user.creatures);
         res.render(file, {...data, ...result});
         return;
       }
@@ -178,7 +165,6 @@ module.exports = function(options) {
     
     function get(keyword){
       //return new Promise(function(resolve, reject){
-      console.log(keyword);
         switch (keyword) {
           case "user":
             if(req.user){
@@ -195,7 +181,7 @@ module.exports = function(options) {
             let id = req.url.split("/").pop();
             return models.user.findOne({$or: [{'local.username': id}, {'_id': id}]});
             break;
-          case "creature":
+          case "pageCreature":
             return {
               model: models.creature,
               query: models.creature.findOne()
@@ -219,7 +205,7 @@ function populate(query, paths){
       cursor = cursor.populate = {}
       cursor.path = paths[i];
     }
-    query.populate(tree.populate)
+    query.populate(tree.populate);
   }
 }
 

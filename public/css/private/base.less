@@ -3,11 +3,14 @@
 
 /* LARGE SCOPE ==================================================================================== */
 
+/* SUPER GLOBAL STYLE -- affects every element */
+
 * {
   margin: 0;
   box-sizing: border-box;
 }
 
+/* force this font across the entire page */
 html, button, input {
   font-family: 'Raleway', ariel, sans-serif;
   font-size: 11pt;
@@ -33,33 +36,52 @@ body {
   position: absolute;
   
   // make edges Crisp
-  image-rendering: optimizeSpeed;             /*                     */
-  image-rendering: -moz-crisp-edges;          /* Firefox             */
-  image-rendering: -o-crisp-edges;            /* Opera               */
-  image-rendering: pixelated;                 /* CSS3 Proposed       */
-  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;          /* Firefox       */
+  image-rendering: -o-crisp-edges;            /* Opera         */
+  image-rendering: pixelated;                 /* CSS3 Proposed */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+          */
   
 }
 
-h1, p, section {
-  /* this is for eliminating unnecessary margins that on are some things by default */
+/* this is for eliminating unnecessary margins that on are some things by default */
+h1, h2, h3, h4, h5, p, section {
   margin: 0;
 }
+
+/* GLOBAL HEADER STYLE */
 
 h1 {
   // make titles big
   font-size: 35pt;
 }
 
-*::selection {
+h2 {
+  text-align: center;
+  font-size: 20pt;
+  font-weight: normal;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: normal;
+}
+
+/* GLOBAL SELECTION STYLE */
+
+*::selection, *::-moz-selection {
   background-color: @headerColorSelection;
   color: @white;
 }
 
+/* this duplicate version of ::selection above is here for firefox, but i'm not sure why.
+   maybe it needs to be separate from ::selection for some reason?
 *::-moz-selection {
   background-color: @headerColorSelection;
   color: @white;
-}
+}*/
+
+/* GLOBAL LINK STYLE */
 
 a {
   /* all links should be the highlight color */
@@ -72,17 +94,13 @@ a:hover {
   text-decoration: none;
 }
 
-#right-nav {
-  width: 260px;
-  background-color: @grayMid;
-}
-
-button:hover {
-  font-size: 10pt;
-  cursor: pointer;
-  background-color: @grayLight;
+// for links which we don't want to edit
+a.link-noedit {
+  // force white color for the title
   color: @white;
 }
+
+/* GLOBAL BUTTON STYLING */
 
 button {
   color: @cyan;
@@ -91,7 +109,16 @@ button {
   border: none;
   padding: 5px 10px;
   background-color: @grayDark;
+  
+  &:hover {
+    font-size: 10pt;
+    cursor: pointer;
+    background-color: @grayLight;
+    color: @white;
+  }
 }
+
+/* GLOBAL INPUT STYLING */
 
 input {
   background-color: @grayLight;
@@ -100,11 +127,13 @@ input {
   font-family: "Raleway";
   color: @white;
   padding: 5px;
+  
+  &:focus {
+    border-bottom: 2px @white;
+  }
 }
 
-input:focus {
-  border-bottom: 2px @white;
-}
+/* GLOBAL FORM STYLING */
 
 form {
   max-width: 340px;
@@ -122,6 +151,11 @@ label {
   line-height: 25px;
 }
 
+/* this is for making a div that code should be displayed from
+  don't forget that you'll need to whitespace slurp the content of the div,
+  otherwise you'll get a ton of useless whitespace showing up inside of this div.
+*/
+
 .code {
   font-family: "Anonymous Pro", monospace;
   font-size: 10pt;
@@ -135,17 +169,23 @@ label {
   resize: vertical;
 }
 
-
 /* MAIN ===================================================== */
+
 main {
   // expands the main section out, forces header and footer to top and bottom
   flex-grow: 1;
 
+  // the left column has no flex basis because it can be zero width
+  // however it always carries a margin of 20px on the top and bottom
   #left-col {
     margin: 20px 0;
-    flex: 1 1;
+    flex: 1 1 0;
   }
 
+  // the center column has a 20px margin all around
+  // it's also darker color
+  // be aware of its 20px padding, which sometimes you may want to work around
+  // it has a flex basis of 680px but it will shrink if necessary
   #center-col {
     margin: 20px;
     background-color: @grayMid;
@@ -154,14 +194,33 @@ main {
     flex: 1 1 680px;
   }
 
+  // the right column also has no flex basis, its size is dependent on its contents
+  // it will refuse to shrink if it has something in it
+  // it also has a right margin which disappears when the browser width is 767px or smaller
   #right-col {
     z-index: 1;
     margin: 20px 20px 20px 0;
-    flex: 1 0;
+    flex: 1 0 0;
+    
+    @media (max-width: 767px) {
+      margin: 20px 0;
+    }
+  }
+}
+
+// this block holds all right navigation elements
+// it's also a darker color and will disappear completely when the browser width is 767px or smaller
+#right-nav {
+  width: 260px;
+  background-color: @grayMid;
+  
+  @media (max-width: 767px) {
+    display: none;
   }
 }
 
 
+// OLD flexbox code for specifing flex divs in the HTML
 
 .flexbox { display: flex; }
 
@@ -183,6 +242,7 @@ main {
 .flexbox-row-middle:extend(.flexbox-row) { align-items: center; }
 .flexbox-row-bottom:extend(.flexbox-row) { align-items: flex-end; }
 
+// NEW and much cooler code for specifying flex divs in the HTML
 
 .flex                { display: flex; flex-wrap: wrap; align-content: flex-start; }
  

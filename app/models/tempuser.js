@@ -10,7 +10,9 @@ let userSchema = mongoose.Schema({
     nickname   : String,
     password   : String
   },
+  
   verifyURL    : String,
+  
   createdAt    : {
     type       : Date,
     default    : Date.now,

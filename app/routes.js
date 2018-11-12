@@ -36,8 +36,6 @@ let offsetDate = -8;
 let globalDate = Date.now() + (offsetDate*1000*60*60);
 let date = moment.utc(globalDate);
 
-console.log(date.format("hh:mm a"))
-
 let session = {};
 
 /**
@@ -57,7 +55,7 @@ function routes(app, passport){
     next();
   });
 
-  // identify the 404 directory 
+  // identify the 404 directory
   app.get('/404', function(req, res){
     render404(req, res);
   });
@@ -72,10 +70,11 @@ function routes(app, passport){
   });
   
   // when the user requests any page
-  app.get(/^\/(((?!\.).)*(?:.html)?)$/, function(req, res){
-    //TODO: allow case insensitivity
-    let dir = req.params[0].replace(/\/$/, ""),
-        filename = req.path.replace(/\/$/, "").split('/').pop();
+  app.get(/(.*)/, function(req, res){
+    
+    let dir = req.path.replace(/\/$/, "").slice(1),
+        filename = dir.split('/').pop();
+    //let filename = path.parse(req.params[0]).name;
     
     //if logged in, extend session storage expiration date
     if(req.user){
@@ -84,129 +83,172 @@ function routes(app, passport){
       req.session.touch();
       req.session.cookie.maxAge = 10 * config.userSessionAge;
       req.session.cookie.expires = new Date(Date.now() + config.userSessionAge);
+      
+      console.log(req.user);
+      console.log(req.sessionID);
     }
-    //console.log("user", req.user);
     
-    // this (very important) string of ifs identifies the directory the user is trying to access
-    if(dir === ''){
-      //req.flash('notif', {content: "you've done it!", type: 'success'});
-      console.log("home");
-      res.preRender(root('index'), {notifs: req.flash('notif'), ...session});
-    } 
-    // help ===================================================================
-    else if(dir === 'help'){
-      res.preRender(root('help'), {message: ""})
-    }
-    // profile ===================================================================
-    else if(dir === 'profile'){
-      //console.log("user", req.user);
-      loginCheck(root('profile'), {notifs: req.flash('notif'), ...session, userdump: req.user});
-    }
-    // signup ===================================================================
-    else if(dir === 'signup'){
-      res.preRender(root('signup'), {notifs: req.flash('notif'), ...session});
-    }
-    // verify/* ====================================================================
-    else if(/^(verify\/.+)$/.test(dir)){
-      serverHelper.verifyEmail(filename).then(function(user){
-        if(!req.session.passport){
-          req.session.passport = {};
-        }
-        req.session.passport.user = user._id;
-        res.redirect('/profile');
-      }).catch(console.error);
-    }
-    // resend verification =========================================
-    else if(dir === 'resendverification'){
-      let email = req.query.email
-      serverHelper.getTempUser(email).then(tempUser => {
-        if(tempUser){
-        mailer.sendVerifyEmail(email, tempUser.verifyURL, function(err, info) {
-          req.flash('notif', {content: 'A verification email was sent to ' + email, type: "success"})
-          res.redirect('/signup');
+    let _DEFAULT = Symbol('_DEFAULT');
+    
+    //==== URL LOOKUP TABLE ====
+    let lookup = new Map([
+      
+      [_DEFAULT, o => {
+        console.log("user accessed: ", req.params[0]);
+        //let filename = path.parse(req.params[0]).name;
+        res.preRender(root(stripUrl(dir)), {notifs: req.flash('notif'), ...session}, function(err, html){
+          if(err){
+            console.log(err);
+            render404(req, res);
+          } else {
+            res.send(html);
+          }
         });
-        } else {
-          req.flash('notif', {content: 'There is no non-verified account with the email ' + email, type: "warn"})
-          res.redirect('/signup');
+      }],
+      
+      ['', o => {
+        console.log("home");
+        res.preRender(root('index'), {notifs: req.flash('notif'), ...session});
+      }],
+      
+      ['help', o => {
+        res.preRender(root('help'), {message: ""})
+      }],
+      
+      // profile ===================================================================
+      ['profile', o => {
+        //console.log("user", req.user);
+        loginCheck(root('profile'), {notifs: req.flash('notif'), ...session, userdump: req.user});
+      }],
+      
+      // signup ====================================================================
+      ['signup', o => {
+        res.preRender(root('signup'), {notifs: req.flash('notif'), ...session});
+      }],
+      
+      // verify/* ==================================================================
+      [/^(verify\/.+)$/, o => {
+        serverHelper.verifyEmail(filename).then(function(user){
+          if(!req.session.passport){
+            req.session.passport = {};
+          }
+          req.session.passport.user = user._id;
+          res.redirect('/profile');
+        }).catch(console.error);
+      }],
+      
+      // resend verification =========================================
+      ['resendverification', o => {
+        let email = req.query.email
+        serverHelper.getTempUser(email).then(tempUser => {
+          if(tempUser){
+          mailer.sendVerifyEmail(email, tempUser.verifyURL, function(err, info) {
+            req.flash('notif', {content: 'A verification email was sent to ' + email, type: "success"})
+            res.redirect('/signup');
+          });
+          } else {
+            req.flash('notif', {content: 'There is no non-verified account with the email ' + email, type: "warn"})
+            res.redirect('/signup');
+          }
+        });
+      }],
+      
+      // updateemail/* =================================================================
+      [/^(updateemail\/.+)$/, o => {
+        serverHelper.updateEmail(filename).then(function(user){
+          res.redirect('/profile');
+        }).catch(console.error);
+      }],
+      
+      // resetpassword/* ==============================================================
+      [/^(resetpassword\/.+)$/, o => {
+        res.preRender(root('resetpassword'), {notifs: req.flash('notif'), ...session});
+      }],
+      
+      // requestreset =================================================================
+      ['requestreset', o => {
+        res.preRender(root('requestreset'), {notifs: req.flash('notif'), ...session});
+      }],
+      
+      // logout ===================================================================
+      ['logout', o => {
+        console.log("dsfgdf");
+        if(req.user){
+          req.session.cookie = {};
         }
-      });
-    }
-    // updateemail/* =================================================================
-    else if(/^(updateemail\/.+)$/.test(dir)){
-      serverHelper.updateEmail(filename).then(function(user){
-        res.redirect('/profile');
-      }).catch(console.error);
-    }
-    // resetpassword/* ==============================================================
-    else if(/^(resetpassword\/.+)$/.test(dir)){
-      res.preRender(root('resetpassword'), {notifs: req.flash('notif'), ...session});
-    }
-    // requestreset =================================================================
-    else if(dir === 'requestreset'){
-      res.preRender(root('requestreset'), {notifs: req.flash('notif'), ...session});
-    }
-    // logout ===================================================================
-    else if(dir === 'logout') {
-      if(req.user){
-        req.session.cookie = {};
-      }
-      req.session.destroy(function() {
-          res.clearCookie('connect.sid');
-          res.redirect('/');
-      });
-    }
+        req.session.destroy(function() {
+            res.clearCookie('connect.sid');
+            res.redirect('/');
+        });
+      }],
+      
+      // delete account ===================================================================
+      ['deleteaccount', o => {
+        if(req.user){
+          serverHelper.deleteUser(req.user).then(user => {
+            req.session.cookie = {};
+            req.session.destroy(function() {
+              res.clearCookie('connect.sid');
+              //req.flash('notif', {content: "account deleted!", type: "success"});
+              res.redirect('/');
+            });
+          });
+        }
+      }],
+      
+      ['catch', o => {
+        if(req.user && req.user.rights === "admin"){
+          gameHelper.catchCreatureInstance(req.user, "frizzbee").then((creatureInstance) => {
+            req.flash('notif', {content: "caught: frizzbee", type: "success"});
+            res.redirect('/');
+          });
+        }
+      }],
+      
+      [/^(catch\/.+)$/, o => {
+        if(req.user && req.user.rights === "admin"){
+          gameHelper.catchCreatureInstance(req.user, filename).then((creatureInstance) => {
+            creatureInstance.populate('creatureRef', (err, creatureInst) => {
+              req.flash('notif', {content: "caught: " + creatureInst.creatureRef.name + " (" + creatureInst._id + ")", type: "success"});
+              res.redirect('/creatures');
+            });
+          });
+        }
+      }],
+
+      [/^(release\/.+)$/, o => {
+        if(req.user && req.user.rights === "admin"){
+          gameHelper.releaseCreatureInstance(req.user, filename).then((creatureInstance) => {
+            creatureInstance.populate('creatureRef', (err, creatureInst) => {
+              req.flash('notif', {content: "released: " + creatureInst.creatureRef.name + " (" + creatureInst._id + ")", type: "success"});
+              res.redirect('/creatures');
+            });
+          });
+        }
+      }],
+      
+    ]); // END LOOKUP TABLE
     
-    /*
-    else if(/^(collect\/.+)$/.test(dir)){
-      Creature.findOne({$or: [{ 'name' : { $regex : new RegExp(filename, "i") } }, { '_id' : filename }]}, function(err, creature) {
-        if(creature.name.toLowerCase() === filename.toLowerCase()){
-          if(req.user.admin){
-            
+    
+    function get(url){
+      if(lookup.has(stripUrl(url))){
+        lookup.get(stripUrl(url))({type: 'direct', origin: url});
+      } else {
+        for(let [key, value] of lookup){
+          if(typeof key === 'string' || typeof key === 'symbol'){
+            continue;
+          }
+          if(key.test(url)){
+            return lookup.get(key)({type: 'match', origin: url});
           }
         }
-      });
-    }
-    */
-    
-    else if(dir === 'catch'){
-      if(req.user && req.user.rights === "admin"){
-        gameHelper.catchCreature(req.user, "frizzbee").then((user, creatureInstance) => {
-          req.flash('notif', {content: "caught: frizzbee", type: "success"});
-          res.redirect('/');
-        });
+        lookup.get(_DEFAULT)({type: 'default', origin: url});
       }
     }
     
-    else if(/^(catch\/.+)$/.test(dir)){
-      if(req.user && req.user.rights === "admin"){
-        gameHelper.catchCreature(req.user, filename).then((user, creatureInstance) => {
-          req.flash('notif', {content: "caught: " + creatureInstance._id, type: "success"});
-          res.redirect('/');
-        });
-      }
-    }
-    
-    else if(/^(release\/.+)$/.test(dir)){
-      if(req.user && req.user.rights === "admin"){
-        gameHelper.releaseCreatureInstance(req.user, filename).then((user, creatureInstance) => {
-          req.flash('notif', {content: "released: " + creatureInstance._id, type: "success"});
-          res.redirect('/');
-        });
-      }
-    }
-    // catch all =====================================================================
-    else {
-      console.log(req.params[0]);
-      let filename = path.parse(req.params[0]).name;
-      res.preRender(root(req.params[0]), {notifs: req.flash('notif'), ...session}, function(err, html){
-        if(err){
-          console.log(err);
-          render404(req, res);
-        } else {
-          res.send(html);
-        }
-      })
-    }
+    // ========
+    get(dir);
+    // ========    
     
     /**
       loginCheck redirects the user to the login page if they aren't logged in
@@ -217,7 +259,11 @@ function routes(app, passport){
       } else {
         req.flash('notif', {content: 'You must be logged in to access this page', type: "error"});
         res.redirect('/login');
-      } 
+      }
+    }
+    
+    function stripUrl(url){
+      return url.toLowerCase().replace(/\.html$/, '');
     }
     
   });
@@ -253,7 +299,7 @@ function routes(app, passport){
   function render404(req, res){
     res.render(root('404'), {
       ...session,
-      source: req.params[0] || 'this page',
+      source: req.path.replace(/\/$/, "").slice(1) || 'this page',
       info:  JSON.parse(circularJSON.stringify({req: req, res: res}))
     })
   }
@@ -261,8 +307,10 @@ function routes(app, passport){
   function root(path){
     return "public/" + path;
   }
-  
-};
+
+}
+
 
 // save the entire function above to something express can use
 module.exports = routes;
+

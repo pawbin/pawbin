@@ -147,7 +147,7 @@ module.exports = function(passport) {
       // if there are any errors, return the error before anything else
       console.log("login user", user);
       if(err){
-        console.error(err);
+        console.error("login error: " + err);
         return done(err);
       }
 

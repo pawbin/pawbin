@@ -1,18 +1,18 @@
 @import "public/css/private/res.less";
 
-main #center-col {
-  padding: 10px;
-}
-
 #creatures {
   flex-wrap: wrap;
+  
+  margin-right: -20px;
+  margin-bottom: -20px;
   
   .creature-block {
     position: relative;
     min-width: 200px;
     width: 200px;
     height: 250px;
-    margin: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
     padding: 10px;
     background-color: @grayDark;
     justify-content: space-between;
@@ -26,7 +26,7 @@ main #center-col {
       }
     }
     
-    button.creature-block-remove {
+    button.creature-block-release {
       position: absolute;
       top: 220px;
       left: 170px;

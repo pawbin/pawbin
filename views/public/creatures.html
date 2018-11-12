@@ -1,3 +1,4 @@
+<!-- _DB.user.creaturesRef.creatureRef -->
 <!-- index is an extension of the base.html page, where everything actually happens -->
 {% extends 'private/base.html' %}
 
@@ -9,27 +10,28 @@
 
 <!-- stuff to put into the center column -->
 {% block centerCol %}
-
-  <div class="code">
-    {{- user | dump(2) -}}
-    {{- _DB.user.creatures | dump(2) -}}
-  </div>
-
+  <h3>
+    Creatures
+  </h3><br>
   <div class="flexbox-row-center" id="creatures">
     
-    {% for creature in _DB.user.creatures %}    
+    {% for creature in _DB.user.creaturesRef %}     
     <div class="creature-block flexbox-column-center">
       <div class="creature-block-image flexbox-row-center">
-        <img src="{{ creature.image }}">
+        <img src="{{ creature.creatureRef.image }}">
       </div>
       <div class="creature-block-details flexbox-column-center">
         <div class="creature-block-name">
-          {{ creature.name }}
+          {{ creature.creatureRef.name }}
         </div>
-        <button class="creature-block-remove">X</button>
+        <a href="https://pawbin.glitch.me/release/{{ creature._id }}"><button class="creature-block-release">X</button></a>
       </div>
     </div>
     {% endfor %}
     
   </div>
+{% endblock %}
+
+{% block code %}
+  {{- _DB.user.creaturesRef | dump(2) -}}
 {% endblock %}

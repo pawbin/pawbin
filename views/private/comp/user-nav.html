@@ -2,25 +2,34 @@
 <div class="flexbox-column-center" id="user-nav">
   <!-- avatar here -->
   <div id="avatar">
-    <img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306">
+    <a href="/profile" class="link-noedit"><img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306"></a>
   </div>
-  
+
   <!-- the player's name -->
   <div id="name">
-    {{ user.local.username if loggedIn else "noname" }}
+    <a href="/profile" class="link-noedit">{{ user.local.username if loggedIn else "noname" }}</a>
   </div>
+  
+  <!-- a small box displaying the rights of the user -->
+  <!-- if the rights of the user are normal, aka "user", this div will not display -->
+  {% if user.rights !== "user" %}
+  <div id="rights">
+    <a href="/{{ user.rights }}" class="link-noedit">{{ user.rights }}</a>
+  </div>
+  {% endif %}
   
   <!-- player's currency: normal and premium -->
   <div class="flexbox-row" id="currency">
     <div class="flexbox-row-right" id="currency-free">
       <div>
-        34 ¢
+        {{ user.currency.coin }} ¢
       </div>
     </div>
     <div class="flexbox-row-left" id="currency-paid">
       <a href="/premium">
-        126 $
+        {{ user.currency.premium }} $
       </a>
     </div>
   </div>
+  
 </div>

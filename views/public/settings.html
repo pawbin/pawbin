@@ -1,0 +1,50 @@
+
+<!-- extends the base.html page -->
+{% extends 'private/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: Settings</title>
+  <link rel="stylesheet" href="/css/public/settings.css">
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block centerCol %}
+  <h3>
+    Settings
+  </h3>
+  <br>
+  <form name="updateemail" id="epdateEmail" action="/updateemail" onsubmit="" method="post">
+    <div class="form-group">
+      <label>new email</label>
+      <input type="text" class="" name="newEmail">
+    </div>
+    <div class="form-group">
+      <label>password</label>
+      <input type="password" class="" name="password">
+    </div>
+    <button type="submit" class="">update email</button>
+  </form>
+  <br>
+  <form name="updatepassword" id="updatePassword" action="/updatepassword" onsubmit="" method="post">
+    <div class="form-group">
+      <label>current password</label>
+      <input type="password" class="" name="password">
+    </div>
+    <div class="form-group">
+      <label>new password</label>
+      <input type="password" class="" name="newPassword">
+    </div>
+    <div class="form-group">
+      <label>confirm new password</label>
+      <input type="password" class="" name="confirmNewPassword">
+    </div>
+    <button type="submit" class="">update password</button>
+  </form>
+  <br>
+  <a href="/deleteaccount">
+    <button id="delete-account">
+      delete account!  
+    </button>
+  </a>
+{% endblock %}

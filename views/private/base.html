@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="/css/private/comp/footer-nav.css">
     
     <!-- fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Anonymous+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600|Anonymous+Pro" rel="stylesheet">
     
     <!-- web-app is https, so scripts need to be too -->
     <script src="/js/date.js"></script>
@@ -43,7 +43,6 @@
     <!-- injecting code from pages into base's head -->
     {% block pageHead %}
     {% endblock %}
-  
   </head>
   <body class="flexbox">
     
@@ -63,6 +62,7 @@
     <!-- now the main meat of the page. the good stuff -->
     <main>
       <div class="flexbox-row-top">
+        
         <!-- this is the LEFT COLUMN of the entire site -->
         <div class="column" id="left-col">
           <!-- this should pretty much always be empty -->
@@ -70,6 +70,18 @@
         
         <!-- this is the CENTER COLUMN of the entire site -->
         <div class="column" id="center-col">
+          
+          <!-- display a code block at the top of the center column if the user is an admin -->
+          {% if user.rights === "admin" %}
+          <div class="code">
+            {%- block code -%}
+              {{- user | dump(2) -}}
+            {%- endblock -%}
+          </div>
+          <br>
+          {% endif %}
+          
+          <!-- display the usual center column content -->
           {% block centerCol %}
             <!-- CENTER COLUMN CONTENT -->
           {% endblock %}
@@ -84,6 +96,7 @@
             </div>
           {% endif %}
         </div>
+        
       </div>
     </main>
     

@@ -351,4 +351,30 @@ helper.resetPassword = function(token, newPassword){
   });
 }
 
+/**
+ * Deletes a user's account
+ * @param {string} token - token from url string
+ * @param {string} newPassword - new password hash
+ * @returns {Promise} User
+ */
+helper.deleteUser = function(user){
+  return new Promise(function(resolve, reject){
+    helper.getUser(user).then(user => {
+      if(user){
+        // delete user from database
+        user.remove(function(err, deletedUser) {
+          if (err) {
+            console.log("delete", err);
+            reject(err);
+          } else {
+            resolve(deletedUser);
+          }
+        });
+      } else {
+        reject("none found");
+      }
+    });
+  });
+}
+
 module.exports = helper;
