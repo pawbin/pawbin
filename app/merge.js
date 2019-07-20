@@ -1,7 +1,7 @@
 /**
  * app/merge.js
  * merge paths into an object tree
- * @param {array} data - array of strings or arrays, paths to be merged into a tree
+ * @param {array} paths - array of strings or arrays, paths to be merged into a tree
  * @param {string} delimiter - if paths is an array of strings, this is delimiter between items. defaults to "."
  */
 function merge(paths, delimiter){

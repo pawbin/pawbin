@@ -74,7 +74,7 @@ mailer.sendVerifyEmail = function(email, token, callback){
   message.html = fill(template.verifyEmail.html, {URL: url});
   
   transporter.sendMail(message, callback);
-
+  
 }
 
 mailer.sendUpdateEmail = function(email, token, callback){
@@ -88,7 +88,7 @@ mailer.sendUpdateEmail = function(email, token, callback){
   message.subject = template.updateEmail.subject;
   message.text = fill(template.updateEmail.text, {URL: url});
   message.html = fill(template.updateEmail.html, {URL: url});
-
+  
   transporter.sendMail(message, callback);
   
 }
@@ -102,7 +102,7 @@ mailer.sendUpdatePasswordNotification = function(email, callback){
   message.subject = template.updatePasswordNotification.subject;
   message.text = template.updatePasswordNotification.text;
   message.html = template.updatePasswordNotification.html;
-
+  
   transporter.sendMail(message, callback);
   
 }
@@ -118,7 +118,7 @@ mailer.sendResetPassword = function(email, token, callback){
   message.subject = template.resetPassword.subject;
   message.text = fill(template.resetPassword.text, {URL: url});
   message.html = fill(template.resetPassword.html, {URL: url});
-
+  
   transporter.sendMail(message, callback);
   
 }

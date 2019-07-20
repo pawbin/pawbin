@@ -1,11 +1,8 @@
 {
-  "restart": {
-    "exclude": [
-      ".*\\.less"
-    ],
+  "install": {
     "include": [
-      ".*"
+      "^.torc-update$"
     ]
   },
-  "throttle": 800
+  "throttle": 10
 }

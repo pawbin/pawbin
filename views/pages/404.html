@@ -1,0 +1,14 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: 404</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+  <p>
+     The {{ source }} page doesn't exist.
+  </p>
+  <a href="/">Return to Home</a>
+{% endblock %}

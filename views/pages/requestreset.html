@@ -1,0 +1,14 @@
+{% extends 'comp/base.html' %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+
+  <form name="requestreset" id="resetPassword" action="/requestreset" onsubmit="" method="post">
+    <div class="form-group">
+      <label>email</label>
+      <input type="text" class="" name="email">
+    </div>
+    <button type="submit" class="">request password reset</button>
+  </form>
+
+{% endblock %}

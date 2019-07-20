@@ -1,0 +1,21 @@
+{% extends 'comp/base.html' %}
+
+{% block pageHead %}
+<title>pawb.in :: login</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+  <form name="login" action="/login" method="post">
+    <div class="form-group">
+      <label>username</label>
+      <input type="text" class="" name="username">
+    </div>
+    <div class="form-group">
+      <label>password</label>
+      <input type="password" class="" name="password">
+    </div>
+    <button type="submit" class="">login</button>
+    <a href="/requestreset" class="passwordReset">forgot password?</a>
+  </form>
+{% endblock %}

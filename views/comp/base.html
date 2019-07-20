@@ -1,0 +1,104 @@
+<!-- This is the base file for the website. 
+     Anything that is present on every (or the vast majority of) pages.
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- injecting code from pages into base's head -->
+    {% block pageHead %}
+    {% endblock %}
+    
+    <!-- hidden page header info -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- visible page header info -->
+    <title>pawb.in</title>
+    <meta name="description" content="A website for virtual creature collection!">
+    <link id="favicon" rel="icon" href="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?1556597301416" type="image/x-icon">
+    <meta name="theme-color" content="#444a8b"/>
+  
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600|Anonymous+Pro" rel="stylesheet">
+    
+    <!-- stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/comp/base.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    
+    <!-- client scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/api.js"></script>
+  </head>
+  <body>
+    {% include 'comp/notif.html' %}
+    <div class="layout">
+      
+      <div class="banner">
+        <div class="title">
+          <a href="/">
+            <h1>
+              pawb.in
+            </h1>
+          </a>
+        </div>
+        <div class="time">
+          <span>
+            time
+          </span>
+        </div>
+      </div>
+      
+      <div class="navbar">
+        <nav>
+          <a href="/"       >Home</a>
+          <a href="/news"   >News</a>
+          <a href="/forums" >Forums</a>
+          <a href="/wiki"   >Wiki</a>
+        </nav>
+        {% if loggedIn %}
+        <div class="quick-logout">
+          <a class="button" href="/logout">Logout</a>
+        </div>
+        {% else %}
+        <div class="quick-login">
+          <form name="login" action="/login" method="post">
+            <input type="text" name="username" placeholder="username">
+            <input type="password" name="password" placeholder="password">
+            <button type="submit">Login</button>
+          </form>
+          <a class="signup button" href="/signup">Signup</a>
+        </div>
+        {% endif %}
+      </div>
+      
+      <div class="column left"></div>
+      
+      <div class="column center">
+        <main class="content island">
+          <code>
+            {%- block code -%}
+            {{- user | dump(2) -}}
+            {%- endblock -%}
+          </code>
+          {% block mainContent %}
+          {% endblock %}
+        </main>
+      </div>
+      
+      <div class="column right">
+        {% include 'comp/usernav.html' %}
+      </div>
+      
+      <footer>
+        <nav>
+          <a href="/about"     >About Us</a>
+          <a href="/changelog" >Changelog</a>
+          <a href="/tos"       >Policy / ToS</a>
+          <a href="/support"   >Support</a>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

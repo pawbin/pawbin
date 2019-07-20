@@ -1,9 +1,20 @@
 const mongoose     = require('mongoose'),
       User         = require('../app/models/user'),
       Creature     = require('../app/models/creature'),
+      Game         = require('../app/models/game'),
       serverHelper = require('../app/serverHelper');
-      
-      
+
+//create Game
+
+Game.findOne((err, game) => {
+  if(!game){
+    let game = new Game({});
+    game.save(console.error);
+    console.log("new game");
+  }
+});
+
+
 //fill creatures
 
 //Frizzbee

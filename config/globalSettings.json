@@ -1,0 +1,1 @@
+{"game":{"rarities":["superRare","rare","uncommon","common"],"batchWeights":{"superRare":15,"rare":100,"uncommon":250,"common":635},"batchSize":1000,"batchFillRarity":"common","batchRenewalThreshold":1000},"test":{"a":1,"b":2}}

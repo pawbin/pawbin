@@ -22,16 +22,16 @@ helper.getCreature = function(data){
       return resolve(data);
     }
     if(typeof data === 'number'){ //index
-        Creature.findOne({'index': data}, function(err, creature) {
-          if(err){
-            return reject(err);
-          }
-          if(creature){
-            return resolve(creature);
-          } else {
-            return reject("getCreature: wrong index");
-          }
-        });
+      Creature.findOne({'index': data}, function(err, creature) {
+        if(err){
+          return reject(err);
+        }
+        if(creature){
+          return resolve(creature);
+        } else {
+          return reject("getCreature: wrong index");
+        }
+      });
     } else if(typeof data === 'string') {
       if(mongoose.Types.ObjectId.isValid(data)) { //id
         Creature.findById(data, function(err, creature) {
@@ -91,22 +91,48 @@ helper.getCreatureInstance = function(data){
     if(!data){
       return reject("getCreature: no data");
     }
+    console.log('a', CreatureInstance);
+    console.log('b', new CreatureInstance);
     if(data instanceof CreatureInstance){
       return resolve(data);
     }
     if(mongoose.Types.ObjectId.isValid(data)){ //id
-        CreatureInstance.findById(data, function(err, creatureInstance) {
+      CreatureInstance.findById(data, function(err, creatureInstance) {
+        if(err){
+          return reject(err);
+        }
+        if(creatureInstance){
+          return resolve(creatureInstance);
+        } else {
+          return reject("getCreature: wrong id");
+        }
+      });
+    } else if(typeof data === 'string'){ //codename
+      CreatureInstance.findOne({'codename': data}, function(err, creatureInstance) {
+        if(err){
+          return reject(err);
+        }
+        if(creatureInstance){
+          return resolve(creatureInstance);
+        } else {
+          return reject("getCreature: wrong codename");
+        }
+      });
+    } else { //object
+      if(data.codename){ 
+        CreatureInstance.findOne({'codename': data.codename}, function(err, creatureInstance) {
           if(err){
             return reject(err);
           }
           if(creatureInstance){
             return resolve(creatureInstance);
           } else {
-            return reject("getCreature: wrong id");
+            return reject("getCreature: wrong codename");
           }
         });
-    } else {
-      return reject("getCreature: no suitable data");
+      } else {
+        return reject("getCreature: no suitable data");
+      }
     }
   });
 }

@@ -42,99 +42,7 @@ let userSchema = mongoose.Schema({
     createdAt  : Date
   },
   
-})
-
-
-/*var userSchema = mongoose.Schema({
-
-    local              : {
-        email          : String,
-        username       : String,
-        password       : String
-    },
-    avatar             : String,
-    nickname           : String,
-    joindate           : Date,
-    coins              : Number,
-    dollars            : Number,
-    settings           : {
-      gorefilter       : Boolean,
-      theme            : String
-    },
-    achievements       : [{
-        name           : String,
-        progress       : Number,
-        timestamp      : Date
-    }],
-    bestiary           : [{
-        name           : String,
-        progress       : Number
-    }],
-    profile            : {
-        description    : String,
-        comments       : [{
-            user       : {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            content    : String,
-            timestamp  : Date
-        }]
-    },
-    creatures          : [{
-        //itemId
-        nickname       : String,
-        bond           : Number,
-        sex            : Number,
-        attributes     : [{
-          
-        }]
-    }],
-    inventory          : [{
-        item           : {
-            item       : {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Item'
-            },
-            count      : Number
-        }
-    }],
-    exchanges          : [{
-        user           : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        timestamp      : Date,
-        itemin         : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Item'
-        },
-        itemout        : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Item'
-        },
-        quantityin     : Number,
-        quantityout    : Number,
-        trade          : Boolean,
-        result         : Boolean
-    }],
-    store              : [{
-        listing        : {
-            timestamp      : Date,
-            itemin         : {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Item'
-            },
-            itemout        : {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Item'
-            },
-            quantityin     : Number,
-            quantityout    : Number,
-            result         : Boolean
-        }
-    }],
-});*/
+});
 
 // methods ======================
 // generating a hash
@@ -142,20 +50,9 @@ userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-// checking if password is valid
-userSchema.methods.validPassword = function(password) {
+// checking if password matches hash
+userSchema.methods.checkPassword = function(password) {
   return bcrypt.compareSync(password, this.local.password);
-};
-
-// add creature to user
-userSchema.methods.addCreature = function(creature) {
-  if(!creature)
-    return;
-  this.creatures.push({creatureId: creature._id});
-  this.save(function(err, saved){
-    if(err)
-      console.log(err);
-  });
 };
 
 // create the model for users and expose it to our app

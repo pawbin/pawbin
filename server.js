@@ -2,95 +2,84 @@
  * server.js
  * initialize server, set up middleware
  */
-
-//console.log(process.env.PORT)
-
-//JUST FOR GLITCH
-var assets = require("./assets");
-
-//includes
 const config   = require('./config.js');
-
-const documentInit = require('./app/documentInit.js');
 
 const express  = require('express');
 const app      = express();
 const port     = process.env.PORT;
 const path     = require('path');
 const nunjucks = require('nunjucks');
+const markdown = require('nunjucks-markdown');
+const marked   = require('marked');
 const less     = require('less-middleware');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
 const session      = require('express-session');
-const cookieParser = require('cookie-parser');
+const MongoStore   = require('connect-mongo')(session);
 const flash        = require('connect-flash');
 const bodyParser   = require('body-parser');
-const MongoStore   = require('connect-mongo')(session);
-
-const preRender = require('./app/preRender.js');
 
 require('./config/passport')(passport);
 
-//JUST FOR GLITCH
-app.use("/assets", assets);
+// connect to database
+mongoose.connect(config.DBurl);
 
-//express configuration
-app.use(cookieParser('secret'));
-app.use(flash());
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-const cookieExpire = config.anonSessionAge //1 hour
-
-//connect to database (before session config)
-mongoose.connect(config.DBurl); 
-
-app.set('views', path.join(__dirname, 'views')); //rendered with nunjucks
-
-//nunjucks config
-nunjucks.configure(
-    'views', {
-        express: app
-    } 
-);
-
-app.set('view engine', 'html');
-
-app.use(less('public'));
-
-app.use(express.static(path.join(__dirname, 'public'))); //allows for serving static files. everything in the 'public/' directory will be served as-is 
-
-//passport sessions. stored in mongodb for 14 days
+// allow sessions to be stored on database
 app.use(session({
   secret: process.env.SECRET,
-  cookie: { maxAge: cookieExpire * 10,
-            originalMaxAge: cookieExpire * 10,
-            expires: new Date(Date.now() + cookieExpire)
+  cookie: { maxAge: config.anonSessionAge * 10,
+           originalMaxAge: config.anonSessionAge * 10,
+           expires: new Date(Date.now() + config.anonSessionAge)
           },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: cookieExpire / 1000
+    ttl: config.anonSessionAge / 1000
   }),
   resave: true,
   saveUninitialized: true
 }));
+// init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.listen(port, (err) => {
-    if(err){
-        return console.log('listen error: ', err);
-    }    
-    console.log(`server is listening on ${port}`);
+// use flash messages which store on user's session and display through render engine
+app.use(flash());
+
+// allow req.body to exist, automatically fitted with data from form json, text, etc.
+// (may want multer for multipart (uploading user avatar, etc.))
+app.use(bodyParser.json());
+app.use(bodyParser.text());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// set views to point at the views folder
+//app.set('views', __dirname);
+
+// nunjucks configuration
+let njk = nunjucks.configure(
+  [__dirname + '/views', __dirname], 
+  {
+    express: app
+  }
+);
+markdown.register(njk, marked);
+// set view engine to html
+app.set('view engine', 'html');
+// use less on any .less files in the static folder
+app.use(less('static'));
+
+app.use(express.static('static'));
+
+// make the server listen for http connections on a port
+const listener = app.listen(port, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
 
-//const io = require('socket.io')(app);
+//initialize api
+require('./app/api.js')(app);
 
-//preRender, check if requesting database info
-app.use(preRender());
-
-//require('./app/routes.js')(app, io);
+//setup routes
 require('./app/routes.js')(app, passport);
+
+//run tests
+require('./tests.js');

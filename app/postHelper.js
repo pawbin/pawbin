@@ -1,6 +1,6 @@
 const serverHelper = require('../app/serverHelper');
 const mailer       = require('../app/mailer');
-const formValidate = require('../public/shared/signupValidate');
+const formValidate = require('../static/shared/signupValidate');
 const path = require('path');
 
 let helper = {};
@@ -23,7 +23,7 @@ helper.updateEmail = function(req, res){
   }
   
   serverHelper.getUser(req.user).then(user => {
-    if(user.validPassword(password)){
+    if(user.checkPassword(password)){
       serverHelper.sendUpdateEmailVerification(user, newEmail).then(console.log).catch(console.error);
       req.flash('notif', {form: path.parse(req.path).name, content: 'Confirmation email sent to ' + newEmail, type: 'success'});
       res.redirect(req.get('referer'));
@@ -55,7 +55,7 @@ helper.updatePassword = function(req, res){
   }
   //this is the only postHelper function that needs to (is able to) modify the user directly. all the other ones currently need a token verification, so will be run through serverHelper first
   serverHelper.getUser(req.user).then(user => {
-    if(user.validPassword(password)){
+    if(user.checkPassword(password)){
       
       user.local.password = user.generateHash(newPassword);
       user.save(function(err, savedUser) {
@@ -70,7 +70,7 @@ helper.updatePassword = function(req, res){
         }
       });
       
-      req.flash('notif', {form: path.parse(req.path).name, content: 'Confirmation email sent to ' + user.local.email, type: 'success'});
+      req.flash('notif', {form: path.parse(req.path).name, content: 'Password successfully updated. Notification email sent to ' + user.local.email, type: 'success'});
       res.redirect(req.get('referer'));
     } else {
       req.flash('notif', {form: path.parse(req.path).name, content: 'Incorrect Password', type: 'error'});

@@ -1,0 +1,414 @@
+/* interpret css files as less... which imports it properly */
+@import (less) "static/css/comp/reset.css";
+@import "static/css/themes/pawbin.less";
+
+/* these are separated because the vendor prefix would otherwise break the entire rule */
+::selection      { background: @selection; color: @secondary; }
+::-moz-selection { background: @selection; color: @secondary; }
+
+/********** GENERAL PAGE STYLING **********/
+
+body {
+  background-color: @bg-light;
+  color: @primary;
+  font: @body-md;
+}
+
+a {
+  color: @link;
+  text-decoration: none;
+
+  &:hover {
+    color: @white;
+    text-decoration: none;
+  }
+}
+
+h1 {
+  font: @title-xl;
+}
+
+h2 {
+  font: @title-lg;
+}
+
+h3 {
+  font: @title-md;
+}
+
+h4 {
+  font: @title-sm;
+}
+
+pre, code {
+  font: @code-md;
+}
+
+code {
+  display: block;
+  background-color: @bg-dark;
+  height: 300px;
+  overflow-y: auto;
+  resize: vertical;
+  padding: @sp-md;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+nav {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0px -@sp-xxs;
+  
+  @media @sm {
+    justify-content: center;
+  }
+}
+
+nav a {
+  flex: 0 0 auto;
+  text-align: center;
+  margin: 0 @sp-xxs;
+  padding: @sp-xs @sp-sm;
+  
+  @media @sm {
+    flex: 1 0 auto;
+  }
+  
+  @media @xs {
+    flex: 0 0 40%;
+    padding: @sp-sm @sp-sm;
+  }
+}
+
+form {
+  display: flex;
+  
+  input { flex: 1 1 0; }
+  button { flex: 0 0 auto; }
+}
+
+input {
+  background-color: @bg-light;
+  font: @body-sm;
+  color: @primary;
+  
+  border: none;
+  padding: @sp-xs;
+  width: @px-inputwidth;
+  
+  &:focus {
+    border-bottom: 2px @primary;
+  }
+}
+
+button, .button {
+  background-color: @bg-dark;
+  font: @body-sm;
+  color: @cyan;
+  
+  border: none;
+  padding: @sp-xs @sp-sm;
+  
+  &:hover {
+    cursor: pointer;
+    background-color: @bg-light;
+    color: @primary;
+  }
+}
+
+form .passwordReset {
+  float: right;
+}
+
+/* SCROLL BARS */
+
+// chrome
+::-webkit {
+  &-scrollbar {
+    width: @sp-md;
+
+    &-track {
+      background-color: @bg-dark;
+    }
+    
+    &-thumb {
+      background-color: @bg-primary;
+    }
+  }
+  
+  /* this doesn't work for whatever reason.
+     thanks webkit.
+  
+  &-resizer {
+    background-image: url(@img-pajamy);
+    background-size: cover;
+    opacity: 25%;
+  }*/
+}
+
+// firefox
+* {
+  scrollbar-width: auto;
+  scrollbar-color: @bg-primary @bg-dark;
+}
+
+/* STYLING FOR GENERAL CLASSES */
+
+.notifs {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 640px;
+  width: 80vw;
+  
+  .reference-notif {
+    display: none;
+  }
+  
+  /* every notification is styled like this */
+  .notif {
+    background-color: fade(mix(@basic, @bg-dark, 45%), 90%);
+    box-shadow: inset 0 0 0 1px @basic;
+    box-sizing: border-box;
+    position: relative;
+    transition: height 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    visibility: hidden;
+    
+    .content {
+      margin: 6px 22px 6px 12px;
+    }
+  }
+  
+  /* mixin for specific notif type styling */
+  .notif-(@type) {
+    .notif-@{type} {
+      background-color: fade(mix(@@type, @bg-dark, 45%), 90%);
+      box-shadow: inset 0 0 0 1px @@type;
+    }
+  }
+  
+  /* run mixins */
+  
+  .notif-(basic);
+  .notif-(success);
+  .notif-(info);
+  .notif-(warning);
+  .notif-(danger);
+  .notif-(alert);
+  
+  /* notif types that need even more specific type styling */
+  
+  .notif-error {
+    background-color: fade(mix(@danger, @bg-dark, 45%), 90%);
+    box-shadow: inset 0 0 0 1px @danger;
+  }
+  
+  .notif-close {
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    right: 9px;
+  }
+}
+
+.island {
+  background-color: @bg-primary;
+  margin: @sp-sm 0;
+  padding: @sp-lg;
+  
+  // creates a vertical spacer between text elements
+  // we assume these text elements take up a full row and don't have a background
+  // this trick relies on margin collapsing
+  p, h2, h3, h4 {
+    &:not(:last-child) {
+      margin-bottom: @sp-sm;
+    }
+  }
+  
+  h1, code {
+    &:not(:last-child) {
+      margin-bottom: @sp-md;
+    }
+  }
+}
+
+.textcenter {
+  text-align: center;
+}
+
+/* STYLING FOR SPECIFIC PAGES */
+
+.changelog {
+  h2 {
+    margin-bottom: 14px;
+  }
+  
+  blockquote {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #a49cc5;
+  }
+  
+  ul {
+    padding-left: 16px;
+    line-height: 20px;
+  }
+  
+  hr {
+    height: 1px;
+    border: none;
+    margin: 8px 0;
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+ /* LAYOUT OF MAJOR PAGE SECTIONS */
+
+.layout {
+  // lays out the grid for all page elements
+  display: grid;
+  grid-template-rows: [banner-top] 150px [banner-bottom
+                       navbar-top] auto [navbar-bottom
+                      content-top] 1fr [content-bottom
+                       footer-top] auto [footer-bottom];
+  grid-template-columns: [leftcol-left] 1fr [leftcol-right
+                          content-left] minmax(auto, @px-content) [content-right
+                          usernav-left] 1fr [usernav-right];
+  
+  // makes it so the grid always takes up the entire viewport height
+  // this also makes it so the footer is always at the bottom of 
+  // the page or otherwise the bottom of the page content
+  position: relative;
+  min-height: 100vh;
+}
+
+/* BANNER AT THE VERY TOP OF THE PAGE */
+.banner {
+  grid-row: banner-top / banner-bottom;
+  grid-column: ~"1 / -1";
+  
+  background: @bg-primary url(@img-banner) repeat-x 50% 0;
+  // make banner image Crisp
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;          /* Firefox       */
+  image-rendering: -o-crisp-edges;            /* Opera         */
+  image-rendering: pixelated;                 /* CSS3 Proposed */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+          */
+  // inside banner is a flex row
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  
+  padding: 21px 30px 46px;
+  
+  .title a {
+    color: @white;
+  }
+  
+  @media @sm {
+    justify-content: center;
+    
+    .title { display: none; }
+  }
+}
+
+/* BAR UNDER THE BANNER */
+.navbar {
+  grid-row: navbar-top / navbar-bottom;
+  grid-column: ~"1 / -1";
+  background-color: @bg-primary;
+  
+  padding: @sp-sm @sp-md;
+  
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  
+  .quick-login {
+    display: flex;
+    flex-flow: row nowrap;
+    
+    form {
+      margin: -@sp-xs;
+      > * { margin: @sp-xs; }
+    }
+    
+    .signup {
+      margin-left: 10px;
+    }
+  }
+  
+  @media @sm {
+    nav {
+      width: 100%;
+    }
+    
+    .quick-login, .quick-logout {
+      display: none;
+    }
+  }
+}
+
+/* COLUMN LEFT OF THE MAIN CONTENT */
+.column.left {
+  grid-row: content-top / content-bottom;
+  grid-column: leftcol-left / leftcol-right;
+}
+
+/* CENTER COLUMN, MAIN CONTENT */
+.column.center {
+  grid-row: content-top / content-bottom;
+  grid-column: content-left / content-right;
+  
+  padding: @sp-sm @sp-lg;
+}
+
+/* COLUMN RIGHT OF THE MAIN CONTENT */
+.column.right {
+  grid-row: content-top / content-bottom;
+  grid-column: usernav-left / usernav-right;
+  
+  padding: @sp-sm @sp-lg @sp-sm 0;
+  
+  @media @sm {
+    padding: 0;
+  }
+  
+  .usernav {
+    // kill the side usernav on mobile
+    @media @sm {
+      display: none;
+    }
+    
+    width: @px-usernav;
+    
+    // follows the page scroll
+    top: @sp-lg;
+    position: sticky;
+  }
+}
+
+
+/* FOOTER AT THE VERY BOTTOM */
+footer {
+  grid-row: footer-top / footer-bottom;
+  grid-column: ~"1 / -1";
+  background-color: @bg-primary;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  padding: @sp-sm;
+    
+  nav a {
+    font: @body-sm;
+  }
+}

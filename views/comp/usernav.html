@@ -1,0 +1,33 @@
+<div class="usernav island">
+  <!-- avatar here -->
+  <div class="avatar">
+    <a href="/profile"><img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306"></a>
+  </div>
+  
+  <!-- the player's name -->
+  <h3 class="name">
+    <a href="/profile">{{ user.local.username if loggedIn else "noname" }}</a>
+  </h3>
+  
+  <!-- a small box displaying the rights of the user -->
+  <!-- if the rights of the user are normal, aka "user", this div will not display -->
+  {% if user.rights !== "user" %}
+  <div class="rights">
+    <a href="/{{ user.rights }}">{{ user.rights }}</a>
+  </div>
+  {% endif %}
+  
+  <!-- player's currency: normal and premium -->
+  <div class="currency">
+    <div class="free">
+      <div>
+        {{ user.currency.coin }} ¢
+      </div>
+    </div>
+    <div class="paid">
+      <a href="/premium">
+        {{ user.currency.premium }} $
+      </a>
+    </div>
+  </div>
+</div>

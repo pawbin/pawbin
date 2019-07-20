@@ -1,11 +1,8 @@
-const mongoose   = require('mongoose'),
-      bcrypt     = require('bcrypt'),
-      nodemailer = require('nodemailer'),
-      randtoken  = require('rand-token');
-
+const mongoose   = require('mongoose');
 const User       = require('../app/models/user');
-const TempUser   = require('../app/models/tempuser');
+const TempUser   = require('../app/models/tempUser');
 const mailer     = require('../app/mailer');
+const randtoken  = require('rand-token');
 
 let helper = {};
 
@@ -61,7 +58,7 @@ helper.getUser = function(data){
           }
         });
       }
-    } else {
+    } else { //object
       if(data.username || (data.local && data.local.username)){
         User.findOne({'local.username': data.username || data.local.username}, function(err, user) {
           if(err){
@@ -155,47 +152,6 @@ helper.getTempUser = function(data){
   });
 }
 
-
-/**
- * Send verification email for an email address update
- * @param {Object} user - user to send email to
- * @param {String} newEmail - the new email to replace the old email
- * @returns {Promise}
- */
-helper.sendUpdateEmailVerification = function(user, newEmail){
-  return new Promise(function(resolve, reject){
-    let token = randtoken.generate(10);
-    
-    user.updateEmail.verifyURL = token;
-    user.updateEmail.newEmail  = newEmail;
-    user.updateEmail.createdAt = Date.now();
-    
-    user.save(function(err, saved){
-      if(err){
-        console.log(err);
-      }
-      if(saved){
-        console.log(saved);
-        mailer.sendUpdateEmail(newEmail, token, function(err, info) {
-          if (err){
-            console.log(err);
-            user.updateEmail = {}; //there was an error, clear information
-            user.save(function(err, saved){
-              if(err){
-                console.log(err);
-              }
-            });
-            reject(err);
-          } else {
-            resolve(true);
-          }
-        });
-      }
-    });
-  });
-}
-
-
 /**
  * Verifies email for a user, moving them from the TempUser collection into the User collection
  * @param {string} token - token from url string
@@ -205,46 +161,25 @@ helper.verifyEmail = function(token){
   return new Promise(function(resolve, reject){
     TempUser.findOne({'verifyURL': token}, function(err, tempUser) {
       if(err){
-        reject(err);
+        return reject(err);
       }
-
-      if(tempUser){
-        let userData = {},
-            user;
-
-        let tempUserObject = tempUser.toObject();
-
-        for (let property in tempUser) userData[property] = tempUserObject[property];
-
-        // delete userData['verifyURL'];
-        // delete userData['_id'];
-        userData['verifyURL'] = undefined;
-        userData['_id'] = undefined;
-        user = new User({'local': userData.local}); //???? i don't understand this. new User(userData) doesn't work.
-        //user = new User(userData); 
-
-        console.log("--user--");
-        console.log(user);
-        console.log(user.local.username);
-
-        // save the temporary user to the persistent user collection
-        user.save(function(err, savedUser) {
+      if(!tempUser){
+        return reject("no tempUser found");
+      }
+      let user = new User({'local': tempUser.local}); 
+      // save the temporary user to the persistent user collection
+      user.save(function(err, savedUser) {
+        if (err) {
+          return reject(err);
+        }
+        //delete the old temp user
+        TempUser.remove({'verifyURL': token}, function(err) {
           if (err) {
-            console.log("save", err);
-            reject(err);
+            return reject(err);
           }
-          //delete the old temp user
-          TempUser.remove({'verifyURL': token}, function(err) {
-            if (err) {
-              reject(err);
-            }
-
-            resolve(user);
-          });
+          return resolve(user);
         });
-      } else {
-        reject("none found");
-      }
+      });
     });
   });
 }
@@ -260,11 +195,11 @@ helper.updateEmail = function(token){
       if(err){
         reject(err);
       }
-
+      
       if(user){
         user.local.email = user.updateEmail.newEmail
         user.updateEmail = {}; //clear old information
-
+        
         // save the new password
         user.save(function(err, savedUser) {
           if (err) {
@@ -330,11 +265,11 @@ helper.resetPassword = function(token, newPassword){
       if(err){
         reject(err);
       }
-
+      
       if(user){
         user.local.password = user.generateHash(newPassword);
         user.resetPassword = {}; //clear information
-
+        
         // save the new password
         user.save(function(err, savedUser) {
           if (err) {
@@ -352,26 +287,39 @@ helper.resetPassword = function(token, newPassword){
 }
 
 /**
- * Deletes a user's account
- * @param {string} token - token from url string
- * @param {string} newPassword - new password hash
- * @returns {Promise} User
+ * Send verification email for an email address update
+ * @param {Object} user - user to send email to
+ * @param {String} newEmail - the new email to replace the old email
+ * @returns {Promise}
  */
-helper.deleteUser = function(user){
+helper.sendUpdateEmailVerification = function(user, newEmail){
   return new Promise(function(resolve, reject){
-    helper.getUser(user).then(user => {
-      if(user){
-        // delete user from database
-        user.remove(function(err, deletedUser) {
-          if (err) {
-            console.log("delete", err);
+    let token = randtoken.generate(10);
+    
+    user.updateEmail.verifyURL = token;
+    user.updateEmail.newEmail  = newEmail;
+    user.updateEmail.createdAt = Date.now();
+    
+    user.save(function(err, saved){
+      if(err){
+        console.log(err);
+      }
+      if(saved){
+        console.log(saved);
+        mailer.sendUpdateEmail(newEmail, token, function(err, info) {
+          if (err){
+            console.log(err);
+            user.updateEmail = {}; //there was an error, clear information
+            user.save(function(err, saved){
+              if(err){
+                console.log(err);
+              }
+            });
             reject(err);
           } else {
-            resolve(deletedUser);
+            resolve(true);
           }
         });
-      } else {
-        reject("none found");
       }
     });
   });

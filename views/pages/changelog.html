@@ -1,0 +1,15 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+  <title>pawb.in :: changelog</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+  <div class="changelog">
+  {% markdown %}
+    {% include 'CHANGELOG.md' %}
+  {% endmarkdown %}
+  </div>
+{% endblock %}
