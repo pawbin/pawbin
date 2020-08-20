@@ -13,7 +13,7 @@
     "express": "^4.16.4",
     "nunjucks": "^3.2.0",
     "less-middleware": "^3.1.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "mongoose": "^5.5.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
