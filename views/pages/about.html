@@ -1,0 +1,92 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: about us</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div id="aboutpage" class="island">
+  <h2>
+    About Us
+  </h2>
+  <p>
+    pawb.in was created by a small team of creature enthusiasts!
+  </p>
+  <p>
+    Here are all of the places online that we post things related to pawb.in:
+  </p>
+  <a href="https://twitter.com/pawb_in" class="button"><i class="fab fa-twitter"></i> twitter</a>
+  <p>
+    And here is our team!
+  </p>
+  <div class="heading">
+    <div class="avatar">
+      <a href="/profile/sheepon">
+        <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?v=1556597301416">
+      </a>
+    </div>
+    <div class="details">
+      <h2>
+        <a href="/profile/sheepon">
+          sheepon
+        </a>
+      </h2>
+      <h6>
+        Lead Designer and Artist
+      </h6>
+    </div>
+    <div class="actions">
+      <a class="button" href="https://twitter.com/sheep0n">twitter</a>
+    </div>
+  </div>
+  <div class="heading">
+    <div class="avatar">
+      <a href="/profile/torcado">
+        <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?v=1556597301416">
+      </a>
+    </div>
+    <div class="details">
+      <h2>
+        <a href="/profile/torcado">
+          torcado
+        </a>
+      </h2>
+      <h6>
+        Backend Programmer
+      </h6>
+    </div>
+    <div class="actions">
+      <a class="button" href="https://twitter.com/torcado">twitter</a>
+      <a class="button" href="https://torcado.com">website</a>
+    </div>
+  </div>
+  <div class="heading">
+    <div class="avatar">
+      <a href="/profile/rubic">
+        <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?v=1556597301416">
+      </a>
+    </div>
+    <div class="details">
+      <h2>
+        <a href="/profile/rubic">
+          rubic
+        </a>
+      </h2>
+      <h6>
+        Frontend Programmer
+      </h6>
+    </div>
+    <div class="actions">
+      <a class="button" href="https://twitter.com/paradoxrevolver">twitter</a>
+      <a class="button" href="https://rubic.dev">website</a>
+    </div>
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  * have a per-person bio? just a little bit about themselves
+  {% endmarkdown %}
+</div>
+{% endblock %}

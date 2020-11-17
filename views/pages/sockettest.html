@@ -1,0 +1,14 @@
+{% extends 'comp/base.html' %}
+
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <div id="testbutton" class="button">click me</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socketTest.js"></script>
+{% endblock %}

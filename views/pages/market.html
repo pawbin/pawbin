@@ -1,0 +1,42 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: market</title>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/searchbar.js"></script>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div id="market" class="island">
+  <div class="heading searchbar">
+    <h2>
+      Market
+    </h2>
+    <input class="inline js-search" placeholder="search...">
+  </div>
+  <div class="grid">
+    {% for item in ['2 Marm', 'Duskcoatl', '14 Stick'] %}
+    <div class="row js-search-item">
+      <input type="checkbox">
+      <a href="/message/{{ item }}">
+        <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?v=1556597301416">
+        <h6 class="js-search-criteria">
+          {{ item }}
+        </h6>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  * show items and creatures this player has publicly for sale
+  * allow for removing or editing price of an item
+  * show history of market sales, last 30 days
+  {% endmarkdown %}
+</div>
+{% endblock %}

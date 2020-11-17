@@ -1,0 +1,31 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: news</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <div class="textcenter">
+    <h2>News</h2>
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  ## pawb.in Beta Release!
+  #### Posted by [rubic](/news)
+  ###### November 2nd, 2019 at 1:50PM PST
+  
+  This is a test news post.
+  
+  Today pawb.in officially goes public! 
+  
+  The website has just about every essential feature and now it's looking for people to test it. The beta test period of pawb.in is for us to perform major bug fixes or rebalancing. As long as we're actively involved in beta testing, we're looking for community input on how to improve pawbin's systems.
+  
+  
+  * have a banner picture for every news block
+  {% endmarkdown %}
+</div>
+{% endblock %}

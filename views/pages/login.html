@@ -6,6 +6,7 @@
 
 <!-- stuff to put into the center column -->
 {% block mainContent %}
+<div class="island">
   <form name="login" action="/login" method="post">
     <div class="form-group">
       <label>username</label>
@@ -18,4 +19,5 @@
     <button type="submit" class="">login</button>
     <a href="/requestreset" class="passwordReset">forgot password?</a>
   </form>
+</div>
 {% endblock %}

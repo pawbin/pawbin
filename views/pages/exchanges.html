@@ -1,0 +1,43 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: exchanges</title>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/searchbar.js"></script>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div id="exchanges" class="island">
+  <div class="heading searchbar">
+    <h2>
+      Exchanges
+    </h2>
+    <input class="inline js-search" placeholder="search...">
+  </div>
+  <div class="grid">
+    {% for item in ['i want your sticks', 'can i have money', 'heres that super rare you wanted'] %}
+    <div class="row js-search-item">
+      <input type="checkbox">
+      <a href="/message/{{ item }}">
+        <img src="{{ user.avatar }}">
+        <h6 class="js-search-criteria">
+          {{ item }}
+        </h6>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  * similar changes as to the Messages menu... custom checkbox and selection stuff
+  * show list of active trades with other people
+  * allow for cancelling an active trade
+  * show list of trade history
+  {% endmarkdown %}
+</div>
+{% endblock %}

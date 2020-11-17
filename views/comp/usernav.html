@@ -1,33 +1,95 @@
+{% if loggedIn %}
 <div class="usernav island">
   <!-- avatar here -->
   <div class="avatar">
-    <a href="/profile"><img src="https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fpajamy.png?1526963133306"></a>
+    <a href="/profile">
+      {% if user.avatar %}
+        <img src="{{ user.avatar }}">
+      {% else %}
+        <p>your current avatar couldn't be loaded</p>
+      {% endif %}
+    </a>
   </div>
   
-  <!-- the player's name -->
-  <h3 class="name">
-    <a href="/profile">{{ user.local.username if loggedIn else "noname" }}</a>
-  </h3>
+  <!-- the player's name(s) -->
+  {% if user.local.nickname !== user.local.username %}
+    <h2 class="name nickname textcenter">
+      <a href="/profile">{{ user.local.nickname }}</a>
+    </h2>
+
+    <h6 class="name username textcenter">
+      <a href="/profile">{{ user.local.username }}</a>
+    </h6>
+  {% else %}
+    <h2 class="name username textcenter">
+      <a href="/profile">{{ user.local.username }}</a>
+    </h2>
+  {% endif %}
   
-  <!-- a small box displaying the rights of the user -->
+  <!-- a small box displaying the special rights of the user -->
   <!-- if the rights of the user are normal, aka "user", this div will not display -->
   {% if user.rights !== "user" %}
-  <div class="rights">
+  <h4 class="rights textcenter textcaps">
     <a href="/{{ user.rights }}">{{ user.rights }}</a>
+  </h4>
+  {% endif %}
+  
+  {% if user.rights === "admin" %}
+  <div class="adminActions">
+    <button onclick="toggleCodedump()"><i class="fas fa-code"></i></button>
   </div>
+  <!-- eventually, this script shouldn't be included multiple times in the event
+       that usernav.html is included more than once. -->
+  <script>
+    if(!window.toggleCodedump) {
+      window.toggleCodedump = () => {
+        window.$codedump = $('#codedump');
+        setCodedumpVisible($codedump.hasClass('hidden'));
+      };
+      
+      window.setCodedumpVisible = (set) => {
+        window.$codedump = $('#codedump');
+        localStorage.setItem('codedumpVisibility', set);
+        if(set) $codedump.removeClass('hidden');
+        else $codedump.addClass('hidden');
+      };
+      
+      $(()=>{
+        var codedumpVisibility = localStorage.getItem('codedumpVisibility');
+        if(typeof codedumpVisibility === 'string'){
+          setCodedumpVisible(codedumpVisibility !== 'false');
+        } else {
+          localStorage.setItem('codedumpVisibility', false);
+        }
+      });
+    }
+  </script>
   {% endif %}
   
   <!-- player's currency: normal and premium -->
   <div class="currency">
     <div class="free">
-      <div>
+      <span>
         {{ user.currency.coin }} ¢
-      </div>
+      </span>
     </div>
     <div class="paid">
-      <a href="/premium">
+      <a class="button" href="/premium">
         {{ user.currency.premium }} $
       </a>
     </div>
   </div>
+  
+  <nav>
+    <a class="button" href="/profile"    ><i class="fas fa-user-alt"     ></i> <span>Profile</span></a>
+    <a class="button" href="/creatures"  ><i class="fas fa-paw"          ></i> <span>Creatures</span></a>
+    <a class="button" href="/worldmap"   ><i class="fas fa-globe"        ></i> <span>World Map</span></a>
+    <a class="button" href="/bestiary"   ><i class="fas fa-book"         ></i> <span>Bestiary</span></a>
+    <a class="button" href="/inventory"  ><i class="fas fa-suitcase"     ></i> <span>Inventory</span></a>
+    <a class="button" href="/messages"   ><i class="fas fa-envelope"     ></i> <span>Messages</span></a>
+    <a class="button" href="/market"     ><i class="fas fa-store"        ></i> <span>Market</span></a>
+    <a class="button" href="/exchanges"  ><i class="fas fa-exchange-alt" ></i> <span>Exchanges</span></a>
+    <a class="button" href="/settings"   ><i class="fas fa-cog"          ></i> <span>Settings</span></a>
+  </nav>
 </div>
+{% endif %}

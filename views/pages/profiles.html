@@ -1,0 +1,49 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: profiles</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <div class="textcenter">
+    <h2>Profiles</h2>
+  </div>
+</div>
+<div class="island">
+  <div class="_users">
+    {% for user in users %}
+      <div class="_user">
+        <div class="_avatar"><img src="{{ user.avatar }}"></div>
+        <div class="_username">
+          <a href="/profile/{{ user.local.username }}">{{ user.local.username }}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<style>
+  ._users {
+    display: flex;
+    flex-direction: column;
+  }
+  ._user {
+    flex: 1 0;
+    display: flex;
+    height: 60px;
+    margin: 6px;
+    padding: 8px;
+    align-items: center;
+    background-color: hsl(262,10%,21%);
+  }
+  ._avatar {
+    width: 60px;
+    height: 60px;
+  }
+  ._username {
+    margin-left: 16px;
+  }
+</style>
+{% endblock %}

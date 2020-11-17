@@ -1,35 +1,37 @@
 /* colors */
+
 // light bg for furthest background
-@bg-light:     hsla(262,  10%,  21%, 100%);
+@bg-light:     hsla(262, 10%, 21%, 100%);
 // primary bg for islands
-@bg-primary:   hsla(252,  11%,  18%, 100%);
+@bg-primary:   hsla(252, 11%, 18%, 100%);
 // secondary bg for button, elements on island surface
-@bg-secondary: hsla(256,  15%,  15%, 100%);
+@bg-secondary: hsla(256, 15%, 15%, 100%);
 // alternate dark background
-@bg-dark:      hsla(258,  15%,  11%, 100%);
+@bg-dark:      hsla(258, 15%, 11%, 100%);
 
 // primary color all text displays in
-@primary:     hsla(  0,   0%,  95%, 100%);
+@primary:     hsla(0, 0%, 95%, 100%);
 // secondary text color in special cases, like selection
-@secondary:   hsla(236,  50%,  75%, 100%);
+@secondary:   hsla(250, 50%, 75%, 100%);
 
 // text color of links
-@link:        hsla(187, 100%,  42%, 100%);
+@link:        hsla(187, 100%, 42%, 100%);
 // color to indicate currency
-@premium:     hsla(47,   97%,  54%, 100%);
+@premium:     hsla(47, 97%, 54%, 100%);
 // selection box color
-@selection:   hsla(236,  35%,  41%,  75%);
+@selection:   hsla(236, 35%, 41%, 65%);
 
-@white:  hsla(  0,   0%,  95%, 100%);
-@red:    hsla(  1,  86%,  57%, 100%);
-@orange: hsla( 29,  80%,  54%, 100%);
-@yellow: hsla( 48, 100%,  51%, 100%);
-@green:  hsla(122,  49%,  49%, 100%);
-@cyan:   hsla(187, 100%,  42%, 100%);
-@blue:   hsla(212,  90%,  54%, 100%);
-@purple: hsla(291,  52%,  48%, 100%);
+@white:  hsla(0, 0%, 95%, 100%);
+@red:    hsla(1, 86%, 57%, 100%);
+@orange: hsla(29, 80%, 54%, 100%);
+@yellow: hsla(48, 100%, 51%, 100%);
+@green:  hsla(122, 49%, 49%, 100%);
+@cyan:   hsla(187, 100%, 42%, 100%);
+@blue:   hsla(212, 90%, 54%, 100%);
+@purple: hsla(291, 52%, 48%, 100%);
 
 /* notification types */
+
 @basic:   @blue;
 @success: @green;
 @danger:  @red;
@@ -38,39 +40,57 @@
 @alert:   @yellow;
 
 /* special button types */
+
 @confirm: @green;
 @cancel:  @red;
 
 /* fonts */
-@title-sm:  bold 10pt "Raleway", sans-serif;
-@title-md:  bold 14pt "Raleway", sans-serif;
+
+@title-xxs: 9pt "Raleway", sans-serif;
+@title-xs:  bold 10pt "Raleway", sans-serif;
+@title-sm:  bold 12pt "Raleway", sans-serif;
+@title-md:  14pt "Raleway", sans-serif;
 @title-lg:  20pt "Raleway", sans-serif;
 @title-xl:  bold 35pt "Raleway", sans-serif;
+
 @body-sm:   10pt "Raleway", sans-serif;
-@body-md:   11pt "Raleway", sans-serif;
+@body-md:   12pt "Raleway", sans-serif;
 @body-lg:   14pt "Raleway", sans-serif;
+
 @code-md:   10pt "Anonymous Pro", monospace;
 
 /* spacing */
+
 @sp-xxs: 3px;
-@sp-xs:  5px;
-@sp-sm:  10px;
-@sp-md:  15px;
-@sp-lg:  20px;
-@sp-xl:  30px;
+@sp-xs:  6px;
+@sp-sm:  12px;
+@sp-md:  18px;
+@sp-lg:  24px;
+@sp-xl:  36px;
 
 // notice that 680px + a 20px between margin + 260px
 // is the typical 960px content width
 @px-content: 680px;
 @px-usernav: 260px;
 
-@px-inputwidth: 140px;
+@px-mininputwidth: 100px;
+@px-maxinputwidth: 160px;
+
+@px-bannerheight: 150px;
+@px-bannerheight-m: 120px;
+@px-drawerwidth: 400px;
+
+/* timing */
+
+@time-sm: 0.35s;
 
 /* media queries */
+
 @xs: ~"only screen and (max-width: 499.98px)";
-@sm: ~"only screen and (max-width: 767.98px)";
+@sm: ~"only screen and (max-width: 859.98px)";
 
 /* image urls */
+
 @img-pajamy: "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficon_pajamy.png?v=1556597301416";
 @img-banner: "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fspoopyheader.png?1556604214394";
 @img-resizer: "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fresizer_image.png?v=1563599805731";

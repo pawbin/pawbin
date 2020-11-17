@@ -1,0 +1,52 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: creatures</title>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/searchbar.js"></script>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div id="creatures" class="island">
+  <div class="heading searchbar">
+    <h2>
+      {{ pageUser.local.nickname }}'s Creatures ({{ pageUser.creatures.length }})
+    </h2>
+    <input class="inline js-search" placeholder="search...">
+  </div>
+  <div class="grid">
+    {% for creature in pageUser.creatures %}
+    <div class="card js-search-item">
+      <a href="/creature/{{ creature.codename }}">
+        <img src="{{ creature.creatureTypeRef.images.full_lg }}">
+        <h3 class="textcenter js-search-criteria">
+          nickname
+        </h3>
+        <h4 class="textcenter js-search-criteria">
+          {{ creature.creatureTypeRef.name }}
+        </h4>
+        <h6 class="textcenter js-search-criteria">
+          {{ creature.codename }}
+        </h6>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  * pull all of the user's creatures, allow displaying creatures in different ways:
+      * in a grid, each creature shown in a card-shaped block
+      * in lines, each creature is a row with a picture of the creature on the left and a lot of details on the right
+      * in compact lines, smaller picture, smaller details
+  * have options for resorting creatures according to:
+      * name
+      * date received
+  * allow favoriting creatures, so they always appear earlier than all other creatures
+  {% endmarkdown %}
+</div>
+{% endblock %}

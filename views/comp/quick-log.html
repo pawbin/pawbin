@@ -1,0 +1,14 @@
+{% if loggedIn %}
+<div class="quick-logout">
+  <a class="button" href="/logout">Logout</a>
+</div>
+{% else %}
+<div class="quick-login">
+  <form name="login" action="/login" method="post" class="inline">
+    <input type="text" name="username" placeholder="username" />
+    <input type="password" name="password" placeholder="password" />
+    <button type="submit">Login</button>
+  </form>
+  <a class="signup button" href="/signup">Signup</a>
+</div>
+{% endif %}

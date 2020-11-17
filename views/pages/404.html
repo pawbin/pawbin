@@ -7,8 +7,19 @@
 
 <!-- stuff to put into the center column -->
 {% block mainContent %}
-  <p>
-     The {{ source }} page doesn't exist.
-  </p>
-  <a href="/">Return to Home</a>
+<div class="island">
+  {% markdown %}
+  {% if source %}
+    The <code>{{ source }}</code> page doesn't exist, or there was an error.
+  {% endif %}
+  
+  {% if error %}
+    <pre>
+      {{ error }}
+    </pre>
+  {% endif %}
+  
+  [Return to Home](/)
+  {% endmarkdown %}
+</div>
 {% endblock %}

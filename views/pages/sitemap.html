@@ -1,0 +1,34 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: sitemap</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <ul>
+    <!-- first layer of list is each page -->
+    {% for page in pages %}
+      {% if page|typeof == 'string' %}
+        <!-- if the page is a string, it just becomes a single list item -->
+        <li><a href="/{{ page }}">{{ page or "/" }}</a></li>
+      {% elif page|typeof == 'object' %}
+        <!-- if the page is an object, it's a directory of more pages.
+             display the folder as a list item and then a new list
+             of all of the pages in that folder -->
+        {% for dir, dirpages in page %}
+          <li>{{ dir }}/
+            <ul>
+              {% for dirpage in dirpages %}
+                <li><a href="/{{ dir }}/{{ dirpage }}">{{ dirpage or "/" }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

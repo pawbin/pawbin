@@ -1,1 +1,24 @@
-{"game":{"rarities":["superRare","rare","uncommon","common"],"batchWeights":{"superRare":15,"rare":100,"uncommon":250,"common":635},"batchSize":1000,"batchFillRarity":"common","batchRenewalThreshold":1000},"test":{"a":1,"b":2}}
+{
+  "game": {
+    "rarityNames": [
+      "common",
+      "uncommon",
+      "rare",
+      "superRare"
+    ],
+    "batchWeights": {
+      "1": 5,
+      "2": 3,
+      "3": 1,
+      "4": 1
+    },
+    "batchSize": 10,
+    "batchFillRarity": 1,
+    "batchRenewalThreshold": 10,
+    "silhouetteCount": 3
+  },
+  "test": {
+    "a": 1,
+    "b": 2
+  }
+}

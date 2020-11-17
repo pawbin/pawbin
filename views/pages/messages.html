@@ -1,0 +1,45 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: messages</title>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/searchbar.js"></script>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div id="messages" class="island">
+  <div class="heading searchbar">
+    <h2>
+      Messages
+    </h2>
+    <input class="inline js-search" placeholder="search...">
+  </div>
+  <div class="grid">
+    {% for item in ['hey whats up', 'can i have admin', 'test', 'hello?'] %}
+    <div class="row js-search-item">
+      <input type="checkbox">
+      <a href="/message/{{ item }}">
+        <h6 class="js-search-criteria">
+          {{ item }}
+        </h6>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  * make custom checkbox styling
+  * messages that have never been clicked are unread
+  * allow for selecting/unselecting all messages
+  * make selected messages read/unread
+  * show a list of all messages in order of most recent
+  * allow for deleting a message so it's no longer in the list at all
+  * messages older than some number of days are automatically deleted? maybe we can just keep them indefinitely
+  {% endmarkdown %}
+</div>
+{% endblock %}

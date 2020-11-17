@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- injecting code from pages into base's head -->
     {% block pageHead %}
+    <!-- for adding code from other pages into head -->
     {% endblock %}
     
     <!-- hidden page header info -->
@@ -30,23 +30,22 @@
     <!-- client scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/api.js"></script>
+    
+    {% block styles %}
+    <!-- for adding page-specific css -->
+    {% endblock %}
   </head>
   <body>
     {% include 'comp/notif.html' %}
+    {% include 'comp/drawer.html' %}
     <div class="layout">
       
       <div class="banner">
         <div class="title">
-          <a href="/">
-            <h1>
-              pawb.in
-            </h1>
-          </a>
+          <a href="/"><h1>pawb.in</h1></a>
         </div>
         <div class="time">
-          <span>
-            time
-          </span>
+          {% include 'comp/nycthemericon.html' %}
         </div>
       </div>
       
@@ -54,35 +53,37 @@
         <nav>
           <a href="/"       >Home</a>
           <a href="/news"   >News</a>
-          <a href="/forums" >Forums</a>
-          <a href="/wiki"   >Wiki</a>
         </nav>
-        {% if loggedIn %}
-        <div class="quick-logout">
-          <a class="button" href="/logout">Logout</a>
-        </div>
-        {% else %}
-        <div class="quick-login">
-          <form name="login" action="/login" method="post">
-            <input type="text" name="username" placeholder="username">
-            <input type="password" name="password" placeholder="password">
-            <button type="submit">Login</button>
-          </form>
-          <a class="signup button" href="/signup">Signup</a>
-        </div>
-        {% endif %}
+        {% include 'comp/quick-log.html' %}
       </div>
       
       <div class="column left"></div>
       
       <div class="column center">
-        <main class="content island">
-          <code>
+        <main class="content">
+          {% if user.rights == "admin" %}
+          <script src="/js/renderjson.js"></script>
+          <script>
+            $(() => {
+              var $renderThese = $('.renderjson');
+              renderjson.set_icons('► ', '▼ ');
+              renderjson.set_show_to_level(1);
+              $renderThese.each((i, el)=>{
+                let $el = $(el);
+                $el.replaceWith(renderjson(JSON.parse($el.text())));
+              });
+            });
+          </script>
+          <div id="codedump" class="island hidden">
+            <pre class="renderjson">
             {%- block code -%}
-            {{- user | dump(2) -}}
+            {{- getContext() | dump(2) -}}
             {%- endblock -%}
-          </code>
+            </pre>
+          </div>
+          {% endif %}
           {% block mainContent %}
+          <!-- content from other pages goes here -->
           {% endblock %}
         </main>
       </div>
@@ -101,4 +102,7 @@
       </footer>
     </div>
   </body>
+  {% block scripts %}
+  <!-- for adding page-specific js -->
+  {% endblock %}
 </html>

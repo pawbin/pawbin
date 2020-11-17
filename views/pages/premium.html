@@ -1,0 +1,24 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: premium</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  {% markdown %}
+  ## Premium
+  
+  pawb.in was created and continues to be maintained by a small team of people passionate in art and programming!
+  
+  Premium currency is a way for our tiny team to get supported for the time and money it takes to keep everything running smoothly.
+  
+  * have a text field for typing the amount of currency you want to get
+  * have a flat rate of $1.00 to 100 currency
+  * no bonus currency for a large purchse
+  * and no specific denominations
+  {% endmarkdown %}
+</div>
+{% endblock %}

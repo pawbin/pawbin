@@ -1,8 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
 
-const User     = require('../app/models/user');
-const TempUser = require('../app/models/tempUser');
-const mailer   = require('../app/mailer');
+const User     = require('../app/models/user.js');
+const TempUser = require('../app/models/tempUser.js');
+const mailer   = require('../app/site/mailer.js');
 
 const randtoken   = require('rand-token');
 const querystring = require('querystring');
@@ -21,6 +21,7 @@ module.exports = function(passport) {
   
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
+    console.log('[[deserialize]]');
     User.findById(id, function(err, user) {
       done(err, user);
     });
@@ -124,7 +125,7 @@ module.exports = function(passport) {
         console.error("::wrong password");
         return done(null, false, req.flash('notif', {content: 'wrong password', type: 'error'})); 
       }
-      console.log("::login success");
+      console.log("::login success", {user});
       return done(null, user);
     });
   }));

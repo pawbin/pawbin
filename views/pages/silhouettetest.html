@@ -1,0 +1,32 @@
+{% extends 'comp/base.html' %}
+
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <div id="testbutton" class="button">click me</div>
+  <div class="silhouettes">
+    {% for silhouette in silhouettes %}
+      <div class="silhouette" silhouetteid="{{ silhouette.id }}">
+        <img src="{{ silhouette.creatureRef.creatureTypeRef.images.full_lg }}">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<style>
+  .silhouettes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .silhouette {
+    max-width: 170px;
+    margin: 8px;
+  }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/silhouetteTest.js"></script>
+{% endblock %}

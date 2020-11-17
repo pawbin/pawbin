@@ -1,0 +1,33 @@
+<script src="/js/drawer.js"></script>
+
+<!-- button that appears, can be clicked to open the drawer -->
+<div class="drawer-button open">
+  <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fhamburger2b.svg">
+</div>
+<!-- black transparent cloak behind the drawer that obscures the rest of the page -->
+<div class="drawer-cloak closed"></div>
+
+<!-- the block that contains the actual drawer itself -->
+<div id="drawer" class="closed">
+  <div class="drawer-button close">
+    <img src="https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fclose.svg">
+  </div>
+    
+  <div class="content">
+    <div class="banner-spacer">
+      <div class="title">
+        <a href="/">
+          <h1>
+            pawb.in
+          </h1>
+        </a>
+      </div>
+    </div>
+    {% include 'comp/quick-log.html' %}
+    {% include 'comp/usernav.html' %}
+  </div>
+  
+  <div class="spacer">
+    
+  </div>
+</div>

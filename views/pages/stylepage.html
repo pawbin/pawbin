@@ -1,0 +1,28 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: stylepage</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <h1 class="textcenter">
+    stylepage
+  </h1>
+  
+  <h2 class="textcenter">
+    Everything here is a test for site styles!
+  </h2>
+  
+  <p class="textcenter">
+    This is just for testing HTML elements to see that everything works in general.
+  </p>
+</div>
+<div class="island stylepage">
+  {% markdown %}
+  {%- include 'STYLEPAGE.md' -%}
+  {% endmarkdown %}
+</div>
+{% endblock %}

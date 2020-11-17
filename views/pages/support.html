@@ -1,0 +1,19 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: support</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  {% markdown %}
+  ## Support
+  
+  * put a form for submitting a message
+  * or maybe a more sophisticated ticket-based system? in a future version
+  * message goes to an inbox that all admins can see... should there also be a class of moderator that can see these?
+  {% endmarkdown %}
+</div>
+{% endblock %}

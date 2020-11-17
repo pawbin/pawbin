@@ -1,0 +1,36 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: admin</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  <div class="textcenter">
+    <h2>Admin</h2>
+  </div>
+</div>
+<div class="island">
+  {% markdown %}
+  > change creature rarity rates
+  
+  * form allows for changing creature rarity quantities
+    * form allows for changing all quantities EXCEPT FOR THE COMMON RARITY, the common rarity is just calculated based on the remaining out of 1000 
+  * in a block on the right, show the current quantities for each rarity
+  
+  > manage a user's account
+  
+  * type a username in a bar, press a "lookup" button
+  * lookup provides a popup menu:
+    * change the amount of currency on the account
+    * change the account status, for example to suspended, banned, etc.
+    * 
+  
+  > query the database
+  
+  * have a field for manually sending a query to the database?
+  {% endmarkdown %}
+</div>
+{% endblock %}

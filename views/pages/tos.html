@@ -1,0 +1,17 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: terms of service</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  {% markdown %}
+  ## Terms of Service
+  
+  * going to need to study how other sites set up their TOS
+  {% endmarkdown %}
+</div>
+{% endblock %}

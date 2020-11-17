@@ -11,9 +11,17 @@
  *   this means if a server->api call originates at a user's request, the server must ensure
  *   they have the correct permissions beforehand
  */
-const serverHelper = require('../app/serverHelper');
-const gameHelper   = require('../app/gameHelper');
-const rights       = require('../app/rights');
+const serverHelper = require("./site/serverHelper.js");
+const userHelper = require("./site/userHelper.js");
+const rights = require("./site/rights.js");
+const gameSetup = require("./game/setup.js");
+
+const globalSettings = require("../config/globalSettings.js");
+
+let gameHelper;
+gameSetup.then(game => {
+  gameHelper = require("./game/gameHelper.js")(game);
+});
 
 module.exports = app => {
   if(!app){
@@ -24,11 +32,17 @@ module.exports = app => {
   
   function respond(res, promise){
     promise.then(data => {
-      res.set('content-type', 'application/json');
-      res.send(JSON.stringify(data)); //send json back to client
+      if(data){
+        res.set('content-type', 'application/json');
+        res.json(data); //send json back to client
+      } else {
+        res.set('content-type', 'application/json');
+        res.json({}); //send json back to client
+        //res.end(); //or close
+      }
     }).catch(err => {
       res.set('content-type', 'application/json');
-      res.status(400).send(JSON.stringify(err)); //send json back to client
+      res.status(400).send(JSON.stringify({error: err.toString()})); //send json back to client
     });
   }
   
@@ -40,10 +54,10 @@ module.exports = app => {
   
   /**
    * test endpoint
-   * @param {id} userId
-   * @param {id} data
+   * @param {String} userId
+   * @param {Object} data
    */
-  app.get('/test/:data', (req, res) => {
+  app.get('/api/test/:data', (req, res) => {
     return respond(res, api.getTest(req.user.id, req.params.data));
   });
   api.getTest = (userId, data) => {
@@ -53,10 +67,10 @@ module.exports = app => {
   
   /**
    * test endpoint
-   * @param {id} userId
-   * @param {id} data
+   * @param {String} userId
+   * @param {Object} data
    */
-  app.post('/test/:data', (req, res) => {
+  app.post('/api/test/:data', (req, res) => {
     return respond(res, api.postTest(req.user.id, req.params.data, req.body));
   });
   api.postTest = (userId, data, body) => {
@@ -65,35 +79,151 @@ module.exports = app => {
   }
   
   /**
-   * moves a creature from the availible pool into a user's inventory
-   * @param {id} userId
-   * @param {id} creatureId
+   * spawns a creature and puts it into a user's inventory
+   * @param {String} userId
+   * @param {String} creatureId
    * @rights admin
    */
-  app.post('/catch/:id', (req, res) => {
+  app.post('/api/spawn/:id', (req, res) => {
     if(!rights.check(req.user, 'admin')){
       return deny(res, "you don't have permission to do that");
     }
-    return respond(res, api.catchCreature(req.user.id, req.params.id));
+    return respond(res, api.spawnCreature(req.user.id, req.params.id));
   });
-  api.catchCreature = (userId, creatureId) => {
-    return gameHelper.catchCreatureInstance(userId, creatureId);
+  api.spawnCreature = (userId, creatureId) => {
+    return gameHelper.spawnCreature(userId, creatureId);
   }
   
   /**
-   * reoves a creature from a user's collection
+   * moves a creature from the availible pool into a user's inventory
+   * @param {String} userId
+   * @param {String} biome
+   */
+  app.post('/api/catch/:biome', (req, res) => {
+    if(!rights.check(req.user, 'admin')){
+      return deny(res, "you don't have permission to do that");
+    }
+    return respond(res, api.catchCreature(req.user.id, req.params.biome));
+  });
+  api.catchCreature = (userId, biome) => {
+    return gameHelper.catchCreature(userId, biome);
+  }
+  
+  /**
+   * moves a creature from the availible pool into a user's inventory
+   * @param {String} userId
+   * @param {String} biome
+   */
+  app.post('/api/catchSilhouette/:biome/:id', (req, res) => {
+    return respond(res, api.catchSilhouette(req.user.id, req.params.biome, req.params.id));
+  });
+  api.catchSilhouette = (userId, biome, id) => {
+    return gameSetup.then(() => {
+      return gameHelper.catchSilhouette(userId, biome, id);
+    });
+  }
+  
+  /**
+   * removes a creature from a user's collection
    * @param {id} userId
    * @param {id} creatureId
    * @rights admin
    */
-  app.post('/release/:id', (req, res) => {
+  app.post('/api/release/:id', (req, res) => {
     if(!rights.check(req.user, 'admin')){
       return deny(res, "you don't have permission to do that");
     }
     return respond(res, api.releaseCreature(req.user.id, req.params.id));
   });
-  api.releaseCreature = (userId, creatureInstanceId) => {
-    return gameHelper.releaseCreatureInstance(userId, creatureInstanceId);
+  api.releaseCreature = (userId, creatureId) => {
+    return gameHelper.releaseCreature(userId, creatureId);
+  }
+  
+  /**
+   * manually renews the creature batch for a biome
+   * @param {String} userId
+   * @param {String} biome
+   * @rights admin
+   */
+  app.post('/api/renewbatch/:biome', (req, res) => {
+    if(!rights.check(req.user, 'admin')){
+      return deny(res, "you don't have permission to do that");
+    }
+    return respond(res, api.renewBatch(req.params.biome));
+  });
+  api.renewBatch = (biome) => {
+    return gameHelper.renewBatch(biome);
+  }
+  
+  /**
+   * get the gloablSettings object
+   * @rights admin
+   */
+  app.get('/api/globalsettings', (req, res) => {
+    if(!rights.check(req.user, 'admin')){
+      return deny(res, "you don't have permission to do that");
+    }
+    return respond(res, api.getGlobalSettings());
+  });
+  api.getGlobalSettings = () => {
+    return Promise.resolve(globalSettings.list());
+  }
+  
+  /**
+   * set setting in the gloablSettings object
+   * @rights admin
+   */
+  app.post('/api/globalsettings', (req, res) => {
+    if(!rights.check(req.user, 'admin')){
+      return deny(res, "you don't have permission to do that");
+    }
+    return respond(res, api.setGlobalSettings(req.body.path, req.body.value));
+  });
+  api.setGlobalSettings = (path, value) => {
+    console.log(path, value)
+    return Promise.resolve(globalSettings.set(path, value));
+  }
+  
+  /**
+   * get the creatures for the current user
+   */
+  app.get('/api/creatures', (req, res) => { //current user
+    return respond(res, api.getUserCreatures(req.user.id, req.body.populatePath));
+  });
+  app.get('/api/creatures/:user', (req, res) => { //any user
+    return respond(res, api.getUserCreatures(req.params.user, req.body.populatePath));
+  });
+  api.getUserCreatures = (userResolvable, populatePath) => {
+    return userHelper.getCreatures(userResolvable, populatePath);
+  }
+  
+  /**
+   * get a user
+   */
+  app.get('/api/user', (req, res) => { //current user
+    return respond(res, api.getUser(req.user.id, req.body.populatePath));
+  });
+  app.get('/api/user/:user', (req, res) => { //any user
+    return respond(res, api.getUser(req.params.user, req.body.populatePath));
+  });
+  api.getUser = (userResolvable, populatePath) => {
+    return userHelper.getPublicUser(userResolvable, populatePath);
+  }
+  
+  /**
+   * get a biome's silhouettes
+   * @rights admin
+   */
+  app.get('/api/silhouettes/:biome', (req, res) => {
+    if(!rights.check(req.user, 'admin')){
+      return deny(res, "you don't have permission to do that");
+    }
+    return respond(res, api.getSilhouette(req.params.biome, req.body.populatePath));
+  });
+  api.getSilhouette = (biome, populatePath) => {
+    return gameSetup.then(() => {
+      return gameHelper.getSilhouettes(biome, populatePath);
+    });
   }
   
   return api;

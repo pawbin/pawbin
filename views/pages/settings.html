@@ -1,0 +1,95 @@
+{% extends 'comp/base.html' %}
+
+{% block pageHead %}
+<title>pawb.in :: settings</title>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/updateAvatar.js"></script>
+<script src="/shared/avatarValidate.js"></script>
+<!-- <script src="/js/validateAvatar.js"></script> -->
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  {% markdown %}
+  ## Settings
+  <!-- change the avatar on this user account -->
+  #### change avatar
+  <form name="updateavatar" id="updateAvatar" class="validateAvatar" action="/updateavatar" onsubmit="" method="post" enctype="multipart/form-data">
+    <div class="preview-changes">
+      <div class="current-avatar">
+        <div class="aspect-1-1">
+          <div class="aspect-1-1-child">
+          {% if user.avatar -%}
+          <img src="{{ user.avatar }}">
+          {%- else -%}
+          <p>your current avatar couldn't be loaded</p>
+          {%- endif %}
+          </div>
+        </div>
+      </div>
+      <div class="center-arrow">
+        <h1>➔</h1>
+      </div>
+      <div class="new-avatar">
+        <div class="aspect-1-1"><div class="aspect-1-1-child">
+          <p>dragging or choosing a file will preview it here!</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="avatarInput">
+        <span>select file</span>
+        <button type="button" onclick="document.getElementById('avatarInput').click()">browse</button>
+      </label>
+      <input type="file" accept="image/*" id="avatarInput" name="avatar" class="hidden">
+    </div>
+    <button type="submit" class="">update avatar</button>
+  </form>
+  
+  <!-- change the nickname displayed for this user account -->
+  #### change nickname
+  <form name="updatenickname" id="updateNickname" action="/updatenickname" onsubmit="" method="post">
+    <div class="form-group">
+      <label>new nickname</label>
+      <input type="text" class="" name="newNickname">
+    </div>
+    <button type="submit" class="">update nickname</button>
+  </form>
+  
+  <!-- change the email associated with this user account -->
+  #### change email
+  <form name="updateemail" id="updateEmail" action="/updateemail" onsubmit="" method="post">
+    <div class="form-group">
+      <label>new email</label>
+      <input type="text" class="" name="newEmail">
+    </div>
+    <div class="form-group">
+      <label>current password</label>
+      <input type="password" class="" name="password">
+    </div>
+    <button type="submit" class="">update email</button>
+  </form>
+  
+  <!-- change the password associated with this user account -->
+  #### change password
+  <form name="updatepassword" id="updatePassword" action="/updatepassword" onsubmit="" method="post">
+    <div class="form-group">
+      <label>new password</label>
+      <input type="password" class="" name="newPassword">
+    </div>
+    <div class="form-group">
+      <label>confirm new password</label>
+      <input type="password" class="" name="confirmNewPassword">
+    </div>
+    <div class="form-group">
+      <label>current password</label>
+      <input type="password" class="" name="password">
+    </div>
+    <button type="submit" class="">update password</button>
+  </form>
+  {% endmarkdown %}
+</div>
+{% endblock %}

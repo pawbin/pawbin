@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt');
 
+const Creature = require('../models/creature.js');
+
 // define the schema for our user model
 let userSchema = mongoose.Schema({
   // user data involved in logging in or authentication
@@ -14,19 +16,17 @@ let userSchema = mongoose.Schema({
   },
   
   joinedOn     : { type: Date, default: Date.now },
-  
+  avatar       : String, //path to disk
+  // specifies the authorization of this user
+  rights       : { type: String, default: "user" },
   // the values for currency that the user has
   currency     : {
     coin       : { type: Number, default: 0 },
     premium    : { type: Number, default: 0 }
   },
-  
-  // specifies the authorization of this user
-  rights       : { type: String, default: "user" },
-  
-  // array of id objects representing creatureInstance objects
+  // array of id objects representing creature objects
   creaturesRef : [
-    { type: mongoose.Schema.ObjectId, ref: 'CreatureInstance' }
+    { type: mongoose.Schema.ObjectId, ref: 'Creature' }
   ],
   
   // TEMPORARY: exists when the user is attempting to update their email
@@ -42,9 +42,31 @@ let userSchema = mongoose.Schema({
     createdAt  : Date
   },
   
+  
+}, { toJSON: { virtuals: true } });
+userSchema.virtual('creatures', {
+  ref: 'Creature',
+  localField: '_id',
+  foreignField: 'ownerRef'
 });
 
 // methods ======================
+userSchema.pre('save', function(next) {
+  let self = this;
+  if(self.isModified('creaturesRef')){
+    //find creatures owned by this user that have an ownerRef not equal to the user, and update them
+    Creature.find({ 
+      _id: { $in: self.creaturesRef }, 
+      ownerRef: { $ne: self._id } 
+    }).update({ ownerRef: self._id }, (err, docs) => {
+      next();
+    });
+  } else {
+    next();
+  }
+  
+});
+
 // generating a hash
 userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);

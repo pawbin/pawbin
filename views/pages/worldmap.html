@@ -1,0 +1,18 @@
+{% extends 'comp/base.html' %}
+
+<!-- inject into header of parent -->
+{% block pageHead %}
+<title>pawb.in :: worldmap</title>
+{% endblock %}
+
+<!-- stuff to put into the center column -->
+{% block mainContent %}
+<div class="island">
+  {% markdown %}
+  ## World Map
+  
+  * there shouldn't even be text here, instead we want some sort of full screen map where you can hover over and click each of the available regions
+  * this is effectively the way the player gets into the silhouette sniping part of this game, which is the most important part. so idk, this screen is big and immersive and distinct from other managerial pages like looking at your inventory or your creatures
+  {% endmarkdown %}
+</div>
+{% endblock %}

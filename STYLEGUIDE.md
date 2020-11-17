@@ -32,7 +32,9 @@ use object method shorthand
     }
   }
 ```
-    instead of
+
+instead of
+
 ```
   let obj = {
     method: function(param){

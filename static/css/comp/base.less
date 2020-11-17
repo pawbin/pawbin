@@ -6,7 +6,10 @@
 ::selection      { background: @selection; color: @secondary; }
 ::-moz-selection { background: @selection; color: @secondary; }
 
-/********** GENERAL PAGE STYLING **********/
+/* GENERAL PAGE STYLING */
+
+// lowest layer
+// inherited styles that are most default go here
 
 body {
   background-color: @bg-light;
@@ -14,78 +17,133 @@ body {
   font: @body-md;
 }
 
+img {
+  // images always try to be the width of their container
+  width: 100%;
+}
+
+p img {
+  // allows images inside of body paragraphs
+  // to scale proportionally as much as they like
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 a {
+  // all links are link colored and change on hover
   color: @link;
-  text-decoration: none;
-
-  &:hover {
-    color: @white;
-    text-decoration: none;
-  }
+  &:hover { color: @primary; }
 }
 
-h1 {
-  font: @title-xl;
+hr {
+  height: 2px;
+  border: none;
+  margin: @sp-xs 0;
+  background-color: fadeout(@secondary, 80%);
 }
 
-h2 {
-  font: @title-lg;
-}
+// headers directly follow title fonts
+h1 { font: @title-xl; }
+h2 { font: @title-lg; }
+h3 { font: @title-md; }
+h4 { font: @title-sm; color: @secondary; }
+h5 { font: @title-xs; }
+h6 { font: @title-xxs; font-style: italic; }
 
-h3 {
-  font: @title-md;
-}
+em { font-style: italic; }
+strong { font-weight: bold; }
+pre, code { font: @code-md; }
 
-h4 {
-  font: @title-sm;
-}
-
-pre, code {
-  font: @code-md;
-}
-
-code {
-  display: block;
+pre {
   background-color: @bg-dark;
-  height: 300px;
+  min-height: @sp-sm;
+  height: auto;
+  max-height: 360px;
+  padding: @sp-sm;
+  
   overflow-y: auto;
   resize: vertical;
-  padding: @sp-md;
+  
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-nav {
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0px -@sp-xxs;
+code {
+  background-color: @bg-dark;
+  padding: 4px 5px 5px;
+  border-radius: @sp-xxs;
   
-  @media @sm {
-    justify-content: center;
-  }
+  word-break: break-word;
 }
 
-nav a {
-  flex: 0 0 auto;
-  text-align: center;
-  margin: 0 @sp-xxs;
-  padding: @sp-xs @sp-sm;
+pre > code {
+  background-color: initial;
+  padding: initial;
+  border-radius: initial;
   
-  @media @sm {
-    flex: 1 0 auto;
-  }
+  white-space: pre-wrap;
+}
+
+ol, ul {
+  list-style-position: outside;
+  padding-left: 16pt;
+  line-height: 16pt;
+}
+
+ul { list-style-type: circle; }
+
+blockquote {
+  color: @secondary;
+  padding: @sp-xs;
+  padding-left: 16pt;
+  background: fadeout(@secondary, 93%);
+  border-radius: @sp-xxs;
+}
+
+nav {
+  // navs are always flexboxes that can wrap
+  display: flex;
+  flex-flow: row wrap;
+  // spaces elements apart
+  .child-gutters(@sp-xxs);
   
-  @media @xs {
-    flex: 0 0 40%;
-    padding: @sp-sm @sp-sm;
+  // we assume that that all immediate children
+  // to nav are anchor tags
+  a {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: @sp-xs @sp-sm;
   }
 }
 
 form {
   display: flex;
+  flex-flow: column nowrap;
   
-  input { flex: 1 1 0; }
-  button { flex: 0 0 auto; }
+  &.inline {
+    flex-flow: row nowrap;
+  }
+  
+  .child-gutters(@sp-xs);
+  
+  .form-group {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    
+  }
+  
+  label {
+    flex: 1 1 @px-maxinputwidth;
+    text-align: right;
+    margin-right: @sp-sm;
+  }
+  
+  input {
+    flex: 1 1 @px-maxinputwidth;
+  }
 }
 
 input {
@@ -95,33 +153,56 @@ input {
   
   border: none;
   padding: @sp-xs;
-  width: @px-inputwidth;
+  min-width: @px-mininputwidth;
+  width: 100%;
   
   &:focus {
     border-bottom: 2px @primary;
   }
+  
+  &.inline {
+    width: auto;
+  }
+  
+  &[type="checkbox"] {
+    min-width: initial;
+    width: auto;
+  }
 }
 
 button, .button {
-  background-color: @bg-dark;
+  background-color: @bg-secondary;
   font: @body-sm;
   color: @cyan;
   
   border: none;
   padding: @sp-xs @sp-sm;
+  text-align: center;
   
   &:hover {
     cursor: pointer;
     background-color: @bg-light;
     color: @primary;
   }
+  
+  &.disabled {
+    background-color: unset;
+    color: fade(@secondary, 40%);
+    outline-offset: -2px;
+    outline: 2px solid @bg-secondary;
+    pointer-events: none;
+  }
 }
 
-form .passwordReset {
-  float: right;
+/* MIXINS */
+
+// used to evenly space all children
+.child-gutters(@spacing) {
+  margin: -@spacing;
+  > * { margin: @spacing; }
 }
 
-/* SCROLL BARS */
+/* SCROLLBARS */
 
 // chrome
 ::-webkit {
@@ -148,25 +229,63 @@ form .passwordReset {
 }
 
 // firefox
-* {
+body {
   scrollbar-width: auto;
   scrollbar-color: @bg-primary @bg-dark;
 }
 
-/* STYLING FOR GENERAL CLASSES */
+/* STYLING FOR GENERAL CLASSES / IDS */
+
+/* formatting classes */
+.textcenter {
+  text-align: center;
+}
+.textcaps {
+  text-transform: uppercase;
+}
+.noscroll {
+  touch-action: none;
+}
+.hidden {
+  display: none !important;
+}
+
+// keep title white
+.title a {
+  color: @primary;
+}
+
+.avatar {
+  line-height: 0;
+  
+  img {
+    max-width: 200px;
+  }
+}
 
 .notifs {
   position: fixed;
-  top: 0;
+  top: @sp-md;
   z-index: 100;
   left: 0;
   right: 0;
   margin: auto;
   max-width: 640px;
   width: 80vw;
+  pointer-events: none;
   
   .reference-notif {
     display: none;
+  }
+  
+  .removed-notifs {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    
+    .notif {
+      position: absolute;
+    }
   }
   
   /* every notification is styled like this */
@@ -175,13 +294,58 @@ form .passwordReset {
     box-shadow: inset 0 0 0 1px @basic;
     box-sizing: border-box;
     position: relative;
-    transition: height 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) /*cubic-bezier(0.23, 1, 0.32, 1)*/;
+    transition-property: transform, height, opacity, margin-bottom;
     overflow: hidden;
     visibility: hidden;
+    width: 100%;
+    pointer-events: all;
     
     .content {
       margin: 6px 22px 6px 12px;
+      overflow-wrap: break-word;
     }
+  }
+  
+  & > .notif:nth-child(1) {
+    z-index: 11;
+  }
+  
+  & > .notif:nth-child(2) {
+    z-index: 9;
+  }
+  
+  & > .notif:nth-child(3) {
+    z-index: 7;
+  }
+  
+  & > .notif:nth-child(4) {
+    margin-bottom: -10px;
+    z-index: 5;
+    opacity: 0.9;
+  }
+  
+  & > .notif:nth-child(5) {
+    transform: scale(0.98);
+    margin-bottom: -16px;
+    z-index: 3;
+    opacity: 0.75
+  }
+  
+  & > .notif:nth-child(6) {
+    transform: scale(0.96);
+    margin-bottom: -22px;
+    /*margin-bottom: 8px;*/
+    z-index: 1;
+    opacity: 0.4;
+  }
+  
+  & > .notif:nth-child(n+7) {
+    transform: scale(0.92);
+    margin-bottom: -31px;
+    opacity: 0;
+    pointer-events: none;
+    /*z-index: -3;*/
   }
   
   /* mixin for specific notif type styling */
@@ -211,68 +375,446 @@ form .passwordReset {
   .notif-close {
     cursor: pointer;
     position: absolute;
-    top: 6px;
-    right: 9px;
+    top: 0;
+    right: 0;
+    padding: 6px 9px;
   }
 }
 
 .island {
   background-color: @bg-primary;
-  margin: @sp-sm 0;
   padding: @sp-lg;
   
-  // creates a vertical spacer between text elements
-  // we assume these text elements take up a full row and don't have a background
-  // this trick relies on margin collapsing
-  p, h2, h3, h4 {
-    &:not(:last-child) {
-      margin-bottom: @sp-sm;
-    }
+  // items on islands are spaced
+  >:not(:last-child) {
+    margin-bottom: @sp-sm;
   }
   
-  h1, code {
+  pre {
     &:not(:last-child) {
       margin-bottom: @sp-md;
     }
   }
 }
 
-.textcenter {
-  text-align: center;
-}
-
-/* STYLING FOR SPECIFIC PAGES */
-
-.changelog {
-  h2 {
-    margin-bottom: 14px;
+.heading {
+  display: flex;
+  flex-flow: row nowrap;
+  
+  @media @xs { 
+    flex-flow: column nowrap;
+    align-items: center;
+    text-align: center;
+    
+    .actions {
+      align-self: stretch;
+    }
   }
   
+  >:not(:last-child) {
+    margin: 0 @sp-lg 0 0;
+    @media @xs { margin: 0 0 @sp-sm 0;}
+  }
+  
+  h2 {
+    @media @xs { margin-bottom: @sp-sm; }
+  }
+  
+  &.searchbar {
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  
+  .avatar {
+    flex: 0 1 160px;
+    @media @xs { flex: 1 0 0; }
+  }
+  
+  .details {
+    flex: 1 0 140px;
+    @media @xs { flex: 1 0 0; }
+    
+    >:not(:last-child) { margin-bottom: @sp-sm; }
+  }
+  
+  .actions {
+    flex: 0 0 150px;
+    @media @xs { flex: 1 0 0; }
+    
+    display: flex;
+    flex-flow: column nowrap;
+    
+    .child-gutters(@sp-xxs);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-gap: @sp-sm @sp-sm;
+  
+  .card {
+    background-color: @bg-light;
+    padding: @sp-sm;
+    
+    /* REMOVE THIS LATER... no reason to break words in cards */
+    word-break: break-all;
+    
+    a { display: block; }
+    
+    a>:not(:last-child) {
+      margin-bottom: @sp-sm;
+    }
+  }
+  
+  .row {
+    background-color: @bg-light;
+    padding: @sp-sm;
+    
+    >:not(:last-child), a>:not(:last-child) {
+      margin-right: @sp-sm;
+    }
+  }
+  
+  .row, .row a {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    
+    img { width: 50px; }
+  }
+}
+
+.usernav {
+  // kill the side usernav on mobile
+  @media @sm {
+    display: none;
+  }
+  width: @px-usernav;
+  // follows the page scroll
+  top: @sp-lg;
+  position: sticky;
+  
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  
+  .avatar {
+    margin: @sp-sm;
+    line-height: 0;
+  }
+  
+  .name a {
+    word-break: break-word;
+    color: @primary;
+  }
+  
+  h2.name a {
+    font-weight: bold;
+  }
+  
+  .nickname {
+    margin-bottom: @sp-xxs;
+  }
+  
+  .username {
+    margin-bottom: @sp-sm;
+  }
+  
+  .rights {
+    font-size: 9pt;
+    margin-bottom: @sp-sm;
+    
+    a { color: @secondary; }
+  }
+  
+  .currency {
+    width: 100%;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    > * { flex: 1 1 50%; }
+    
+    margin: -@sp-xs;
+    > * { margin: @sp-xs; }
+    margin-bottom: @sp-xs;
+    
+    .free {
+      text-align: right;
+      
+      span {
+        padding: @sp-xs @sp-sm;
+      }
+    }
+    
+    .paid a {
+      font: @body-md;
+      color: @premium;
+    }
+  }
+  
+  nav {
+    margin: -@sp-xs;
+    
+    a {
+      margin: @sp-xs;
+      flex: 1 0 35%;
+    }
+  }
+}
+
+.aspect-1-1 {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+  
+  .aspect-1-1-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* drawer */
+#drawer {
+  width: 0;
+  height: 100vh;
+  
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  background-color: @bg-light;
+  overflow-x: hidden;
+  // clip path keeps the fixed X drawer button inside the drawer
+  // -1px is here so that even when width is 0, the clip path still has some area.
+  clip-path: inset(0 0 0 -1px);
+  clip: rect(auto, auto, auto, auto);
+  
+  &.closed, &.opened {
+    transition: @time-sm;
+    transition-timing-function: cubic-bezier(0.17, 1.07, 0.76, 1.07);
+  }
+  
+  &.closed {
+    width: 0;
+  }
+  
+  &.opened {
+    width: @px-drawerwidth;
+  }
+    
+  .content {
+    background: url("https://cdn.glitch.com/5dce4cb1-f48b-44b6-92cc-e338cf68eb7f%2Fspoopyheader.png") repeat-x 0 -1 * (@px-bannerheight - @px-bannerheight-m);
+    width: @px-drawerwidth;
+    box-sizing: border-box;
+    padding: 0 @sp-lg @sp-lg;
+    
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    
+    position: absolute;
+    right: 0;
+  }
+  
+  .banner-spacer {
+    width: 100%;
+    height: @px-bannerheight-m;
+    padding-top: @sp-lg;
+    text-align: center;
+  }
+  
+  .usernav {
+    width: auto;
+    
+    display: flex;
+  }
+  
+  .spacer {
+    height: 50px;
+  }
+}
+
+.drawer-cloak {
+  // the cloak is always a 60% opaque black overlay
+  background-color: rgba(0, 0, 0, 60%);
+  // fills the entire screen
+  height: 100vh;
+  width: 100%;
+  // fixed into the corner, on top of everything (except for the drawer of course)
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  
+  &.closed, &.opened {
+    transition-property: opacity;
+    transition-duration: @time-sm;
+  }
+  
+  &.closed {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  &.opened {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.drawer-button {
+  z-index: 100;
+  cursor: pointer;
+  user-select: none;
+  
+  &.open {
+    display: none;
+    position: fixed;
+    left: @sp-md;
+    top: @sp-md;
+    
+    @media @sm{
+      display: block;
+    }
+  }
+  
+  &.close {
+    position: fixed;
+    left: @sp-md;
+    top: @sp-md;
+  }
+}
+
+/* SPECIFIC PAGE STYLING */
+
+/* changelog */
+.changelog {
   blockquote {
     font-weight: bold;
-    margin-bottom: 4px;
-    color: #a49cc5;
-  }
-  
-  ul {
-    padding-left: 16px;
-    line-height: 20px;
-  }
-  
-  hr {
-    height: 1px;
-    border: none;
-    margin: 8px 0;
-    background-color: rgba(255, 255, 255, 0.14);
   }
 }
 
- /* LAYOUT OF MAJOR PAGE SECTIONS */
+/* settings page */
+form#updateAvatar {
+  box-sizing: border-box;
+  border: 3px dotted transparent;
+  
+  &.highlight {
+    border: 3px dotted fade(@secondary, 30%);
+  }
+  
+  .preview-changes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    
+    img {
+      width: 100%;
+    }
+    
+    .center-arrow {
+      margin: @sp-md;
+      @media @xs { margin: @sp-sm; }
+      
+      h1 {
+        transition-duration: @time-sm;
+        @media @xs {
+          font: @title-lg;
+        }
+      }
+    }
+    
+    .current-avatar, .new-avatar {
+      flex: 0 1 200px;
+      padding: @sp-sm;
+      @media @xs { padding: @sp-xs; }
+      
+      .aspect-1-1-child {
+        display: flex;
+        align-items: center;
+        
+        p {
+          color: fade(@secondary, 30%);
+          font-weight: bold;
+          line-height: 1.2;
+          text-align: center;
+          
+          @media @xs { display: none; }
+        }
+      }
+    }
+    
+    .current-avatar {
+      background-color: @bg-light;
+    }
+    
+    .new-avatar {
+      border: 3px solid @bg-dark;
+      background-color: @bg-secondary;
+    }
+  }
+  
+  .form-group {
+    label {
+      font: @body-sm;
+      margin: 0;
+      background-color: @bg-light;
+      padding: @sp-xs;
+      
+      button {
+        margin-left: @sp-xs;
+        pointer-events: hover;
+        background-color: @bg-primary;
+        
+        &:hover {
+          background-color: @bg-light;
+        }
+      }
+    }
+  }
+}
+
+#profileCreatures {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    @media @xs { flex-flow: row wrap; }
+    
+    h2 { margin-right: @sp-lg; }
+  }
+}
+
+#creatures {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+#profileCreatures, #bestiary {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+#aboutpage {
+  .heading:not(:first-child) {
+    margin-top: @sp-xl;
+  }
+}
+
+ /* BASE PAGE LAYOUT */
 
 .layout {
   // lays out the grid for all page elements
   display: grid;
-  grid-template-rows: [banner-top] 150px [banner-bottom
+  grid-template-rows: [banner-top] @px-bannerheight [banner-bottom
                        navbar-top] auto [navbar-bottom
                       content-top] 1fr [content-bottom
                        footer-top] auto [footer-bottom];
@@ -287,7 +829,7 @@ form .passwordReset {
   min-height: 100vh;
 }
 
-/* BANNER AT THE VERY TOP OF THE PAGE */
+/* banner graphic at top of page */
 .banner {
   grid-row: banner-top / banner-bottom;
   grid-column: ~"1 / -1";
@@ -299,6 +841,7 @@ form .passwordReset {
   image-rendering: -o-crisp-edges;            /* Opera         */
   image-rendering: pixelated;                 /* CSS3 Proposed */
   -ms-interpolation-mode: nearest-neighbor;   /* IE8+          */
+  
   // inside banner is a flex row
   display: flex;
   flex-flow: row nowrap;
@@ -307,10 +850,6 @@ form .passwordReset {
   
   padding: 21px 30px 46px;
   
-  .title a {
-    color: @white;
-  }
-  
   @media @sm {
     justify-content: center;
     
@@ -318,12 +857,12 @@ form .passwordReset {
   }
 }
 
-/* BAR UNDER THE BANNER */
+/* navbar under banner */
 .navbar {
   grid-row: navbar-top / navbar-bottom;
   grid-column: ~"1 / -1";
-  background-color: @bg-primary;
   
+  background-color: @bg-primary;
   padding: @sp-sm @sp-md;
   
   display: flex;
@@ -336,8 +875,7 @@ form .passwordReset {
     flex-flow: row nowrap;
     
     form {
-      margin: -@sp-xs;
-      > * { margin: @sp-xs; }
+      .child-gutters(@sp-xs);
     }
     
     .signup {
@@ -345,58 +883,67 @@ form .passwordReset {
     }
   }
   
+  nav {
+    flex-flow: row nowrap;
+    margin-right: @sp-sm;
+  }
+  
   @media @sm {
     nav {
       width: 100%;
+      
+      flex-flow: row wrap;
+      justify-content: center;
+      
+      a {
+        flex: 1 0 auto;
+      }
     }
     
     .quick-login, .quick-logout {
       display: none;
     }
   }
+  
+  @media @xs {
+    nav a {
+      flex: 0 0 40%;
+      padding: @sp-sm @sp-sm;
+    }
+  }
 }
 
-/* COLUMN LEFT OF THE MAIN CONTENT */
+/* left column */
 .column.left {
   grid-row: content-top / content-bottom;
   grid-column: leftcol-left / leftcol-right;
 }
 
-/* CENTER COLUMN, MAIN CONTENT */
+/* center column, main content */
 .column.center {
   grid-row: content-top / content-bottom;
   grid-column: content-left / content-right;
   
-  padding: @sp-sm @sp-lg;
+  padding: @sp-lg;
+  main.content {
+    .child-gutters(@sp-lg);
+  }
 }
 
-/* COLUMN RIGHT OF THE MAIN CONTENT */
+/* right column, user navbar */
 .column.right {
   grid-row: content-top / content-bottom;
   grid-column: usernav-left / usernav-right;
   
-  padding: @sp-sm @sp-lg @sp-sm 0;
+  padding: @sp-lg;
+  padding-left: 0;
   
   @media @sm {
     padding: 0;
   }
-  
-  .usernav {
-    // kill the side usernav on mobile
-    @media @sm {
-      display: none;
-    }
-    
-    width: @px-usernav;
-    
-    // follows the page scroll
-    top: @sp-lg;
-    position: sticky;
-  }
 }
 
-
-/* FOOTER AT THE VERY BOTTOM */
+/* footer */
 footer {
   grid-row: footer-top / footer-bottom;
   grid-column: ~"1 / -1";
@@ -406,9 +953,27 @@ footer {
   justify-content: center;
   align-items: center;
   
+  font: @body-sm;
   padding: @sp-sm;
-    
-  nav a {
-    font: @body-sm;
+  
+  @media @sm {
+    nav {
+      justify-content: center;
+      
+      a {
+        flex: 1 0 auto;
+      }
+    }
+  }
+  
+  @media @xs {
+    nav {
+      width: 100%;
+      
+      a {
+        flex: 0 0 40%;
+        padding: @sp-sm @sp-sm;
+      }
+    }
   }
 }

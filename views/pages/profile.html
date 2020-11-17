@@ -1,38 +1,86 @@
 {% extends 'comp/base.html' %}
 
+<!-- inject into header of parent -->
 {% block pageHead %}
+{% if loggedIn %}
+<title>pawb.in :: {{ pageUser.local.nickname }}'s profile</title>
+{% else %}
 <title>pawb.in :: profile</title>
+{% endif %}
 {% endblock %}
 
 <!-- stuff to put into the center column -->
 {% block mainContent %}
-
-<form name="updateemail" id="epdateEmail" action="/updateemail" onsubmit="" method="post">
-  <div class="form-group">
-    <label>new email</label>
-    <input type="text" class="" name="newEmail">
+<div id="profile" class="island">
+  <div class="heading">
+    <div class="avatar">
+      <img src="{{ pageUser.avatar }}">
+    </div>
+    <div class="details">
+      <div class="title">
+        <h2 class="nickname">
+          {{ pageUser.local.nickname if loggedIn else "nonickname" }}'s Profile
+        </h2>
+        <h4 class="username">
+          {{ pageUser.local.username if loggedIn else "nousername" }}
+        </h4>
+      </div>
+      <div class="info">
+        <p><strong>joined on:</strong> {{pageUser.joinedOn}}</p>
+        <p><strong>user rights:</strong> {{pageUser.rights}}</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="button" href="/market/{{pageUser.local.username}}">view market</a>
+      {% if pageUser.local.username !== user.local.username %}
+      <a class="button" href="/messages?to={{pageUser.local.username}}">send message</a>
+      <a class="button" href="/exchanges?to={{pageUser.local.username}}">send exchange</a>
+      <a class="button disabled">add friend</a>
+      <a class="button disabled">block</a>
+      {% endif %}
+    </div>
   </div>
-  <div class="form-group">
-    <label>password</label>
-    <input type="password" class="" name="password">
+  <div class="bio">
+    <p>
+      this is a bio test!
+    </p>
   </div>
-  <button type="submit" class="">update email</button>
-</form>
-<br>
-<form name="updatepassword" id="updatePassword" action="/updatepassword" onsubmit="" method="post">
-  <div class="form-group">
-    <label>current password</label>
-    <input type="password" class="" name="password">
+</div>
+<div id="profileCreatures" class="island">
+  <div class="heading">
+    <h2>
+      {{ pageUser.local.nickname if loggedIn else "nonickname" }}'s Creatures
+    </h2>
+    <a class="button" href="/creatures/{{ pageUser.local.username }}">see all {{ pageUser.creaturesRef.length }}</a>
   </div>
-  <div class="form-group">
-    <label>new password</label>
-    <input type="password" class="" name="newPassword">
+  <div class="grid">
+    {% for i in range(0, 8) %}
+    {% set creature = pageUser.creaturesRef[i] %}
+    <div class="card">
+      <a href="/creature/{{ creature.codename }}">
+        <img src="{{ creature.creatureTypeRef.images.full_lg }}">
+        <h3 class="textcenter">
+          nickname
+        </h3>
+        <h4 class="textcenter">
+          {{ creature.creatureTypeRef.name }}
+        </h4>
+      </a>
+    </div>
+    {% endfor %}
   </div>
-  <div class="form-group">
-    <label>confirm new password</label>
-    <input type="password" class="" name="confirmNewPassword">
-  </div>
-  <button type="submit" class="">update password</button>
-</form>
-
+</div>
+<div class="island">
+  {% markdown %}
+  * fix the join date appearing as a full date string like that. or just remove it entirely if we didn't want to have it
+  * make user rights prettier? or maybe remove it if the user is just of "normal" rights. or maybe don't have it at all
+  * add edit buttons for the person who owns this profile... this is the "edit in place" system, which should make changing profile details a lot easier
+  * avatar is editable
+  * nickname is editable
+  * bio is editable
+  * creatures section just shows random selection of four creatures by default. if the user has favorited any of their creatures, favorited creatures are prioritized. in addition to this, the user should also be allowed to just manually pick up to four creatures to display as featured creatures by clicking an Edit button.
+  * can change what info is displayed in bio? like privacy settings
+  * can change which actions are visible? such as not allowing random people to send messages or exchanges
+  {% endmarkdown %}
+</div>
 {% endblock %}

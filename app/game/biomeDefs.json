@@ -1,0 +1,62 @@
+[
+  {
+    "index": 1,
+    "name": "tundra",
+    "activeTime": 1
+  },
+  {
+    "index": 2,
+    "name": "volcano",
+    "activeTime": 1
+  },
+  {
+    "index": 3,
+    "name": "desert",
+    "activeTime": 0
+  },
+  {
+    "index": 4,
+    "name": "dream",
+    "activeTime": 0
+  },
+  {
+    "index": 5,
+    "name": "grassland",
+    "activeTime": 0
+  },
+  {
+    "index": 6,
+    "name": "beach",
+    "activeTime": 0
+  },
+  {
+    "index": 7,
+    "name": "forest",
+    "activeTime": 1
+  },
+  {
+    "index": 8,
+    "name": "ocean",
+    "activeTime": 1
+  },
+  {
+    "index": 9,
+    "name": "rainforest",
+    "activeTime": 0
+  },
+  {
+    "index": 10,
+    "name": "nightmare",
+    "activeTime": 1
+  },
+  {
+    "index": 11,
+    "name": "swamp",
+    "activeTime": 1
+  },
+  {
+    "index": 12,
+    "name": "mountain",
+    "activeTime": 0
+  }
+]

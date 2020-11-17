@@ -1,0 +1,453 @@
+[
+  {
+    "index": 1,
+    "name": "Frizzbee",
+    "biome": "grassland",
+    "flavorText": "Bee.",
+    "rarity": 1,
+    "scale": 0.25,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FBEESball3.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 2,
+    "name": "Pupsicle",
+    "biome": "tundra",
+    "flavorText": "Occasionally mischevious young magicians will practice their ice spells on the local stray dog population. How cruel!",
+    "rarity": 2,
+    "scale": 0.5,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FNL7BfuH.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 3,
+    "name": "Suncoon",
+    "biome": "grassland",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FS2lQihm.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 4,
+    "name": "Onion",
+    "biome": "forest",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fonion.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 5,
+    "name": "Razzit",
+    "biome": "grassland",
+    "flavorText": "",
+    "rarity": 2,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Frazzit.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 6,
+    "name": "Ichthyat",
+    "biome": "dream",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ficthyat.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 7,
+    "name": "Algie",
+    "biome": "swamp",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Falgie.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 8,
+    "name": "Lilytad",
+    "biome": "swamp",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fsquishyboy.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 9,
+    "name": "Lapelion",
+    "biome": "mountain",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Flappelion.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 10,
+    "name": "Pajamy",
+    "biome": "dream",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FJF32JhW.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 11,
+    "name": "Snek",
+    "biome": "rainforest",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fsnek.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 12,
+    "name": "TBD Frog Fish",
+    "biome": "beach",
+    "flavorText": "",
+    "rarity": 2,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Ffish.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 13,
+    "name": "TBD Ox",
+    "biome": "mountain",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FSgTDtou.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 14,
+    "name": "Pyrd",
+    "biome": "volcano",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FtZN0Nsh.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 15,
+    "name": "Meso",
+    "biome": "desert",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fmeso.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 16,
+    "name": "Plumeye",
+    "biome": "forest",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fplumeye2.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 17,
+    "name": "Mere",
+    "biome": "dream",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FnolEoi8.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 18,
+    "name": "Arid Darter",
+    "biome": "desert",
+    "flavorText": "",
+    "rarity": 2,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Farid-darter.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 19,
+    "name": "Rafflesh",
+    "biome": "nightmare",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Frafflesh-subtle.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 20,
+    "name": "Hexaploid",
+    "biome": "rainforest",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FaU2EnIr.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 21,
+    "name": "Buzzbear",
+    "biome": "rainforest",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FZTiWBdm.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 22,
+    "name": "Seebee",
+    "biome": "beach",
+    "flavorText": "",
+    "rarity": 4,
+    "scale": 0.25,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2FzwoPcHr.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 23,
+    "name": "Amphlam",
+    "biome": "ocean",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 0.25,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Famphlam3.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 24,
+    "name": "Crunchin",
+    "biome": "beach",
+    "flavorText": "",
+    "rarity": 1,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fddhod5n-49ae7d0f-320c-4c57-b57d-f64e1403c2a3.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }, {
+    "index": 25,
+    "name": "Ool",
+    "biome": "ocean",
+    "flavorText": "",
+    "rarity": 3,
+    "scale": 1,
+    "creator": {
+      "name": "Sheepon"
+    },
+    "images": {
+      "full_lg"       : "https://cdn.glitch.com/3ffbe794-725c-40ae-b812-76257af22230%2Fool.png",
+      "full_s_lg"     : "",
+      "relative_md"   : "",
+      "relative_s_md" : "",
+      "icon_sm"       : "",
+      "icon_s_sm"     : ""
+    }
+  }
+]
